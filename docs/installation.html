@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installation &mdash; omnitrace 1.0.0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started" href="getting_started.html" />
+    <link rel="prev" title="Features" href="features.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> omnitrace
+          </a>
+              <div class="version">
+                1.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installing-omnitrace-from-binary-distributions">Installing omnitrace from binary distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#download-the-appropriate-binary-distribution">Download the appropriate binary distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-the-target-installation-directory">Create the target installation directory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-the-installer-script">Run the installer script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configure-the-environment">Configure the environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#test-the-executables">Test the executables</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-omnitrace-from-source">Installing Omnitrace from source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installing-cmake">Installing CMake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-dyninst">Installing DynInst</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#building-dyninst-alongside-omnitrace">Building Dyninst alongside Omnitrace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#installing-dyninst-via-spack">Installing Dyninst via Spack</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-omnitrace">Installing omnitrace</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mpi-support-within-omnitrace">MPI Support within Omnitrace</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output.html">Omnitrace Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_api.html">User API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python Support</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">omnitrace</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Installation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/installation.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<ul class="simple">
+<li><p>Ubuntu 18.04 or Ubuntu 20.04</p>
+<ul>
+<li><p>Other OS distributions may be supported but are not tested</p></li>
+</ul>
+</li>
+<li><p>GCC compiler v7+</p>
+<ul>
+<li><p>Older GCC compilers may be supported but are not tested</p></li>
+<li><p>Clang compilers are generally supported for <a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> but not Dyninst</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://cmake.org/">CMake</a> v3.15+</p></li>
+<li><p><a class="reference external" href="https://github.com/dyninst/dyninst">DynInst</a> for dynamic or static instrumentation</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/oneapi-src/oneTBB">TBB</a> required by Dyninst</p></li>
+<li><p><a class="reference external" href="https://sourceware.org/elfutils/">ElfUtils</a> required by Dyninst</p></li>
+<li><p><a class="reference external" href="https://github.com/gcc-mirror/gcc/tree/master/libiberty">LibIberty</a> required by Dyninst</p></li>
+<li><p><a class="reference external" href="https://www.boost.org/">Boost</a> required by Dyninst</p></li>
+<li><p><a class="reference external" href="https://www.openmp.org/">OpenMP</a> optional by Dyninst</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://rocmdocs.amd.com/en/latest/Installation_Guide/Installation-Guide.html#ubuntu">ROCm</a> (optional)</p>
+<ul>
+<li><p>HIP</p></li>
+<li><p>Roctracer for HIP API and kernel tracing</p></li>
+<li><p>ROCM-SMI for GPU monitoring</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://icl.utk.edu/papi/">PAPI</a></p></li>
+<li><p><a class="reference external" href="https://www.nongnu.org/libunwind/">libunwind</a> for call-stack sampling</p></li>
+<li><p>Several optional third-party profiling tools supported by timemory (e.g. TAU, Caliper, CrayPAT, etc.)</p></li>
+</ul>
+<div class="section" id="installing-omnitrace-from-binary-distributions">
+<h2>Installing omnitrace from binary distributions<a class="headerlink" href="#installing-omnitrace-from-binary-distributions" title="Permalink to this headline">¶</a></h2>
+<p>Every omnitrace release provides binary installer scripts of the form:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace-<span class="o">{</span>VERSION<span class="o">}</span>-<span class="o">{</span>OS_DISTRIB<span class="o">}</span>-<span class="o">{</span>OS_VERSION<span class="o">}[</span>-ROCm-<span class="o">{</span>ROCM_VERSION<span class="o">}[</span>-<span class="o">{</span>EXTRA<span class="o">}]]</span>.sh
+</pre></div>
+</div>
+<p>E.g.:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace-0.0.5-Ubuntu-18.04.sh
+omnitrace-0.0.5-Ubuntu-18.04-ROCm-4.3.0.sh
+omnitrace-0.0.5-Ubuntu-18.04-ROCm-4.5.0.sh
+...
+omnitrace-0.0.5-Ubuntu-20.04-ROCm-4.5.0-PAPI.sh
+omnitrace-0.0.5-Ubuntu-20.04-ROCm-4.5.0-PAPI-MPICH.sh
+omnitrace-0.0.5-Ubuntu-20.04-ROCm-4.5.0-PAPI-OpenMPI.sh
+</pre></div>
+</div>
+<p>The EXTRA fields such as PAPI, MPICH, and OpenMPI are built against the libraries provided by the
+OS package manager, e.g. <code class="docutils literal notranslate"><span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">libpapi-dev</span></code> for Ubuntu.</p>
+<div class="section" id="download-the-appropriate-binary-distribution">
+<h3>Download the appropriate binary distribution<a class="headerlink" href="#download-the-appropriate-binary-distribution" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget https://github.com/AMDResearch/omnitrace/releases/download/v&lt;VERSION&gt;/&lt;SCRIPT&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-the-target-installation-directory">
+<h3>Create the target installation directory<a class="headerlink" href="#create-the-target-installation-directory" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>mkdir /opt/omnitrace
+</pre></div>
+</div>
+</div>
+<div class="section" id="run-the-installer-script">
+<h3>Run the installer script<a class="headerlink" href="#run-the-installer-script" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./omnitrace-0.0.5-Ubuntu-18.04-ROCm-4.3.0-PAPI-MPICH.sh --prefix<span class="o">=</span>/opt/omnitrace
+</pre></div>
+</div>
+</div>
+<div class="section" id="configure-the-environment">
+<h3>Configure the environment<a class="headerlink" href="#configure-the-environment" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> /opt/omnitrace/share/omnitrace/setup-env.sh
+</pre></div>
+</div>
+</div>
+<div class="section" id="test-the-executables">
+<h3>Test the executables<a class="headerlink" href="#test-the-executables" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace --help
+omnitrace-avail --help
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="installing-omnitrace-from-source">
+<h2>Installing Omnitrace from source<a class="headerlink" href="#installing-omnitrace-from-source" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installing-cmake">
+<h3>Installing CMake<a class="headerlink" href="#installing-cmake" title="Permalink to this headline">¶</a></h3>
+<p>If using Ubuntu 20.04, <code class="docutils literal notranslate"><span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">cmake</span></code> will install cmake v3.16.3. If using Ubuntu 18.04, the cmake version via apt is too old (v3.10.2). In this case,
+follow the instructions <a class="reference external" href="https://apt.kitware.com/">here</a> to add the CMake apt package repository; or alternatively (if root access is not available),
+specific versions of CMake can be easily installed via the Python pip package manager:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python3 -m pip install <span class="s1">&#39;cmake==3.18.4&#39;</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/.local/bin
+</pre></div>
+</div>
+<blockquote>
+<div><p>NOTE: be wary of using <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">cmake</span></code>. If pip installs a cmake version with a <code class="docutils literal notranslate"><span class="pre">.post&lt;N&gt;</span></code> suffix, it will be necessary to
+specify the root path when cmake is invoked.</p>
+</div></blockquote>
+</div>
+<div class="section" id="installing-dyninst">
+<h3>Installing DynInst<a class="headerlink" href="#installing-dyninst" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="building-dyninst-alongside-omnitrace">
+<h4>Building Dyninst alongside Omnitrace<a class="headerlink" href="#building-dyninst-alongside-omnitrace" title="Permalink to this headline">¶</a></h4>
+<p>The easiest way to install Dyninst is to configure omnitrace with <code class="docutils literal notranslate"><span class="pre">OMNITRACE_BUILD_DYNINST=ON</span></code>. Depending on the version of Ubuntu, the apt package manager may have current enough
+versions of Dyninst’s Boost, TBB, and LibIberty dependencies (i.e. <code class="docutils literal notranslate"><span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">libtbb-dev</span> <span class="pre">libiberty-dev</span> <span class="pre">libboost-dev</span></code>); however, it is possible to request Dyninst to install
+it’s dependencies via <code class="docutils literal notranslate"><span class="pre">Dyninst_BUILD_&lt;DEP&gt;=ON</span></code>, e.g.:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/AMDResearch/omnitrace.git omnitrace-source
+cmake -B omnitrace-build -DOMNITRACE_BUILD_DYNINST<span class="o">=</span>ON -DDyninst_BUILD_<span class="o">{</span>TBB,ELFUTILS,BOOST,LIBIBERTY<span class="o">}=</span>ON omnitrace-source
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">-DDyninst_BUILD_{TBB,BOOST,ELFUTILS,LIBIBERTY}=ON</span></code> is expanded by the shell to <code class="docutils literal notranslate"><span class="pre">-DDyninst_BUILD_TBB=ON</span> <span class="pre">-DDyninst_BUILD_BOOST=ON</span> <span class="pre">...</span></code></p>
+</div>
+<div class="section" id="installing-dyninst-via-spack">
+<h4>Installing Dyninst via Spack<a class="headerlink" href="#installing-dyninst-via-spack" title="Permalink to this headline">¶</a></h4>
+<p><a class="reference external" href="https://github.com/spack/spack">Spack</a> is another option to install Dyninst and it’s dependencies:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/spack/spack.git
+<span class="nb">source</span> ./spack/share/spack/setup-env.sh
+spack compiler find
+spack external find
+spack install dyninst
+spack load -r dyninst
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="installing-omnitrace">
+<h3>Installing omnitrace<a class="headerlink" href="#installing-omnitrace" title="Permalink to this headline">¶</a></h3>
+<p>Omnitrace has cmake configuration options for supporting MPI (<code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_MPI</span></code> or <code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_MPI_HEADERS</span></code>), HIP kernel tracing (<code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_ROCTRACER</span></code>),
+sampling ROCm devices (<code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_ROCM_SMI</span></code>), OpenMP-Tools (<code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_OMPT</span></code>), hardware counters via PAPI (<code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_PAPI</span></code>), among others.
+Various additional features can be enabled via the <a class="reference external" href="https://timemory.readthedocs.io/en/develop/installation.html#cmake-options"><code class="docutils literal notranslate"><span class="pre">TIMEMORY_USE_*</span></code> CMake options</a>.
+Any <code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_&lt;VAL&gt;</span></code> option which has a corresponding <code class="docutils literal notranslate"><span class="pre">TIMEMORY_USE_&lt;VAL&gt;</span></code> option means that the support within timemory for this feature has been integrated
+into omnitrace’s perfetto support, e.g. <code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_PAPI=&lt;VAL&gt;</span></code> forces <code class="docutils literal notranslate"><span class="pre">TIMEMORY_USE_PAPI=&lt;VAL&gt;</span></code> and the data that timemory is able to collect via this package
+is passed along to perfetto and will be displayed when the <code class="docutils literal notranslate"><span class="pre">.proto</span></code> file is visualized in <a class="reference external" href="https://ui.perfetto.dev">ui.perfetto.dev</a>.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">OMNITRACE_ROOT</span><span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/sw/omnitrace
+git clone https://github.com/AMDResearch/omnitrace.git omnitrace-source
+cmake                                           <span class="se">\</span>
+    -B omnitrace-build                          <span class="se">\</span>
+    -DOMNITRACE_USE_MPI_HEADERS<span class="o">=</span>ON              <span class="se">\</span>
+    -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="si">${</span><span class="nv">OMNITRACE_ROOT</span><span class="si">}</span>    <span class="se">\</span>
+    omnitrace-source
+cmake --build omnitrace-build --target all --parallel <span class="m">8</span>
+cmake --build omnitrace-build --target install
+<span class="nb">source</span> <span class="si">${</span><span class="nv">OMNITRACE_ROOT</span><span class="si">}</span>/share/omnitrace/setup-env.sh
+</pre></div>
+</div>
+<div class="section" id="mpi-support-within-omnitrace">
+<h4>MPI Support within Omnitrace<a class="headerlink" href="#mpi-support-within-omnitrace" title="Permalink to this headline">¶</a></h4>
+<p><a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> can have full (<code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_MPI=ON</span></code>) or partial (<code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_MPI_HEADERS=ON</span></code>) MPI support.
+The only difference between these two modes is whether or not the results collected via timemory can be aggregated into one output file. The primary
+benefits of partial or full MPI support are the automatic wrapping of MPI functions and the ability to label output with suffixes which correspond to the
+<code class="docutils literal notranslate"><span class="pre">MPI_COMM_WORLD</span></code> rank ID instead of using the system process identifier (i.e. PID).
+In general, it is recommended to use partial MPI support with the OpenMPI headers as this is the most portable configuration.
+If full MPI support is selected, make sure your target application is built against the same MPI distribution as omnitrace,
+i.e. do not build omnitrace with MPICH and use it on a target application built against OpenMPI.
+If partial support is selected, the reason the OpenMPI headers are recommended instead of the MPICH headers is
+because the <code class="docutils literal notranslate"><span class="pre">MPI_COMM_WORLD</span></code> in OpenMPI is a pointer to <code class="docutils literal notranslate"><span class="pre">ompi_communicator_t</span></code> (8 bytes), whereas <code class="docutils literal notranslate"><span class="pre">MPI_COMM_WORLD</span></code> in MPICH,
+it is an <code class="docutils literal notranslate"><span class="pre">int</span></code> (4 bytes). Building omnitrace with partial MPI support and the MPICH headers and then using
+omnitrace on an application built against OpenMPI will cause a segmentation fault due to the value of the <code class="docutils literal notranslate"><span class="pre">MPI_COMM_WORLD</span></code> being narrowed
+during the function wrapping before being passed along to the underlying MPI function.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="features.html" class="btn btn-neutral float-left" title="Features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="getting_started.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Advanced Micro Devices, Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1HLBBRSTT9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-1HLBBRSTT9', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

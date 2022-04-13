@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customizing Omnitrace Runtime &mdash; omnitrace 1.0.0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Generating a Critical Trace" href="critical_trace.html" />
+    <link rel="prev" title="Instrumenting with Omnitrace" href="instrumenting.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> omnitrace
+          </a>
+              <div class="version">
+                1.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="getting_started.html">Getting Started</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="setup.html">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nomenclature.html">Nomenclature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instrumenting.html">Instrumenting with Omnitrace</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Customizing Omnitrace Runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#omnitrace-avail-executable">omnitrace-avail Executable</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#exploring-runtime-settings">Exploring Runtime Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#exploring-components">Exploring Components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#exploring-hardware-counters">Exploring Hardware Counters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#omnitrace-avail-examples">omnitrace-avail Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-configuration-file">Creating a Configuration File</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sample-text-configuration-file">Sample Text Configuration File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sample-xml-configuration-file">Sample XML Configuration File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sample-json-configuration-file">Sample JSON Configuration File</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="critical_trace.html">Generating a Critical Trace</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="output.html">Omnitrace Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_api.html">User API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python Support</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">omnitrace</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="getting_started.html">Getting Started</a> &raquo;</li>
+      <li>Customizing Omnitrace Runtime</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/runtime.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="customizing-omnitrace-runtime">
+<h1>Customizing Omnitrace Runtime<a class="headerlink" href="#customizing-omnitrace-runtime" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="omnitrace-avail-executable">
+<h2>omnitrace-avail Executable<a class="headerlink" href="#omnitrace-avail-executable" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">omnitrace-avail</span></code> executable provides information about the runtime settings, data collection capabilities, and
+available hardware counters (when built with PAPI support). In contrast to this documentation, it is effectively
+self-updating: when new capabilities and settings are added to the omnitrace source code, it is effectively
+propagated to <code class="docutils literal notranslate"><span class="pre">omnitrace-avail</span></code>, thus it should be viewed as the single source of truth if any conflicting
+information or missing feature is found in this documentation.</p>
+<div class="section" id="exploring-runtime-settings">
+<h3>Exploring Runtime Settings<a class="headerlink" href="#exploring-runtime-settings" title="Permalink to this headline">¶</a></h3>
+<p>In order to view the list of the available runtime settings, their current value, and descriptions for each setting:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace-avail --description
+</pre></div>
+</div>
+<blockquote>
+<div><p><em><strong>Hint: use <code class="docutils literal notranslate"><span class="pre">--brief</span></code> to suppress printing current value and/or <code class="docutils literal notranslate"><span class="pre">-c</span> <span class="pre">0</span></code> to suppress truncation of the descriptions</strong></em></p>
+</div></blockquote>
+<p>Any setting which is boolean (<code class="docutils literal notranslate"><span class="pre">omnitrace-avail</span> <span class="pre">--settings</span> <span class="pre">--value</span> <span class="pre">--brief</span> <span class="pre">--filter</span> <span class="pre">bool</span></code>) accepts a case insensitive
+match to nearly all common expressions for boolean logic: ON, OFF, YES, NO, TRUE, FALSE, 0, 1, etc.</p>
+</div>
+<div class="section" id="exploring-components">
+<h3>Exploring Components<a class="headerlink" href="#exploring-components" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> uses <a class="reference external" href="https://github.com/NERSC/timemory">timemory</a> extensively to provide various capabilities and manage
+data and resources. By default, when <code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_TIMEMORY=ON</span></code>, omnitrace will only collect wall-clock
+timing values; however, by modifying the <code class="docutils literal notranslate"><span class="pre">OMNITRACE_TIMEMORY_COMPONENTS</span></code> setting, omnitrace can be configured to
+collect hardware counters, CPU-clock timers, memory usage, context-switches, page-faults, network statistics,
+and many more. In fact, omnitrace can actually be used as a dynamic instrumentation vehicle for other 3rd-party profiling
+APIs such as <a class="reference external" href="https://github.com/LLNL/Caliper">Caliper</a> and <a class="reference external" href="https://github.com/RRZE-HPC/likwid">LIKWID</a> by building omnitrace
+from source with the CMake option(s) <code class="docutils literal notranslate"><span class="pre">TIMEMORY_USE_CALIPER=ON</span></code> and/or <code class="docutils literal notranslate"><span class="pre">TIMEMORY_USE_LIKWID=ON</span></code> and then adding
+<code class="docutils literal notranslate"><span class="pre">caliper_marker</span></code> and/or <code class="docutils literal notranslate"><span class="pre">likwid_marker</span></code> to <code class="docutils literal notranslate"><span class="pre">OMNITRACE_TIMEMORY_COMPONENTS</span></code>.</p>
+<p>View all possible components and their descriptions:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace-avail --components --description
+</pre></div>
+</div>
+<p>Restrict to available components and view the string identifiers for <code class="docutils literal notranslate"><span class="pre">OMNITRACE_TIMEMORY_COMPONENTS</span></code>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace-avail --components --available --string --brief
+</pre></div>
+</div>
+</div>
+<div class="section" id="exploring-hardware-counters">
+<h3>Exploring Hardware Counters<a class="headerlink" href="#exploring-hardware-counters" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> supports collecting hardware counters via PAPI.</p>
+<p>View all possible hardware counters and their descriptions:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace-avail --hw-counters --description
+</pre></div>
+</div>
+</div>
+<div class="section" id="omnitrace-avail-examples">
+<h3>omnitrace-avail Examples<a class="headerlink" href="#omnitrace-avail-examples" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="settings">
+<h4>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>omnitrace-avail -S -bd
+<span class="go">|-----------------------------------------|-----------------------------------------|</span>
+<span class="go">|          ENVIRONMENT VARIABLE           |               DESCRIPTION               |</span>
+<span class="go">|-----------------------------------------|-----------------------------------------|</span>
+<span class="go">| OMNITRACE_ADD_SECONDARY                 | Enable/disable components adding sec... |</span>
+<span class="go">| OMNITRACE_BACKEND                       | Specify the perfetto backend to acti... |</span>
+<span class="go">| OMNITRACE_BUFFER_SIZE_KB                | Size of perfetto buffer (in KB)         |</span>
+<span class="go">| OMNITRACE_COLLAPSE_PROCESSES            | Enable/disable combining process-spe... |</span>
+<span class="go">| OMNITRACE_COLLAPSE_THREADS              | Enable/disable combining thread-spec... |</span>
+<span class="go">| OMNITRACE_CONFIG_FILE                   | Configuration file for omnitrace        |</span>
+<span class="go">| OMNITRACE_COUT_OUTPUT                   | Write output to stdout                  |</span>
+<span class="go">| OMNITRACE_CRITICAL_TRACE                | Enable generation of the critical trace |</span>
+<span class="go">| OMNITRACE_CRITICAL_TRACE_BUFFER_COUNT   | Number of critical trace records to ... |</span>
+<span class="go">| OMNITRACE_CRITICAL_TRACE_COUNT          | Number of critical trace to export (... |</span>
+<span class="go">| OMNITRACE_CRITICAL_TRACE_DEBUG          | Enable debugging for critical trace     |</span>
+<span class="go">| OMNITRACE_CRITICAL_TRACE_NUM_THREADS    | Number of threads to use when genera... |</span>
+<span class="go">| OMNITRACE_CRITICAL_TRACE_PER_ROW        | How many critical traces per row in ... |</span>
+<span class="go">| OMNITRACE_CRITICAL_TRACE_SERIALIZE_N... | Include names in serialization of cr... |</span>
+<span class="go">| OMNITRACE_DEBUG                         | Enable debug output                     |</span>
+<span class="go">| OMNITRACE_DIFF_OUTPUT                   | Generate a difference output vs. a p... |</span>
+<span class="go">| OMNITRACE_ENABLED                       | Activation state of timemory            |</span>
+<span class="go">| OMNITRACE_ENABLE_SIGNAL_HANDLER         | Enable signals in timemory_init         |</span>
+<span class="go">| OMNITRACE_FILE_OUTPUT                   | Write output to files                   |</span>
+<span class="go">| OMNITRACE_FLAT_PROFILE                  | Set the label hierarchy mode to defa... |</span>
+<span class="go">| OMNITRACE_FLAT_SAMPLING                 | Ignore hierarchy in all statistical ... |</span>
+<span class="go">| OMNITRACE_INPUT_EXTENSIONS              | File extensions used when searching ... |</span>
+<span class="go">| OMNITRACE_INPUT_PATH                    | Explicitly specify the input folder ... |</span>
+<span class="go">| OMNITRACE_INPUT_PREFIX                  | Explicitly specify the prefix for in... |</span>
+<span class="go">| OMNITRACE_INSTRUMENTATION_INTERVAL      | Instrumentation only takes measureme... |</span>
+<span class="go">| OMNITRACE_JSON_OUTPUT                   | Write json output files                 |</span>
+<span class="go">| OMNITRACE_MAX_DEPTH                     | Set the maximum depth of label hiera... |</span>
+<span class="go">| OMNITRACE_MAX_THREAD_BOOKMARKS          | Maximum number of times a worker thr... |</span>
+<span class="go">| OMNITRACE_MAX_WIDTH                     | Set the maximum width for component ... |</span>
+<span class="go">| OMNITRACE_MEMORY_PRECISION              | Set the precision for components wit... |</span>
+<span class="go">| OMNITRACE_MEMORY_SCIENTIFIC             | Set the numerical reporting format f... |</span>
+<span class="go">| OMNITRACE_MEMORY_UNITS                  | Set the units for components with &#39;u... |</span>
+<span class="go">| OMNITRACE_MEMORY_WIDTH                  | Set the output width for components ... |</span>
+<span class="go">| OMNITRACE_NETWORK_INTERFACE             | Default network interface               |</span>
+<span class="go">| OMNITRACE_NODE_COUNT                    | Total number of nodes used in applic... |</span>
+<span class="go">| OMNITRACE_OUTPUT_FILE                   | Perfetto filename                       |</span>
+<span class="go">| OMNITRACE_OUTPUT_PATH                   | Explicitly specify the output folder... |</span>
+<span class="go">| OMNITRACE_OUTPUT_PREFIX                 | Explicitly specify a prefix for all ... |</span>
+<span class="go">| OMNITRACE_PAPI_EVENTS                   | PAPI presets and events to collect (... |</span>
+<span class="go">| OMNITRACE_PAPI_FAIL_ON_ERROR            | Configure PAPI errors to trigger a r... |</span>
+<span class="go">| OMNITRACE_PAPI_MULTIPLEXING             | Enable multiplexing when using PAPI     |</span>
+<span class="go">| OMNITRACE_PAPI_OVERFLOW                 | Value at which PAPI hw counters trig... |</span>
+<span class="go">| OMNITRACE_PAPI_QUIET                    | Configure suppression of reporting P... |</span>
+<span class="go">| OMNITRACE_PAPI_THREADING                | Enable multithreading support when u... |</span>
+<span class="go">| OMNITRACE_PRECISION                     | Set the global output precision for ... |</span>
+<span class="go">| OMNITRACE_ROCM_SMI_DEVICES              | Devices to query when OMNITRACE_USE_... |</span>
+<span class="go">| OMNITRACE_ROCTRACER_FLAT_PROFILE        | Ignore hierarchy in all kernels entr... |</span>
+<span class="go">| OMNITRACE_ROCTRACER_HSA_ACTIVITY        | Enable HSA activity tracing support     |</span>
+<span class="go">| OMNITRACE_ROCTRACER_HSA_API             | Enable HSA API tracing support          |</span>
+<span class="go">| OMNITRACE_ROCTRACER_HSA_API_TYPES       | HSA API type to collect                 |</span>
+<span class="go">| OMNITRACE_ROCTRACER_TIMELINE_PROFILE    | Create unique entries for every kern... |</span>
+<span class="go">| OMNITRACE_SAMPLING_DELAY                | Number of seconds to delay activatin... |</span>
+<span class="go">| OMNITRACE_SAMPLING_FREQ                 | Number of software interrupts per se... |</span>
+<span class="go">| OMNITRACE_SCIENTIFIC                    | Set the global numerical reporting t... |</span>
+<span class="go">| OMNITRACE_SETTINGS_DESC                 | Provide descriptions when printing s... |</span>
+<span class="go">| OMNITRACE_SHMEM_SIZE_HINT_KB            | Hint for shared-memory buffer size i... |</span>
+<span class="go">| OMNITRACE_SUPPRESS_CONFIG               | Disable processing of setting config... |</span>
+<span class="go">| OMNITRACE_SUPPRESS_PARSING              | Disable parsing environment             |</span>
+<span class="go">| OMNITRACE_TEXT_OUTPUT                   | Write text output files                 |</span>
+<span class="go">| OMNITRACE_TIMELINE_PROFILE              | Set the label hierarchy mode to defa... |</span>
+<span class="go">| OMNITRACE_TIMELINE_SAMPLING             | Create unique entries for every samp... |</span>
+<span class="go">| OMNITRACE_TIMEMORY_COMPONENTS           | List of components to collect via ti... |</span>
+<span class="go">| OMNITRACE_TIME_FORMAT                   | Customize the folder generation when... |</span>
+<span class="go">| OMNITRACE_TIME_OUTPUT                   | Output data to subfolder w/ a timest... |</span>
+<span class="go">| OMNITRACE_TIMING_PRECISION              | Set the precision for components wit... |</span>
+<span class="go">| OMNITRACE_TIMING_SCIENTIFIC             | Set the numerical reporting format f... |</span>
+<span class="go">| OMNITRACE_TIMING_UNITS                  | Set the units for components with &#39;u... |</span>
+<span class="go">| OMNITRACE_TIMING_WIDTH                  | Set the output width for components ... |</span>
+<span class="go">| OMNITRACE_TREE_OUTPUT                   | Write hierarchical json output files    |</span>
+<span class="go">| OMNITRACE_USE_KOKKOSP                   | Enable support for Kokkos Tools         |</span>
+<span class="go">| OMNITRACE_USE_PERFETTO                  | Enable perfetto backend                 |</span>
+<span class="go">| OMNITRACE_USE_PID                       | Enable tagging filenames with proces... |</span>
+<span class="go">| OMNITRACE_USE_ROCM_SMI                  | Enable sampling GPU power, temp, uti... |</span>
+<span class="go">| OMNITRACE_USE_ROCTRACER                 | Enable ROCM tracing                     |</span>
+<span class="go">| OMNITRACE_USE_SAMPLING                  | Enable statistical sampling of call-... |</span>
+<span class="go">| OMNITRACE_USE_TIMEMORY                  | Enable timemory backend                 |</span>
+<span class="go">| OMNITRACE_VERBOSE                       | Verbosity level                         |</span>
+<span class="go">| OMNITRACE_WIDTH                         | Set the global output width for comp... |</span>
+<span class="go">|-----------------------------------------|-----------------------------------------|</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="components">
+<h4>Components<a class="headerlink" href="#components" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>omnitrace-avail -C -bd
+<span class="go">|-----------------------------------|----------------------------------------------|</span>
+<span class="go">|             COMPONENT             |                 DESCRIPTION                  |</span>
+<span class="go">|-----------------------------------|----------------------------------------------|</span>
+<span class="go">| allinea_map                       | Controls the AllineaMAP sampler.             |</span>
+<span class="go">| caliper_marker                    | Generic forwarding of markers to Caliper ... |</span>
+<span class="go">| caliper_config                    | Caliper configuration manager.               |</span>
+<span class="go">| caliper_loop_marker               | Variant of caliper_marker with support fo... |</span>
+<span class="go">| cpu_clock                         | Total CPU time spent in both user- and ke... |</span>
+<span class="go">| cpu_util                          | Percentage of CPU-clock time divided by w... |</span>
+<span class="go">| craypat_counters                  | Names and value of any counter events tha... |</span>
+<span class="go">| craypat_flush_buffer              | Writes all the recorded contents in the d... |</span>
+<span class="go">| craypat_heap_stats                | Undocumented by &#39;pat_api.h&#39;.                 |</span>
+<span class="go">| craypat_record                    | Toggles CrayPAT recording on calling thread. |</span>
+<span class="go">| craypat_region                    | Adds region labels to CrayPAT output.        |</span>
+<span class="go">| current_peak_rss                  | Absolute value of high-water mark of memo... |</span>
+<span class="go">| gperftools_cpu_profiler           | Control switch for gperftools CPU profiler.  |</span>
+<span class="go">| gperftools_heap_profiler          | Control switch for the gperftools heap pr... |</span>
+<span class="go">| hip_event                         | Records the time interval between two poi... |</span>
+<span class="go">| kernel_mode_time                  | CPU time spent executing in kernel mode (... |</span>
+<span class="go">| likwid_marker                     | LIKWID perfmon (CPU) marker forwarding.      |</span>
+<span class="go">| likwid_nvmarker                   | LIKWID nvmon (GPU) marker forwarding.        |</span>
+<span class="go">| malloc_gotcha                     | GOTCHA wrapper for memory allocation func... |</span>
+<span class="go">| memory_allocations                | Number of bytes allocated/freed instead o... |</span>
+<span class="go">| monotonic_clock                   | Wall-clock timer which will continue to i... |</span>
+<span class="go">| monotonic_raw_clock               | Wall-clock timer unaffected by frequency ... |</span>
+<span class="go">| network_stats                     | Reports network bytes, packets, errors, d... |</span>
+<span class="go">| num_io_in                         | Number of times the filesystem had to per... |</span>
+<span class="go">| num_io_out                        | Number of times the filesystem had to per... |</span>
+<span class="go">| num_major_page_faults             | Number of page faults serviced that requi... |</span>
+<span class="go">| num_minor_page_faults             | Number of page faults serviced without an... |</span>
+<span class="go">| page_rss                          | Amount of memory allocated in pages of me... |</span>
+<span class="go">| papi_array&lt;8ul&gt;                   | Fixed-size array of PAPI HW counters.        |</span>
+<span class="go">| papi_vector                       | Dynamically allocated array of PAPI HW co... |</span>
+<span class="go">| peak_rss                          | Measures changes in the high-water mark f... |</span>
+<span class="go">| perfetto_trace                    | Provides Perfetto Tracing SDK: system pro... |</span>
+<span class="go">| priority_context_switch           | Number of context switch due to higher pr... |</span>
+<span class="go">| process_cpu_clock                 | CPU-clock timer for the calling process (... |</span>
+<span class="go">| process_cpu_util                  | Percentage of CPU-clock time divided by w... |</span>
+<span class="go">| read_bytes                        | Number of bytes which this process really... |</span>
+<span class="go">| read_char                         | Number of bytes which this task has cause... |</span>
+<span class="go">| roctx_marker                      | Generates high-level region markers for H... |</span>
+<span class="go">| system_clock                      | CPU time spent in kernel-mode.               |</span>
+<span class="go">| tau_marker                        | Forwards markers to TAU instrumentation (... |</span>
+<span class="go">| thread_cpu_clock                  | CPU-clock timer for the calling thread.      |</span>
+<span class="go">| thread_cpu_util                   | Percentage of CPU-clock time divided by w... |</span>
+<span class="go">| timestamp                         | Provides a timestamp for every sample and... |</span>
+<span class="go">| trip_count                        | Counts number of invocations.                |</span>
+<span class="go">| user_clock                        | CPU time spent in user-mode.                 |</span>
+<span class="go">| user_mode_time                    | CPU time spent executing in user mode (vi... |</span>
+<span class="go">| virtual_memory                    | Records the change in virtual memory.        |</span>
+<span class="go">| voluntary_context_switch          | Number of context switches due to a proce... |</span>
+<span class="go">| vtune_event                       | Creates events for Intel profiler running... |</span>
+<span class="go">| vtune_frame                       | Creates frames for Intel profiler running... |</span>
+<span class="go">| vtune_profiler                    | Control switch for Intel profiler running... |</span>
+<span class="go">| wall_clock                        | Real-clock timer (i.e. wall-clock timer).    |</span>
+<span class="go">| written_bytes                     | Number of bytes sent to the storage layer.   |</span>
+<span class="go">| written_char                      | Number of bytes which this task has cause... |</span>
+<span class="go">| omnitrace                         | Invokes instrumentation functions &#39;omnitr... |</span>
+<span class="go">| roctracer                         | High-precision ROCm API and kernel tracing.  |</span>
+<span class="go">| sampling_wall_clock               | Wall-clock timing. Derived from statistic... |</span>
+<span class="go">| sampling_cpu_clock                | CPU-clock timing. Derived from statistica... |</span>
+<span class="go">| sampling_percent                  | Fraction of wall-clock time spent in func... |</span>
+<span class="go">| sampling_gpu_power                | GPU Power Usage via ROCm-SMI. Derived fro... |</span>
+<span class="go">| sampling_gpu_temp                 | GPU Temperature via ROCm-SMI. Derived fro... |</span>
+<span class="go">| sampling_gpu_busy                 | GPU Utilization (% busy) via ROCm-SMI. De... |</span>
+<span class="go">| sampling_gpu_memory_usage         | GPU Memory Usage via ROCm-SMI. Derived fr... |</span>
+<span class="go">|-----------------------------------|----------------------------------------------|</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="hardware-counters">
+<h4>Hardware Counters<a class="headerlink" href="#hardware-counters" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>omnitrace-avail -H -bd
+<span class="go">|---------------------|-------------------------------------------------|</span>
+<span class="go">|  HARDWARE COUNTER   |                   DESCRIPTION                   |</span>
+<span class="go">|---------------------|-------------------------------------------------|</span>
+<span class="go">|         CPU         |                                                 |</span>
+<span class="go">|---------------------|-------------------------------------------------|</span>
+<span class="go">| PAPI_L1_DCM         | Level 1 data cache misses                       |</span>
+<span class="go">| PAPI_L1_ICM         | Level 1 instruction cache misses                |</span>
+<span class="go">| PAPI_L2_DCM         | Level 2 data cache misses                       |</span>
+<span class="go">| PAPI_L2_ICM         | Level 2 instruction cache misses                |</span>
+<span class="go">| PAPI_L3_DCM         | Level 3 data cache misses                       |</span>
+<span class="go">| PAPI_L3_ICM         | Level 3 instruction cache misses                |</span>
+<span class="go">| PAPI_L1_TCM         | Level 1 cache misses                            |</span>
+<span class="go">| PAPI_L2_TCM         | Level 2 cache misses                            |</span>
+<span class="go">| PAPI_L3_TCM         | Level 3 cache misses                            |</span>
+<span class="go">| PAPI_CA_SNP         | Requests for a snoop                            |</span>
+<span class="go">| PAPI_CA_SHR         | Requests for exclusive access to shared cach... |</span>
+<span class="go">| PAPI_CA_CLN         | Requests for exclusive access to clean cache... |</span>
+<span class="go">| PAPI_CA_INV         | Requests for cache line invalidation            |</span>
+<span class="go">| PAPI_CA_ITV         | Requests for cache line intervention            |</span>
+<span class="go">| PAPI_L3_LDM         | Level 3 load misses                             |</span>
+<span class="go">| PAPI_L3_STM         | Level 3 store misses                            |</span>
+<span class="go">| PAPI_BRU_IDL        | Cycles branch units are idle                    |</span>
+<span class="go">| PAPI_FXU_IDL        | Cycles integer units are idle                   |</span>
+<span class="go">| PAPI_FPU_IDL        | Cycles floating point units are idle            |</span>
+<span class="go">| PAPI_LSU_IDL        | Cycles load/store units are idle                |</span>
+<span class="go">| PAPI_TLB_DM         | Data translation lookaside buffer misses        |</span>
+<span class="go">| PAPI_TLB_IM         | Instruction translation lookaside buffer misses |</span>
+<span class="go">| PAPI_TLB_TL         | Total translation lookaside buffer misses       |</span>
+<span class="go">| PAPI_L1_LDM         | Level 1 load misses                             |</span>
+<span class="go">| PAPI_L1_STM         | Level 1 store misses                            |</span>
+<span class="go">| PAPI_L2_LDM         | Level 2 load misses                             |</span>
+<span class="go">| PAPI_L2_STM         | Level 2 store misses                            |</span>
+<span class="go">| PAPI_BTAC_M         | Branch target address cache misses              |</span>
+<span class="go">| PAPI_PRF_DM         | Data prefetch cache misses                      |</span>
+<span class="go">| PAPI_L3_DCH         | Level 3 data cache hits                         |</span>
+<span class="go">| PAPI_TLB_SD         | Translation lookaside buffer shootdowns         |</span>
+<span class="go">| PAPI_CSR_FAL        | Failed store conditional instructions           |</span>
+<span class="go">| PAPI_CSR_SUC        | Successful store conditional instructions       |</span>
+<span class="go">| PAPI_CSR_TOT        | Total store conditional instructions            |</span>
+<span class="go">| PAPI_MEM_SCY        | Cycles Stalled Waiting for memory accesses      |</span>
+<span class="go">| PAPI_MEM_RCY        | Cycles Stalled Waiting for memory reads         |</span>
+<span class="go">| PAPI_MEM_WCY        | Cycles Stalled Waiting for memory writes        |</span>
+<span class="go">| PAPI_STL_ICY        | Cycles with no instruction issue                |</span>
+<span class="go">| PAPI_FUL_ICY        | Cycles with maximum instruction issue           |</span>
+<span class="go">| PAPI_STL_CCY        | Cycles with no instructions completed           |</span>
+<span class="go">| PAPI_FUL_CCY        | Cycles with maximum instructions completed      |</span>
+<span class="go">| PAPI_HW_INT         | Hardware interrupts                             |</span>
+<span class="go">| PAPI_BR_UCN         | Unconditional branch instructions               |</span>
+<span class="go">| PAPI_BR_CN          | Conditional branch instructions                 |</span>
+<span class="go">| PAPI_BR_TKN         | Conditional branch instructions taken           |</span>
+<span class="go">| PAPI_BR_NTK         | Conditional branch instructions not taken       |</span>
+<span class="go">| PAPI_BR_MSP         | Conditional branch instructions mispredicted    |</span>
+<span class="go">| PAPI_BR_PRC         | Conditional branch instructions correctly pr... |</span>
+<span class="go">| PAPI_FMA_INS        | FMA instructions completed                      |</span>
+<span class="go">| PAPI_TOT_IIS        | Instructions issued                             |</span>
+<span class="go">| PAPI_TOT_INS        | Instructions completed                          |</span>
+<span class="go">| PAPI_INT_INS        | Integer instructions                            |</span>
+<span class="go">| PAPI_FP_INS         | Floating point instructions                     |</span>
+<span class="go">| PAPI_LD_INS         | Load instructions                               |</span>
+<span class="go">| PAPI_SR_INS         | Store instructions                              |</span>
+<span class="go">| PAPI_BR_INS         | Branch instructions                             |</span>
+<span class="go">| PAPI_VEC_INS        | Vector/SIMD instructions (could include inte... |</span>
+<span class="go">| PAPI_RES_STL        | Cycles stalled on any resource                  |</span>
+<span class="go">| PAPI_FP_STAL        | Cycles the FP unit(s) are stalled               |</span>
+<span class="go">| PAPI_TOT_CYC        | Total cycles                                    |</span>
+<span class="go">| PAPI_LST_INS        | Load/store instructions completed               |</span>
+<span class="go">| PAPI_SYC_INS        | Synchronization instructions completed          |</span>
+<span class="go">| PAPI_L1_DCH         | Level 1 data cache hits                         |</span>
+<span class="go">| PAPI_L2_DCH         | Level 2 data cache hits                         |</span>
+<span class="go">| PAPI_L1_DCA         | Level 1 data cache accesses                     |</span>
+<span class="go">| PAPI_L2_DCA         | Level 2 data cache accesses                     |</span>
+<span class="go">| PAPI_L3_DCA         | Level 3 data cache accesses                     |</span>
+<span class="go">| PAPI_L1_DCR         | Level 1 data cache reads                        |</span>
+<span class="go">| PAPI_L2_DCR         | Level 2 data cache reads                        |</span>
+<span class="go">| PAPI_L3_DCR         | Level 3 data cache reads                        |</span>
+<span class="go">| PAPI_L1_DCW         | Level 1 data cache writes                       |</span>
+<span class="go">| PAPI_L2_DCW         | Level 2 data cache writes                       |</span>
+<span class="go">| PAPI_L3_DCW         | Level 3 data cache writes                       |</span>
+<span class="go">| PAPI_L1_ICH         | Level 1 instruction cache hits                  |</span>
+<span class="go">| PAPI_L2_ICH         | Level 2 instruction cache hits                  |</span>
+<span class="go">| PAPI_L3_ICH         | Level 3 instruction cache hits                  |</span>
+<span class="go">| PAPI_L1_ICA         | Level 1 instruction cache accesses              |</span>
+<span class="go">| PAPI_L2_ICA         | Level 2 instruction cache accesses              |</span>
+<span class="go">| PAPI_L3_ICA         | Level 3 instruction cache accesses              |</span>
+<span class="go">| PAPI_L1_ICR         | Level 1 instruction cache reads                 |</span>
+<span class="go">| PAPI_L2_ICR         | Level 2 instruction cache reads                 |</span>
+<span class="go">| PAPI_L3_ICR         | Level 3 instruction cache reads                 |</span>
+<span class="go">| PAPI_L1_ICW         | Level 1 instruction cache writes                |</span>
+<span class="go">| PAPI_L2_ICW         | Level 2 instruction cache writes                |</span>
+<span class="go">| PAPI_L3_ICW         | Level 3 instruction cache writes                |</span>
+<span class="go">| PAPI_L1_TCH         | Level 1 total cache hits                        |</span>
+<span class="go">| PAPI_L2_TCH         | Level 2 total cache hits                        |</span>
+<span class="go">| PAPI_L3_TCH         | Level 3 total cache hits                        |</span>
+<span class="go">| PAPI_L1_TCA         | Level 1 total cache accesses                    |</span>
+<span class="go">| PAPI_L2_TCA         | Level 2 total cache accesses                    |</span>
+<span class="go">| PAPI_L3_TCA         | Level 3 total cache accesses                    |</span>
+<span class="go">| PAPI_L1_TCR         | Level 1 total cache reads                       |</span>
+<span class="go">| PAPI_L2_TCR         | Level 2 total cache reads                       |</span>
+<span class="go">| PAPI_L3_TCR         | Level 3 total cache reads                       |</span>
+<span class="go">| PAPI_L1_TCW         | Level 1 total cache writes                      |</span>
+<span class="go">| PAPI_L2_TCW         | Level 2 total cache writes                      |</span>
+<span class="go">| PAPI_L3_TCW         | Level 3 total cache writes                      |</span>
+<span class="go">| PAPI_FML_INS        | Floating point multiply instructions            |</span>
+<span class="go">| PAPI_FAD_INS        | Floating point add instructions                 |</span>
+<span class="go">| PAPI_FDV_INS        | Floating point divide instructions              |</span>
+<span class="go">| PAPI_FSQ_INS        | Floating point square root instructions         |</span>
+<span class="go">| PAPI_FNV_INS        | Floating point inverse instructions             |</span>
+<span class="go">| PAPI_FP_OPS         | Floating point operations                       |</span>
+<span class="go">| PAPI_SP_OPS         | Floating point operations; optimized to coun... |</span>
+<span class="go">| PAPI_DP_OPS         | Floating point operations; optimized to coun... |</span>
+<span class="go">| PAPI_VEC_SP         | Single precision vector/SIMD instructions       |</span>
+<span class="go">| PAPI_VEC_DP         | Double precision vector/SIMD instructions       |</span>
+<span class="go">| PAPI_REF_CYC        | Reference clock cycles                          |</span>
+<span class="go">|---------------------|-------------------------------------------------|</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="creating-a-configuration-file">
+<h2>Creating a Configuration File<a class="headerlink" href="#creating-a-configuration-file" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> supports 3 configuration file formats: JSON, XML, and plain text.
+Configuration files are specified via the <code class="docutils literal notranslate"><span class="pre">OMNITRACE_CONFIG_FILE</span></code> environment variable
+and by default will look for <code class="docutils literal notranslate"><span class="pre">${HOME}/omnitrace.cfg</span></code> and <code class="docutils literal notranslate"><span class="pre">${HOME}/omnitrace.json</span></code>.
+Multiple configuration files can be concatenated via <code class="docutils literal notranslate"><span class="pre">:</span></code>, e.g.:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">OMNITRACE_CONFIG_FILE</span><span class="o">=</span>~/.config/omnitrace.cfg:~/.config/omnitrace.json
+</pre></div>
+</div>
+<p>If a configuration variable is specified in both a configuration file and in the environment,
+the environment variable takes precedence.</p>
+<div class="section" id="sample-text-configuration-file">
+<h3>Sample Text Configuration File<a class="headerlink" href="#sample-text-configuration-file" title="Permalink to this headline">¶</a></h3>
+<p>Text files support very basic variables and are case-insensitive.
+Variables are created when an lvalue starts with a $ and are
+dereferenced when they appear as rvalues.</p>
+<p>Entries in the text configuration file which do not match to a known setting
+in <code class="docutils literal notranslate"><span class="pre">omnitrace-avail</span></code> but are prefixed with <code class="docutils literal notranslate"><span class="pre">OMNITRACE_</span></code> are interpreted as
+environment variables and are exported via <code class="docutils literal notranslate"><span class="pre">setenv</span></code>
+but do not override an existing value for the environment variable.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># lvals starting with $ are variables</span>
+<span class="nv">$USE</span>                            <span class="o">=</span> ON
+
+<span class="c1"># use fields</span>
+<span class="nv">OMNITRACE_USE_PERFETTO</span>          <span class="o">=</span> <span class="nv">$USE</span>
+<span class="nv">OMNITRACE_USE_TIMEMORY</span>          <span class="o">=</span> <span class="nv">$USE</span>
+<span class="nv">OMNITRACE_USE_SAMPLING</span>          <span class="o">=</span> <span class="nv">$USE</span>
+<span class="nv">OMNITRACE_USE_PID</span>               <span class="o">=</span> OFF
+<span class="nv">OMNITRACE_CRITICAL_TRACE</span>        <span class="o">=</span> OFF
+
+<span class="c1"># debug</span>
+<span class="nv">OMNITRACE_DEBUG</span>                 <span class="o">=</span> OFF
+<span class="nv">OMNITRACE_VERBOSE</span>               <span class="o">=</span> <span class="m">1</span>
+<span class="nv">OMNITRACE_DL_VERBOSE</span>            <span class="o">=</span> <span class="m">1</span>
+
+<span class="c1"># output fields</span>
+<span class="nv">OMNITRACE_OUTPUT_PREFIX</span>         <span class="o">=</span> %tag%-
+<span class="nv">OMNITRACE_OUTPUT_PATH</span>           <span class="o">=</span> omnitrace-example-output
+<span class="nv">OMNITRACE_TIME_OUTPUT</span>           <span class="o">=</span> OFF
+
+<span class="c1"># timemory fields</span>
+<span class="nv">OMNITRACE_PAPI_EVENTS</span>           <span class="o">=</span> PAPI_TOT_INS PAPI_FP_INS
+<span class="nv">OMNITRACE_TIMEMORY_COMPONENTS</span>   <span class="o">=</span> wall_clock trip_count
+
+<span class="c1"># sampling fields</span>
+<span class="nv">OMNITRACE_SAMPLING_FREQ</span>         <span class="o">=</span> <span class="m">10</span>
+
+<span class="c1"># rocm-smi fields</span>
+<span class="nv">OMNITRACE_ROCM_SMI_DEVICES</span>      <span class="o">=</span> <span class="m">1</span>
+
+<span class="c1"># misc env variables</span>
+<span class="nv">OMNITRACE_SAMPLING_KEEP_DYNINST_SUFFIX</span>  <span class="o">=</span> OFF
+<span class="nv">OMNITRACE_SAMPLING_KEEP_INTERNAL</span>        <span class="o">=</span> OFF
+</pre></div>
+</div>
+</div>
+<div class="section" id="sample-xml-configuration-file">
+<h3>Sample XML Configuration File<a class="headerlink" href="#sample-xml-configuration-file" title="Permalink to this headline">¶</a></h3>
+<p>The full XML specification for a configuration value contains
+a lot of information:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;timemory_xml&gt;</span>
+    <span class="nt">&lt;omnitrace&gt;</span>
+        <span class="nt">&lt;settings&gt;</span>
+            <span class="nt">&lt;cereal_class_version&gt;</span>2<span class="nt">&lt;/cereal_class_version&gt;</span>
+            <span class="cm">&lt;!-- Full setting specification --&gt;</span>
+            <span class="nt">&lt;OMNITRACE_ADD_SECONDARY&gt;</span>
+                <span class="nt">&lt;cereal_class_version&gt;</span>1<span class="nt">&lt;/cereal_class_version&gt;</span>
+                <span class="nt">&lt;name&gt;</span>add_secondary<span class="nt">&lt;/name&gt;</span>
+                <span class="nt">&lt;environ&gt;</span>OMNITRACE_ADD_SECONDARY<span class="nt">&lt;/environ&gt;</span>
+                <span class="nt">&lt;description&gt;</span>...<span class="nt">&lt;/description&gt;</span>
+                <span class="nt">&lt;count&gt;</span>-1<span class="nt">&lt;/count&gt;</span>
+                <span class="nt">&lt;max_count&gt;</span>1<span class="nt">&lt;/max_count&gt;</span>
+                <span class="nt">&lt;cmdline&gt;</span>
+                    <span class="nt">&lt;value0&gt;</span>--timemory-add-secondary<span class="nt">&lt;/value0&gt;</span>
+                <span class="nt">&lt;/cmdline&gt;</span>
+                <span class="nt">&lt;categories&gt;</span>
+                    <span class="nt">&lt;value0&gt;</span>component<span class="nt">&lt;/value0&gt;</span>
+                    <span class="nt">&lt;value1&gt;</span>data<span class="nt">&lt;/value1&gt;</span>
+                    <span class="nt">&lt;value2&gt;</span>native<span class="nt">&lt;/value2&gt;</span>
+                <span class="nt">&lt;/categories&gt;</span>
+                <span class="nt">&lt;data_type&gt;</span>bool<span class="nt">&lt;/data_type&gt;</span>
+                <span class="nt">&lt;initial&gt;</span>true<span class="nt">&lt;/initial&gt;</span>
+                <span class="nt">&lt;value&gt;</span>true<span class="nt">&lt;/value&gt;</span>
+            <span class="nt">&lt;/OMNITRACE_ADD_SECONDARY&gt;</span>
+            <span class="cm">&lt;!-- etc. --&gt;</span>
+        <span class="nt">&lt;/settings&gt;</span>
+    <span class="nt">&lt;/omnitrace&gt;</span>
+<span class="nt">&lt;/timemory_xml&gt;</span>
+</pre></div>
+</div>
+<p>Howver when writing an XML configuration file, the following is perfectly acceptable
+to set <code class="docutils literal notranslate"><span class="pre">OMNITRACE_ADD_SECONDARY=false</span></code>:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;timemory_xml&gt;</span>
+    <span class="nt">&lt;omnitrace&gt;</span>
+        <span class="nt">&lt;settings&gt;</span>
+            <span class="nt">&lt;OMNITRACE_ADD_SECONDARY&gt;</span>
+                <span class="nt">&lt;value&gt;</span>false<span class="nt">&lt;/value&gt;</span>
+            <span class="nt">&lt;/OMNITRACE_ADD_SECONDARY&gt;</span>
+        <span class="nt">&lt;/settings&gt;</span>
+    <span class="nt">&lt;/omnitrace&gt;</span>
+<span class="nt">&lt;/timemory_xml&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sample-json-configuration-file">
+<h3>Sample JSON Configuration File<a class="headerlink" href="#sample-json-configuration-file" title="Permalink to this headline">¶</a></h3>
+<p>The full JSON specification for a configuration value contains the same information as the XML:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;omnitrace&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;OMNITRACE_ADD_SECONDARY&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;add_secondary&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;data_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bool&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;initial&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;max_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;cmdline&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;--timemory-add-secondary&quot;</span><span class="w"></span>
+<span class="w">                </span><span class="p">],</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;environ&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OMNITRACE_ADD_SECONDARY&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;cereal_class_version&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;categories&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;component&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;data&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;native&quot;</span><span class="w"></span>
+<span class="w">                </span><span class="p">],</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Enable/disable components adding secondary (child) entries when available. E.g. suppress individual CUDA kernels, etc. when using Cupti components&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Similarly, the
+Howver when writing an XML configuration file, the following is perfectly acceptable
+to set <code class="docutils literal notranslate"><span class="pre">OMNITRACE_ADD_SECONDARY=false</span></code>:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;omnitrace&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;OMNITRACE_ADD_SECONDARY&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="instrumenting.html" class="btn btn-neutral float-left" title="Instrumenting with Omnitrace" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="critical_trace.html" class="btn btn-neutral float-right" title="Generating a Critical Trace" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Advanced Micro Devices, Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1HLBBRSTT9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-1HLBBRSTT9', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

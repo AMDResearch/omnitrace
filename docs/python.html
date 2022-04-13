@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python Support &mdash; omnitrace 1.0.0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="User API" href="user_api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> omnitrace
+          </a>
+              <div class="version">
+                1.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output.html">Omnitrace Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_api.html">User API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python Support</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-omnitrace-on-a-python-script">Running Omnitrace on a Python Script</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#command-line-options">Command Line Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#selective-instrumentation">Selective Instrumentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#omnitrace-python-source-instrumentation">Omnitrace Python Source Instrumentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#omnitrace-python-source-instrumentation-configuration">Omnitrace Python Source Instrumentation Configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">omnitrace</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Python Support</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/python.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="python-support">
+<h1>Python Support<a class="headerlink" href="#python-support" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p><a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> supports profiling Python code at the source-level and/or the script-level.
+Python support is enabled via the <code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_PYTHON</span></code> and <code class="docutils literal notranslate"><span class="pre">OMNITRACE_PYTHON_VERSION=&lt;MAJOR&gt;.&lt;MINOR&gt;</span></code> CMake options.</p>
+<blockquote>
+<div><p><em><strong>When using omnitrace for Python, the Python interpreter major and minor version (e.g. 3.7) must match the interpreter major and minor version</strong></em>
+<em><strong>used when compiling the Python bindings, i.e. when building omnitrace, a <code class="docutils literal notranslate"><span class="pre">libpyomnitrace.&lt;IMPL&gt;-&lt;VERSION&gt;-&lt;ARCH&gt;-&lt;OS&gt;-&lt;ABI&gt;.so</span></code> will be generated</strong></em>
+<em><strong>where <code class="docutils literal notranslate"><span class="pre">IMPL</span></code> is the Python implementation, <code class="docutils literal notranslate"><span class="pre">VERSION</span></code> is the major and minor version, <code class="docutils literal notranslate"><span class="pre">ARCH</span></code> is the architecture,</strong></em>
+<em><strong><code class="docutils literal notranslate"><span class="pre">OS</span></code> is the operating system, and <code class="docutils literal notranslate"><span class="pre">ABI</span></code> is the application binary interface; Example: <code class="docutils literal notranslate"><span class="pre">libpyomnitrace.cpython-38-x86_64-linux-gnu.so</span></code>.</strong></em></p>
+</div></blockquote>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>The omnitrace Python package is installed in <code class="docutils literal notranslate"><span class="pre">lib/pythonX.Y/site-packages/omnitrace</span></code>. In order to ensure the Python interpreter can find the omnitrace package,
+add this path to the <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> environment variable, e.g.:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PYTHONPATH</span><span class="o">=</span>/opt/omnitrace/lib/python3.8/site-packages:<span class="si">${</span><span class="nv">PYTHONPATH</span><span class="si">}</span>
+</pre></div>
+</div>
+<p>If using either the <code class="docutils literal notranslate"><span class="pre">share/omnitrace/setup-env.sh</span></code> script or the modulefile in <code class="docutils literal notranslate"><span class="pre">share/modulefiles/omnitrace</span></code>, prefixing the <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code>
+environment variable is automatically handled.</p>
+</div>
+<div class="section" id="running-omnitrace-on-a-python-script">
+<h2>Running Omnitrace on a Python Script<a class="headerlink" href="#running-omnitrace-on-a-python-script" title="Permalink to this headline">¶</a></h2>
+<p>Omnitrace provides an <code class="docutils literal notranslate"><span class="pre">omnitrace-python</span></code> helper bash script which effectively handles ensuring <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> is properly set and the correct python interpreter is used.
+Thus the following are effectively equivalent:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>omnitrace-python --help
+
+<span class="nb">export</span> <span class="nv">PYTHONPATH</span><span class="o">=</span>/opt/omnitrace/lib/python3.8/site-packages:<span class="si">${</span><span class="nv">PYTHONPATH</span><span class="si">}</span>
+python3.8 -m omnitrace --help
+</pre></div>
+</div>
+<blockquote>
+<div><p><em><strong><code class="docutils literal notranslate"><span class="pre">omnitrace-python</span></code> / <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">omnitrace</span></code> uses the same command-line syntax as the <code class="docutils literal notranslate"><span class="pre">omnitrace</span></code> executable (i.e. <code class="docutils literal notranslate"><span class="pre">omnitrace-python</span> <span class="pre">&lt;OMNITRACE_ARGS&gt;</span> <span class="pre">--</span> <span class="pre">&lt;SCRIPT&gt;</span> <span class="pre">&lt;SCRIPT_ARGS&gt;</span></code>) and has similar options.</strong></em></p>
+</div></blockquote>
+<div class="section" id="command-line-options">
+<h3>Command Line Options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h3>
+<p>Use <code class="docutils literal notranslate"><span class="pre">omnitrace-python</span> <span class="pre">--help</span></code> to view the available options:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">usage: omnitrace [-h] [-b] [-c FILE] [-s FILE] [--trace-c [BOOL]] [-a [BOOL]] [-l [BOOL]] [-f [BOOL]] [-F [BOOL]] [-I FUNC [FUNC ...]] [-E FUNC [FUNC ...]] [-R FUNC [FUNC ...]] [-MI FILE [FILE ...]] [-ME FILE [FILE ...]] [-MR FILE [FILE ...]] [-v VERBOSITY]</span>
+
+<span class="go">optional arguments:</span>
+<span class="go">  -h, --help            show this help message and exit</span>
+<span class="go">  -b, --builtin         Put &#39;profile&#39; in the builtins. Use &#39;@profile&#39; to decorate a single function, or &#39;with profile:&#39; to profile a single section of code.</span>
+<span class="go">  -c FILE, --config FILE</span>
+<span class="go">                        Omnitrace configuration file</span>
+<span class="go">  -s FILE, --setup FILE</span>
+<span class="go">                        Code to execute before the code to profile</span>
+<span class="go">  --trace-c [BOOL]      Enable profiling C functions</span>
+<span class="go">  -a [BOOL], --include-args [BOOL]</span>
+<span class="go">                        Encode the argument values</span>
+<span class="go">  -l [BOOL], --include-line [BOOL]</span>
+<span class="go">                        Encode the function line number</span>
+<span class="go">  -f [BOOL], --include-file [BOOL]</span>
+<span class="go">                        Encode the function filename</span>
+<span class="go">  -F [BOOL], --full-filepath [BOOL]</span>
+<span class="go">                        Encode the full function filename (instead of basename)</span>
+<span class="go">  -I FUNC [FUNC ...], --function-include FUNC [FUNC ...]</span>
+<span class="go">                        Include any entries with these function names</span>
+<span class="go">  -E FUNC [FUNC ...], --function-exclude FUNC [FUNC ...]</span>
+<span class="go">                        Filter out any entries with these function names</span>
+<span class="go">  -R FUNC [FUNC ...], --function-restrict FUNC [FUNC ...]</span>
+<span class="go">                        Select only entries with these function names</span>
+<span class="go">  -MI FILE [FILE ...], --module-include FILE [FILE ...]</span>
+<span class="go">                        Include any entries from these files</span>
+<span class="go">  -ME FILE [FILE ...], --module-exclude FILE [FILE ...]</span>
+<span class="go">                        Filter out any entries from these files</span>
+<span class="go">  -MR FILE [FILE ...], --module-restrict FILE [FILE ...]</span>
+<span class="go">                        Select only entries from these files</span>
+<span class="go">  -v VERBOSITY, --verbosity VERBOSITY</span>
+<span class="go">                        Logging verbosity</span>
+
+<span class="go">usage: python3 -m omnitrace &lt;OMNITRACE_ARGS&gt; -- &lt;SCRIPT&gt; &lt;SCRIPT_ARGS&gt;</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p><em><strong>The <code class="docutils literal notranslate"><span class="pre">--trace-c</span></code> option does not incorporate omnitrace’s dynamic instrumentation support, rather it just enables profiling the underlying C function call within the Python interpreter.</strong></em></p>
+</div></blockquote>
+</div>
+<div class="section" id="selective-instrumentation">
+<h3>Selective Instrumentation<a class="headerlink" href="#selective-instrumentation" title="Permalink to this headline">¶</a></h3>
+<p>Similar to the <code class="docutils literal notranslate"><span class="pre">omnitrace</span></code> executable, command-line options exist for restricting, including, and excluded the desired functions and modules, e.g. <code class="docutils literal notranslate"><span class="pre">--function-exclude</span> <span class="pre">&quot;^__init__$&quot;</span></code>.
+Alternatively, adding <code class="docutils literal notranslate"><span class="pre">&#64;profile</span></code> decorator to the primary function of interest in combination with the <code class="docutils literal notranslate"><span class="pre">-b</span></code> / <code class="docutils literal notranslate"><span class="pre">--builtin</span></code> option will narrow the scope of the
+instrumentation to these function(s) and their children.</p>
+<p>Consider the following Python code (<code class="docutils literal notranslate"><span class="pre">example.py</span></code>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="p">(</span><span class="n">fib</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">inefficient</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">+=</span> <span class="n">i</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">+=</span> <span class="n">j</span>
+    <span class="k">return</span> <span class="n">a</span>
+
+
+<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">inefficient</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">run</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Using <code class="docutils literal notranslate"><span class="pre">omnitrace-python</span> <span class="pre">./example.py</span></code> with <code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_TIMEMORY=ON</span></code> and <code class="docutils literal notranslate"><span class="pre">OMNITRACE_TIMEMORY_COMPONENTS=trip_count</span></code> would produce:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">|-------------------------------------------------------------------------------------------|</span>
+<span class="go">|                                COUNTS NUMBER OF INVOCATIONS                               |</span>
+<span class="go">|-------------------------------------------------------------------------------------------|</span>
+<span class="go">|                      LABEL                        | COUNT  | DEPTH  |   METRIC   |  SUM   |</span>
+<span class="go">|---------------------------------------------------|--------|--------|------------|--------|</span>
+<span class="go">| |0&gt;&gt;&gt; run                                         |      1 |      0 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt; |_fib                                       |  10946 |      1 | trip_count |  10946 |</span>
+<span class="go">| |0&gt;&gt;&gt;   |_fib                                     |   4181 |      2 | trip_count |   4181 |</span>
+<span class="go">| |0&gt;&gt;&gt;     |_fib                                   |   2584 |      3 | trip_count |   2584 |</span>
+<span class="go">| |0&gt;&gt;&gt;       |_fib                                 |   1597 |      4 | trip_count |   1597 |</span>
+<span class="go">| |0&gt;&gt;&gt;         |_fib                               |    987 |      5 | trip_count |    987 |</span>
+<span class="go">| |0&gt;&gt;&gt;           |_fib                             |    610 |      6 | trip_count |    610 |</span>
+<span class="go">| |0&gt;&gt;&gt;             |_fib                           |    377 |      7 | trip_count |    377 |</span>
+<span class="go">| |0&gt;&gt;&gt;               |_fib                         |    233 |      8 | trip_count |    233 |</span>
+<span class="go">| |0&gt;&gt;&gt;                 |_fib                       |    144 |      9 | trip_count |    144 |</span>
+<span class="go">| |0&gt;&gt;&gt;                   |_fib                     |     89 |     10 | trip_count |     89 |</span>
+<span class="go">| |0&gt;&gt;&gt;                     |_fib                   |     55 |     11 | trip_count |     55 |</span>
+<span class="go">| |0&gt;&gt;&gt;                       |_fib                 |     34 |     12 | trip_count |     34 |</span>
+<span class="go">| |0&gt;&gt;&gt;                         |_fib               |     21 |     13 | trip_count |     21 |</span>
+<span class="go">| |0&gt;&gt;&gt;                           |_fib             |     13 |     14 | trip_count |     13 |</span>
+<span class="go">| |0&gt;&gt;&gt;                             |_fib           |      8 |     15 | trip_count |      8 |</span>
+<span class="go">| |0&gt;&gt;&gt;                               |_fib         |      5 |     16 | trip_count |      5 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                 |_fib       |      3 |     17 | trip_count |      3 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                   |_fib     |      2 |     18 | trip_count |      2 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                     |_fib   |      1 |     19 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                       |_fib |      1 |     20 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt; |_inefficient                               |      1 |      1 | trip_count |      1 |</span>
+<span class="go">|-------------------------------------------------------------------------------------------|</span>
+</pre></div>
+</div>
+<p>If the <code class="docutils literal notranslate"><span class="pre">inefficient</span></code> function were decorated with <code class="docutils literal notranslate"><span class="pre">&#64;profile</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@profile</span>
+<span class="k">def</span> <span class="nf">inefficient</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="c1"># ...</span>
+</pre></div>
+</div>
+<p>And executed with <code class="docutils literal notranslate"><span class="pre">omnitrace-python</span> <span class="pre">-b</span> <span class="pre">--</span> <span class="pre">./example.py</span></code>, omnitrace would produce:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">|-----------------------------------------------------------|</span>
+<span class="go">|                COUNTS NUMBER OF INVOCATIONS               |</span>
+<span class="go">|-----------------------------------------------------------|</span>
+<span class="go">|      LABEL        | COUNT  | DEPTH  |   METRIC   |  SUM   |</span>
+<span class="go">|-------------------|--------|--------|------------|--------|</span>
+<span class="go">| |0&gt;&gt;&gt; inefficient |      1 |      0 | trip_count |      1 |</span>
+<span class="go">|-----------------------------------------------------------|</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="omnitrace-python-source-instrumentation">
+<h2>Omnitrace Python Source Instrumentation<a class="headerlink" href="#omnitrace-python-source-instrumentation" title="Permalink to this headline">¶</a></h2>
+<p>Starting from the unmodified <code class="docutils literal notranslate"><span class="pre">example.py</span></code> script above, we start by importing the <code class="docutils literal notranslate"><span class="pre">omnitrace</span></code> module:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">omnitrace</span>  <span class="c1"># import omnitrace</span>
+
+<span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="c1"># ... etc. ...</span>
+</pre></div>
+</div>
+<p>Then, we can add <code class="docutils literal notranslate"><span class="pre">&#64;omnitrace.profile()</span></code> to the <code class="docutils literal notranslate"><span class="pre">run</span></code> function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@omnitrace</span><span class="o">.</span><span class="n">profile</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="c1"># ...</span>
+</pre></div>
+</div>
+<p>Or we can use <code class="docutils literal notranslate"><span class="pre">omnitrace.profile()</span></code> as a context-manager around <code class="docutils literal notranslate"><span class="pre">run(20)</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">omnitrace</span><span class="o">.</span><span class="n">profile</span><span class="p">():</span>
+        <span class="n">run</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The results for both of the source-level instrumentation modes are identical to the original <code class="docutils literal notranslate"><span class="pre">omnitrace-python</span> <span class="pre">./example.py</span></code> results:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">|-------------------------------------------------------------------------------------------|</span>
+<span class="go">|                                COUNTS NUMBER OF INVOCATIONS                               |</span>
+<span class="go">|-------------------------------------------------------------------------------------------|</span>
+<span class="go">|                      LABEL                        | COUNT  | DEPTH  |   METRIC   |  SUM   |</span>
+<span class="go">|---------------------------------------------------|--------|--------|------------|--------|</span>
+<span class="go">| |0&gt;&gt;&gt; run                                         |      1 |      0 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt; |_fib                                       |  10946 |      1 | trip_count |  10946 |</span>
+<span class="go">| |0&gt;&gt;&gt;   |_fib                                     |   4181 |      2 | trip_count |   4181 |</span>
+<span class="go">| |0&gt;&gt;&gt;     |_fib                                   |   2584 |      3 | trip_count |   2584 |</span>
+<span class="go">| |0&gt;&gt;&gt;       |_fib                                 |   1597 |      4 | trip_count |   1597 |</span>
+<span class="go">| |0&gt;&gt;&gt;         |_fib                               |    987 |      5 | trip_count |    987 |</span>
+<span class="go">| |0&gt;&gt;&gt;           |_fib                             |    610 |      6 | trip_count |    610 |</span>
+<span class="go">| |0&gt;&gt;&gt;             |_fib                           |    377 |      7 | trip_count |    377 |</span>
+<span class="go">| |0&gt;&gt;&gt;               |_fib                         |    233 |      8 | trip_count |    233 |</span>
+<span class="go">| |0&gt;&gt;&gt;                 |_fib                       |    144 |      9 | trip_count |    144 |</span>
+<span class="go">| |0&gt;&gt;&gt;                   |_fib                     |     89 |     10 | trip_count |     89 |</span>
+<span class="go">| |0&gt;&gt;&gt;                     |_fib                   |     55 |     11 | trip_count |     55 |</span>
+<span class="go">| |0&gt;&gt;&gt;                       |_fib                 |     34 |     12 | trip_count |     34 |</span>
+<span class="go">| |0&gt;&gt;&gt;                         |_fib               |     21 |     13 | trip_count |     21 |</span>
+<span class="go">| |0&gt;&gt;&gt;                           |_fib             |     13 |     14 | trip_count |     13 |</span>
+<span class="go">| |0&gt;&gt;&gt;                             |_fib           |      8 |     15 | trip_count |      8 |</span>
+<span class="go">| |0&gt;&gt;&gt;                               |_fib         |      5 |     16 | trip_count |      5 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                 |_fib       |      3 |     17 | trip_count |      3 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                   |_fib     |      2 |     18 | trip_count |      2 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                     |_fib   |      1 |     19 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                       |_fib |      1 |     20 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt; |_inefficient                               |      1 |      1 | trip_count |      1 |</span>
+<span class="go">|-------------------------------------------------------------------------------------------|</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p><em><strong>When <code class="docutils literal notranslate"><span class="pre">omnitrace-python</span></code> is used without built-ins, the profiling results will likely be cluttered by</strong></em>
+<em><strong>numerous functions called during the importing of more complex modules, e.g. <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">numpy</span></code>.</strong></em></p>
+</div></blockquote>
+<div class="section" id="omnitrace-python-source-instrumentation-configuration">
+<h3>Omnitrace Python Source Instrumentation Configuration<a class="headerlink" href="#omnitrace-python-source-instrumentation-configuration" title="Permalink to this headline">¶</a></h3>
+<p>Within the Python source code, the profiler can be configured by directly modifying the <code class="docutils literal notranslate"><span class="pre">omnitrace.profiler.config</span></code> data fields.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="p">(</span><span class="n">fib</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">inefficient</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">+=</span> <span class="n">i</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">+=</span> <span class="n">j</span>
+    <span class="k">return</span> <span class="n">a</span>
+
+
+<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">inefficient</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">omnitrace.profiler</span> <span class="kn">import</span> <span class="n">config</span>
+    <span class="kn">from</span> <span class="nn">omnitrace</span> <span class="kn">import</span> <span class="n">profile</span>
+
+    <span class="n">config</span><span class="o">.</span><span class="n">include_args</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">include_filename</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">include_line</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">restrict_functions</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;fib&quot;</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">]</span>
+
+    <span class="k">with</span> <span class="n">profile</span><span class="p">():</span>
+        <span class="n">run</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Executing this script would produce:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">|------------------------------------------------------------------|</span>
+<span class="go">|                   COUNTS NUMBER OF INVOCATIONS                   |</span>
+<span class="go">|------------------------------------------------------------------|</span>
+<span class="go">|          LABEL           | COUNT  | DEPTH  |   METRIC   |  SUM   |</span>
+<span class="go">|--------------------------|--------|--------|------------|--------|</span>
+<span class="go">| |0&gt;&gt;&gt; run(n=5)           |      1 |      0 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt; |_fib(n=5)         |      1 |      1 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt;   |_fib(n=4)       |      1 |      2 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt;     |_fib(n=3)     |      1 |      3 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt;       |_fib(n=2)   |      1 |      4 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt;         |_fib(n=1) |      1 |      5 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt;         |_fib(n=0) |      1 |      5 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt;       |_fib(n=1)   |      1 |      4 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt;     |_fib(n=2)     |      1 |      3 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt;       |_fib(n=1)   |      1 |      4 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt;       |_fib(n=0)   |      1 |      4 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt;   |_fib(n=3)       |      1 |      2 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt;     |_fib(n=2)     |      1 |      3 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt;       |_fib(n=1)   |      1 |      4 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt;       |_fib(n=0)   |      1 |      4 | trip_count |      1 |</span>
+<span class="go">| |0&gt;&gt;&gt;     |_fib(n=1)     |      1 |      3 | trip_count |      1 |</span>
+<span class="go">|------------------------------------------------------------------|</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="user_api.html" class="btn btn-neutral float-left" title="User API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Advanced Micro Devices, Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1HLBBRSTT9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-1HLBBRSTT9', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

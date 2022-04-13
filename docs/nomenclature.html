@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nomenclature &mdash; omnitrace 1.0.0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Instrumenting with Omnitrace" href="instrumenting.html" />
+    <link rel="prev" title="Setup" href="setup.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> omnitrace
+          </a>
+              <div class="version">
+                1.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="getting_started.html">Getting Started</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="setup.html">Setup</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Nomenclature</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#additional-notes">Additional Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="instrumenting.html">Instrumenting with Omnitrace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime.html">Customizing Omnitrace Runtime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="critical_trace.html">Generating a Critical Trace</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="output.html">Omnitrace Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_api.html">User API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python Support</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">omnitrace</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="getting_started.html">Getting Started</a> &raquo;</li>
+      <li>Nomenclature</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/nomenclature.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="nomenclature">
+<h1>Nomenclature<a class="headerlink" href="#nomenclature" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>The list provided below is intended to (A) provide a basic glossary for those who are not familiar with binary instrumentation and (B) provide clarification to ambiguities when certain terms
+have different contextual meanings, e.g., omnitrace’s meaning of the term “module” when instrumenting Python.</p>
+<ul class="simple">
+<li><p><strong>Binary</strong></p>
+<ul>
+<li><p>File written in the Executable and Linkable Format (ELF)</p></li>
+<li><p>Standard file format for executable files, shared libraries, etc.</p></li>
+</ul>
+</li>
+<li><p><strong>Binary Instrumentation</strong></p>
+<ul>
+<li><p>Inserting callbacks to instrumentation into an existing binary. This can be performed statically or dynamically</p></li>
+</ul>
+</li>
+<li><p><strong>Static Binary Instrumentation</strong></p>
+<ul>
+<li><p>Loads an existing binary, determines instrumentation points, and generates a new binary with instrumentation directly embedded</p></li>
+<li><p>Applicable to executables and libraries but limited to only the functions defined in the binary</p></li>
+<li><p>Also known as: <strong>Binary Rewrite</strong></p></li>
+</ul>
+</li>
+<li><p><strong>Dynamic Binary Instrumentation</strong></p>
+<ul>
+<li><p>Loads an existing binary into memory, inserts instrumentation, executes binary</p></li>
+<li><p>Limited to executables but capable of instrumenting linked libraries</p></li>
+<li><p>Also known as: <strong>Runtime Instrumentation</strong></p></li>
+</ul>
+</li>
+<li><p><strong>Sampling</strong></p>
+<ul>
+<li><p>At periodic intervals, the application is paused and the current call-stack of the CPU is recorded alongside with various other metrics</p></li>
+<li><p>Uses timers that measure either (A) real clock time or (B) the CPU time used by the current thread and the CPU time expended on behalf of the thread by the system</p></li>
+<li><p><strong>Sampling Rate</strong></p>
+<ul>
+<li><p>The period at which (A) or (B) are triggered (in units of <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">interrupts</span> <span class="pre">/</span> <span class="pre">second</span></code>)</p></li>
+<li><p>Higher values increase the number of samples</p></li>
+</ul>
+</li>
+<li><p><strong>Sampling Delay</strong></p>
+<ul>
+<li><p>How long to wait before (A) and (B) begin triggering at their designated rate</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Module</strong></p>
+<ul>
+<li><p>With respect to binary instrumentation, a module is defined as either the filename (e.g. <code class="docutils literal notranslate"><span class="pre">foo.c</span></code>) or library name (<code class="docutils literal notranslate"><span class="pre">libfoo.so</span></code>) which contains the definition of one or more functions</p></li>
+<li><p>With respect to Python instrumentation, a module is defined as the <em>file</em> which contains the definition of one or more functions.</p>
+<ul>
+<li><p>The full path to this file <em>typically</em> contains the name of the “Python module”</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Basic Block</strong></p>
+<ul>
+<li><p>Straight-line code sequence with:</p>
+<ul>
+<li><p>No branches in (except for the entry)</p></li>
+<li><p>No branches out (except for the exit)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Address Range</strong></p>
+<ul>
+<li><p>The instructions for a function in a binary start at certain address with the ELF file and end at a certain address, the range is <code class="docutils literal notranslate"><span class="pre">end</span> <span class="pre">-</span> <span class="pre">start</span></code></p></li>
+<li><p>The address range is a decent approximation for the “cost” of a function, i.e., a larger address range approx. equates to more instructions</p></li>
+</ul>
+</li>
+<li><p><strong>Instrumentation Traps</strong></p>
+<ul>
+<li><p>On the x86 architecture, because instructions are of variable size, the instruction at a point may be too small for Dyninst to replace it with the normal code sequence used to call instrumentation</p>
+<ul>
+<li><p>Also, when instrumentation is placed at points other than subroutine entry, exit, or call points, traps may be used to ensure the instrumentation fits</p></li>
+</ul>
+</li>
+<li><p>By default, omnitrace avoids instrumentation which requires using a trap</p></li>
+</ul>
+</li>
+<li><p><strong>Overlapping functions</strong></p>
+<ul>
+<li><p>Due to language constructs or compiler optimizations, it may be possible for multiple functions to overlap (that is, share part of the same function body) or for a single function to have multiple entry points</p></li>
+<li><p>In practice, it is impossible to determine the difference between multiple overlapping functions and a single function with multiple entry points</p></li>
+<li><p>By default, omnitrace avoids instrumenting overlapping functions</p></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="additional-notes">
+<h2>Additional Notes<a class="headerlink" href="#additional-notes" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="https://en.wikipedia.org/wiki/Profiling_(computer_programming)#Data_granularity_in_profiler_types">“Data granularity in profiler types”</a> section of
+the Wikipedia <a class="reference external" href="https://en.wikipedia.org/wiki/Profiling_(computer_programming)">“Profiling (computer programming)”</a> page may be a useful reference in understanding
+the different profiling modes and their trade-offs.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="setup.html" class="btn btn-neutral float-left" title="Setup" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="instrumenting.html" class="btn btn-neutral float-right" title="Instrumenting with Omnitrace" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Advanced Micro Devices, Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1HLBBRSTT9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-1HLBBRSTT9', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Features &mdash; omnitrace 1.0.0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="About" href="about.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> omnitrace
+          </a>
+              <div class="version">
+                1.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#data-collection-modes">Data Collection Modes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-analysis">Data Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parallelism-api-support">Parallelism API Support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gpu-metrics">GPU Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cpu-metrics">CPU Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#third-party-api-support">Third-party API support</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output.html">Omnitrace Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_api.html">User API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python Support</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">omnitrace</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Features</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/features.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="features">
+<h1>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> is designed to be highly extensible. Internally, it leverages the
+<a class="reference external" href="https://github.com/NERSC/timemory">timemory performance analysis toolkit</a> to
+manage extensions, resources, data, etc.</p>
+<div class="section" id="data-collection-modes">
+<h3>Data Collection Modes<a class="headerlink" href="#data-collection-modes" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Dynamic instrumentation</p>
+<ul>
+<li><p>Runtime instrumentation</p>
+<ul>
+<li><p>Instrument executable and shared libraries at runtime</p></li>
+</ul>
+</li>
+<li><p>Binary rewriting</p>
+<ul>
+<li><p>Generate a new executable and/or library with instrumentation built-in</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Statistical sampling</p>
+<ul>
+<li><p>Periodic software interrupts per-thread</p></li>
+</ul>
+</li>
+<li><p>Background thread sampling</p>
+<ul>
+<li><p>Record process and system-level values while an application executes</p></li>
+</ul>
+</li>
+<li><p>Critical trace generation</p></li>
+</ul>
+</div>
+<div class="section" id="data-analysis">
+<h3>Data Analysis<a class="headerlink" href="#data-analysis" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Critical trace generation (beta)</p></li>
+<li><p>Support for</p></li>
+</ul>
+</div>
+<div class="section" id="parallelism-api-support">
+<h3>Parallelism API Support<a class="headerlink" href="#parallelism-api-support" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Built-in MPI support</p></li>
+<li><p>Kokkos-Tools support</p></li>
+</ul>
+</div>
+<div class="section" id="gpu-metrics">
+<h3>GPU Metrics<a class="headerlink" href="#gpu-metrics" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>HIP API tracing</p></li>
+<li><p>ROCM HSA API tracing</p></li>
+<li><p>Kernel runtime tracing</p></li>
+<li><p>System-level sampling (via rocm-smi)</p>
+<ul>
+<li><p>Memory usage</p></li>
+<li><p>Power usage</p></li>
+<li><p>Temperature</p></li>
+<li><p>Utilization</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="cpu-metrics">
+<h3>CPU Metrics<a class="headerlink" href="#cpu-metrics" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>CPU hardware counters sampling and profiles</p></li>
+<li><p>CPU frequency sampling</p></li>
+<li><p>Various timing metrics</p>
+<ul>
+<li><p>Wall time</p></li>
+<li><p>CPU time (process and/or thread)</p></li>
+<li><p>CPU utilization (process and/or thread)</p></li>
+<li><p>User CPU time</p></li>
+<li><p>Kernel CPU time</p></li>
+</ul>
+</li>
+<li><p>Various memory metrics</p>
+<ul>
+<li><p>High-water mark (sampling and profiles)</p></li>
+<li><p>Memory page allocation</p></li>
+<li><p>Virtual memory usage</p></li>
+</ul>
+</li>
+<li><p>Network statistics</p></li>
+<li><p>I/O metrics</p></li>
+<li><p>… many more</p></li>
+</ul>
+</div>
+<div class="section" id="third-party-api-support">
+<h3>Third-party API support<a class="headerlink" href="#third-party-api-support" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>OpenMP-Tools (OMPT)</p></li>
+<li><p>TAU</p></li>
+<li><p>LIKWID</p></li>
+<li><p>Caliper</p></li>
+<li><p>CrayPAT</p></li>
+<li><p>VTune</p></li>
+<li><p>NVTX</p></li>
+<li><p>ROCTX</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="about.html" class="btn btn-neutral float-left" title="About" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Advanced Micro Devices, Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1HLBBRSTT9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-1HLBBRSTT9', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

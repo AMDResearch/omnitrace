@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Omnitrace Output &mdash; omnitrace 1.0.0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="User API" href="user_api.html" />
+    <link rel="prev" title="Generating a Critical Trace" href="critical_trace.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> omnitrace
+          </a>
+              <div class="version">
+                1.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Omnitrace Output</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#metadata">Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuring-output">Configuring Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#core-configuration-settings">Core Configuration Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#output-prefix-keys">Output Prefix Keys</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#perfetto-output">Perfetto Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#timemory-output">Timemory Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#timemory-text-output">Timemory Text Output</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#timemory-text-output-example">Timemory Text Output Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#timemory-flat-json-output">Timemory Flat JSON Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#timemory-hierarchical-json-output">Timemory Hierarchical JSON Output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_api.html">User API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python Support</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">omnitrace</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Omnitrace Output</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/output.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="omnitrace-output">
+<h1>Omnitrace Output<a class="headerlink" href="#omnitrace-output" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The general output form of omnitrace is <code class="docutils literal notranslate"><span class="pre">&lt;OUTPUT_PATH&gt;[/&lt;TIMESTAMP&gt;]/[&lt;PREFIX&gt;]&lt;DATA_NAME&gt;[-&lt;OUTPUT_SUFFIX&gt;].&lt;EXT&gt;</span></code>.</p>
+<p>E.g. with the base configuration:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">OMNITRACE_OUTPUT_PATH</span><span class="o">=</span>omnitrace-example-output
+<span class="nb">export</span> <span class="nv">OMNITRACE_TIME_OUTPUT</span><span class="o">=</span>ON
+<span class="nb">export</span> <span class="nv">OMNITRACE_USE_PID</span><span class="o">=</span>OFF
+<span class="nb">export</span> <span class="nv">OMNITRACE_USE_TIMEMORY</span><span class="o">=</span>ON
+<span class="nb">export</span> <span class="nv">OMNITRACE_USE_PERFETTO</span><span class="o">=</span>ON
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omnitrace -- ./foo
+...
+<span class="o">[</span>omnitrace<span class="o">]</span> Outputting <span class="s1">&#39;omnitrace-example-output/perfetto-trace.proto&#39;</span>...
+
+<span class="o">[</span>omnitrace<span class="o">]</span> Outputting <span class="s1">&#39;omnitrace-example-output/wall-clock.txt&#39;</span>...
+<span class="o">[</span>omnitrace<span class="o">]</span> Outputting <span class="s1">&#39;omnitrace-example-output/wall-clock.json&#39;</span>...
+</pre></div>
+</div>
+<p>If we enable the <code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_PID</span></code> option, then when our non-MPI executable is executed with a PID of 63453:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">export</span> <span class="nv">OMNITRACE_USE_PID</span><span class="o">=</span>ON
+$ omnitrace -- ./foo
+...
+<span class="o">[</span>omnitrace<span class="o">]</span> Outputting <span class="s1">&#39;omnitrace-example-output/perfetto-trace-63453.proto&#39;</span>...
+
+<span class="o">[</span>omnitrace<span class="o">]</span> Outputting <span class="s1">&#39;omnitrace-example-output/wall-clock-63453.txt&#39;</span>...
+<span class="o">[</span>omnitrace<span class="o">]</span> Outputting <span class="s1">&#39;omnitrace-example-output/wall-clock-63453.json&#39;</span>...
+</pre></div>
+</div>
+<p>If we enable <code class="docutils literal notranslate"><span class="pre">OMNITRACE_TIME_OUTPUT</span></code>, then a job started on January 31, 2022 at 12:30 PM:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">export</span> <span class="nv">OMNITRACE_TIME_OUTPUT</span><span class="o">=</span>ON
+$ omnitrace -- ./foo
+...
+<span class="o">[</span>omnitrace<span class="o">]</span> Outputting <span class="s1">&#39;omnitrace-example-output/2022-01-31_12.30_PM/perfetto-trace-63453.proto&#39;</span>...
+
+<span class="o">[</span>omnitrace<span class="o">]</span> Outputting <span class="s1">&#39;omnitrace-example-output/2022-01-31_12.30_PM/wall-clock-63453.txt&#39;</span>...
+<span class="o">[</span>omnitrace<span class="o">]</span> Outputting <span class="s1">&#39;omnitrace-example-output/2022-01-31_12.30_PM/wall-clock-63453.json&#39;</span>...
+</pre></div>
+</div>
+</div>
+<div class="section" id="metadata">
+<h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> will output a metadata.json file.</p>
+</div>
+<div class="section" id="configuring-output">
+<h2>Configuring Output<a class="headerlink" href="#configuring-output" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="core-configuration-settings">
+<h3>Core Configuration Settings<a class="headerlink" href="#core-configuration-settings" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p><em><strong>See also: <a class="reference internal" href="runtime.html"><span class="doc">Customizing Omnitrace Runtime</span></a></strong></em></p>
+</div></blockquote>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Setting</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OMNITRACE_OUTPUT_PATH</code></td>
+<td>Any valid path</td>
+<td>Path to folder where output files should be placed</td>
+</tr>
+<tr>
+<td><code>OMNITRACE_OUTPUT_PREFIX</code></td>
+<td>String</td>
+<td>Useful for multiple runs with different arguments. See <a href="#output-prefix-keys">Output Prefix Keys</a></td>
+</tr>
+<tr>
+<td><code>OMNITRACE_OUTPUT_FILE</code></td>
+<td>Any valid filepath</td>
+<td>Specific location for perfetto output file.</td>
+</tr>
+<tr>
+<td><code>OMNITRACE_TIME_OUTPUT</code></td>
+<td>Boolean</td>
+<td>Place all output in a timestamped folder, timestamp format controlled via <code>OMNITRACE_TIME_FORMAT</code></td>
+</tr>
+<tr>
+<td><code>OMNITRACE_TIME_FORMAT</code></td>
+<td>String</td>
+<td>See <code>strftime</code> man pages for valid identifiers</td>
+</tr>
+<tr>
+<td><code>OMNITRACE_USE_PID</code></td>
+<td>Boolean</td>
+<td>Append either the PID or the MPI rank to all output files (before the extension)</td>
+</tr>
+</tbody>
+</table><div class="section" id="output-prefix-keys">
+<h4>Output Prefix Keys<a class="headerlink" href="#output-prefix-keys" title="Permalink to this headline">¶</a></h4>
+<p>Output prefix keys have many uses but most useful when dealing with multiple profiling runs or large MPI jobs.
+Their inclusion in omnitrace stems from their introduction into timemory for <a class="reference external" href="https://github.com/jrmadsen/compile-time-perf">compile-time-perf</a>
+which needed to be able to create different output files for a generic wrapper around compilation commands while still
+overwriting the output from the last time a file was compiled.</p>
+<p>If you are ever doing scaling studies and specifying options via the command line, it is highly recommend to just
+use a common <code class="docutils literal notranslate"><span class="pre">OMNITRACE_OUTPUT_PATH</span></code>, disable <code class="docutils literal notranslate"><span class="pre">OMNITRACE_TIME_OUTPUT</span></code>,
+set <code class="docutils literal notranslate"><span class="pre">OMNITRACE_OUTPUT_PREFIX=&quot;%argt%-&quot;</span></code> and let omnitrace cleanly organize the output.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>String</th>
+<th>Encoding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%arg&lt;N&gt;%</code></td>
+<td>Command line argument at position <code>&lt;N&gt;</code> (zero indexed), e.g. <code>%arg0%</code> for first argument.</td>
+</tr>
+<tr>
+<td><code>%arg&lt;N&gt;_hash%</code></td>
+<td>MD5 sum of <code>%arg&lt;N&gt;%</code></td>
+</tr>
+<tr>
+<td><code>%argv%</code></td>
+<td>Entire command-line condensed into a single string</td>
+</tr>
+<tr>
+<td><code>%argv_hash%</code></td>
+<td>MD5 sum of <code>%argv%</code></td>
+</tr>
+<tr>
+<td><code>%argt%</code></td>
+<td>Similar to <code>%argv%</code> except basename of first command line argument</td>
+</tr>
+<tr>
+<td><code>%argt_hash%</code></td>
+<td>MD5 sum if <code>%argt%</code></td>
+</tr>
+<tr>
+<td><code>%args%</code></td>
+<td>All command line arguments condensed into a single string</td>
+</tr>
+<tr>
+<td><code>%args_hash%</code></td>
+<td>MD5 sum of <code>%args%</code></td>
+</tr>
+<tr>
+<td><code>%tag%</code></td>
+<td>Basename of first command line argument</td>
+</tr>
+<tr>
+<td><code>%tag_hash%</code></td>
+<td>MD5 sum of <code>%tag%</code></td>
+</tr>
+<tr>
+<td><code>%pid%</code></td>
+<td>Process identifier (i.e. <code>getpid()</code>)</td>
+</tr>
+<tr>
+<td><code>%job%</code></td>
+<td>Value of <code>SLURM_JOB_ID</code> environment variable if exists, else <code>0</code></td>
+</tr>
+<tr>
+<td><code>%rank%</code></td>
+<td>Value of <code>SLURM_PROCID</code> environment variable if exists, else <code>MPI_Comm_rank</code> (or <code>0</code> non-mpi)</td>
+</tr>
+<tr>
+<td><code>%size%</code></td>
+<td><code>MPI_Comm_size</code> or <code>1</code> if non-mpi</td>
+</tr>
+<tr>
+<td><code>%m</code></td>
+<td>Shorthand for <code>%argt_hash%</code></td>
+</tr>
+<tr>
+<td><code>%p</code></td>
+<td>Shorthand for <code>%pid%</code></td>
+</tr>
+<tr>
+<td><code>%j</code></td>
+<td>Shorthand for <code>%job%</code></td>
+</tr>
+<tr>
+<td><code>%r</code></td>
+<td>Shorthand for <code>%rank%</code></td>
+</tr>
+<tr>
+<td><code>%s</code></td>
+<td>Shorthand for <code>%size%</code></td>
+</tr>
+</tbody>
+</table><blockquote>
+<div><p><em><strong>Any output prefix key which contain a <code class="docutils literal notranslate"><span class="pre">/</span></code> will have the <code class="docutils literal notranslate"><span class="pre">/</span></code> characters</strong></em>
+<em><strong>replaced with <code class="docutils literal notranslate"><span class="pre">_</span></code> and any leading underscores will be stripped, e.g. if <code class="docutils literal notranslate"><span class="pre">%arg0%</span></code> is <code class="docutils literal notranslate"><span class="pre">/usr/bin/foo</span></code>, this</strong></em>
+<em><strong>will translate to <code class="docutils literal notranslate"><span class="pre">usr_bin_foo</span></code>. Additionally, any <code class="docutils literal notranslate"><span class="pre">%arg&lt;N&gt;%</span></code> keys which do not have a command line argument</strong></em>
+<em><strong>at position <code class="docutils literal notranslate"><span class="pre">&lt;N&gt;</span></code> will be ignored.</strong></em></p>
+</div></blockquote>
+</div>
+</div>
+</div>
+<div class="section" id="perfetto-output">
+<h2>Perfetto Output<a class="headerlink" href="#perfetto-output" title="Permalink to this headline">¶</a></h2>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">OMNITRACE_OUTPUT_FILE</span></code> to specify a specific location. If this is an absolute path, then all <code class="docutils literal notranslate"><span class="pre">OMNITRACE_OUTPUT_PATH</span></code>, etc.
+settings will be ignored.</p>
+</div>
+<div class="section" id="timemory-output">
+<h2>Timemory Output<a class="headerlink" href="#timemory-output" title="Permalink to this headline">¶</a></h2>
+<p>Use <code class="docutils literal notranslate"><span class="pre">omnitrace-avail</span> <span class="pre">--components</span> <span class="pre">--filename</span></code> to view the base filename for each component. E.g.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ ./omnitrace-avail wall_clock -C -f
+<span class="p">|</span>---------------------------------<span class="p">|</span>---------------<span class="p">|</span>------------------------<span class="p">|</span>
+<span class="p">|</span>            COMPONENT            <span class="p">|</span>   AVAILABLE   <span class="p">|</span>        FILENAME        <span class="p">|</span>
+<span class="p">|</span>---------------------------------<span class="p">|</span>---------------<span class="p">|</span>------------------------<span class="p">|</span>
+<span class="p">|</span> wall_clock                      <span class="p">|</span>     <span class="nb">true</span>      <span class="p">|</span> wall_clock             <span class="p">|</span>
+<span class="p">|</span> sampling_wall_clock             <span class="p">|</span>     <span class="nb">true</span>      <span class="p">|</span> sampling_wall_clock    <span class="p">|</span>
+<span class="p">|</span>---------------------------------<span class="p">|</span>---------------<span class="p">|</span>------------------------<span class="p">|</span>
+</pre></div>
+</div>
+<p>Setting <code class="docutils literal notranslate"><span class="pre">OMNITRACE_COLLAPSE_THREADS=ON</span></code> and/or <code class="docutils literal notranslate"><span class="pre">OMNITRACE_COLLAPSE_PROCESSES=ON</span></code> (only valid with full MPI support) the timemory output
+will combine the per-thread and/or per-rank data which have identical call-stacks.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OMNITRACE_FLAT_PROFILE</span></code> setting will remove all call stack heirarchy. Using <code class="docutils literal notranslate"><span class="pre">OMNITRACE_FLAT_PROFILE=ON</span></code> in combination
+with <code class="docutils literal notranslate"><span class="pre">OMNITRACE_COLLAPSE_THREADS=ON</span></code> is a useful configuration for identifying min/max measurements regardless of calling context.
+The <code class="docutils literal notranslate"><span class="pre">OMNITRACE_TIMELINE_PROFILE</span></code> setting (with <code class="docutils literal notranslate"><span class="pre">OMNITRACE_FLAT_PROFILE=OFF</span></code>) will effectively generate similar data that can be found
+in perfetto. Enabling timeline and flat profiling will effectively generate similar data to <code class="docutils literal notranslate"><span class="pre">strace</span></code>. However, while timemory in general
+requires significantly less memory than perfetto, this is not the case in timeline mode so activate this setting with caution.</p>
+<div class="section" id="timemory-text-output">
+<h3>Timemory Text Output<a class="headerlink" href="#timemory-text-output" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p><em><strong>Hint: the generation of text output is configurable via <code class="docutils literal notranslate"><span class="pre">OMNITRACE_TEXT_OUTPUT</span></code></strong></em></p>
+</div></blockquote>
+<p>Timemory text output files are meant for human-consumption (use JSON formats for analysis)
+and as such, some fields such as the <code class="docutils literal notranslate"><span class="pre">LABEL</span></code> fields may be truncated for readability.
+Modification of the truncation can be changed via the <code class="docutils literal notranslate"><span class="pre">OMNITRACE_MAX_WIDTH</span></code> setting.</p>
+<div class="section" id="timemory-text-output-example">
+<h4>Timemory Text Output Example<a class="headerlink" href="#timemory-text-output-example" title="Permalink to this headline">¶</a></h4>
+<p>In the below, the <code class="docutils literal notranslate"><span class="pre">NN</span></code> field in <code class="docutils literal notranslate"><span class="pre">|NN&gt;&gt;&gt;</span></code> is the thread ID. If MPI support is enabled, this will be <code class="docutils literal notranslate"><span class="pre">|MM|NN&gt;&gt;&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">MM</span></code> will be the rank.
+If <code class="docutils literal notranslate"><span class="pre">OMNITRACE_COLLAPSE_THREADS=ON</span></code> and <code class="docutils literal notranslate"><span class="pre">OMNITRACE_COLLAPSE_PROCESSES=ON</span></code>, neither the <code class="docutils literal notranslate"><span class="pre">MM</span></code> nor the <code class="docutils literal notranslate"><span class="pre">NN</span></code> will be present unless the
+component explicitly sets type-traits which specify that the data is only relevant per-thread or per-process, e.g. the <code class="docutils literal notranslate"><span class="pre">thread_cpu_clock</span></code> clock component.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|</span>
+<span class="go">|                                                                       REAL-CLOCK TIMER (I.E. WALL-CLOCK TIMER)                                                                      |</span>
+<span class="go">|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|</span>
+<span class="go">|                            LABEL                             | COUNT  | DEPTH  |   METRIC   | UNITS  |   SUM     |   MEAN    |   MIN     |   MAX     |   VAR    | STDDEV   | % SELF |</span>
+<span class="go">|--------------------------------------------------------------|--------|--------|------------|--------|-----------|-----------|-----------|-----------|----------|----------|--------|</span>
+<span class="go">| |00&gt;&gt;&gt; main                                                  |      1 |      0 | wall_clock | sec    | 13.360265 | 13.360265 | 13.360265 | 13.360265 | 0.000000 | 0.000000 |   18.2 |</span>
+<span class="go">| |00&gt;&gt;&gt; |_ompt_thread_initial                                 |      1 |      1 | wall_clock | sec    | 10.924161 | 10.924161 | 10.924161 | 10.924161 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |00&gt;&gt;&gt;   |_ompt_implicit_task                                |      1 |      2 | wall_clock | sec    | 10.923050 | 10.923050 | 10.923050 | 10.923050 | 0.000000 | 0.000000 |    0.1 |</span>
+<span class="go">| |00&gt;&gt;&gt;     |_ompt_parallel [parallelism=12]                  |      1 |      3 | wall_clock | sec    | 10.915026 | 10.915026 | 10.915026 | 10.915026 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |00&gt;&gt;&gt;       |_ompt_implicit_task                            |      1 |      4 | wall_clock | sec    | 10.647951 | 10.647951 | 10.647951 | 10.647951 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |00&gt;&gt;&gt;         |_ompt_work_loop                              |    156 |      5 | wall_clock | sec    |  0.000812 |  0.000005 |  0.000001 |  0.000212 | 0.000000 | 0.000018 |  100.0 |</span>
+<span class="go">| |00&gt;&gt;&gt;         |_ompt_work_single_executor                   |     40 |      5 | wall_clock | sec    |  0.000016 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |00&gt;&gt;&gt;         |_ompt_sync_region_barrier_implicit           |    308 |      5 | wall_clock | sec    |  0.000629 |  0.000002 |  0.000001 |  0.000017 | 0.000000 | 0.000002 |  100.0 |</span>
+<span class="go">| |00&gt;&gt;&gt;         |_conj_grad                                   |     76 |      5 | wall_clock | sec    | 10.641165 |  0.140015 |  0.131894 |  0.155099 | 0.000017 | 0.004080 |    1.0 |</span>
+<span class="go">| |00&gt;&gt;&gt;           |_ompt_work_single_executor                 |    803 |      6 | wall_clock | sec    |  0.000292 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |00&gt;&gt;&gt;           |_ompt_work_loop                            |   7904 |      6 | wall_clock | sec    |  7.420265 |  0.000939 |  0.000005 |  0.006974 | 0.000003 | 0.001613 |  100.0 |</span>
+<span class="go">| |00&gt;&gt;&gt;           |_ompt_sync_region_barrier_implicit         |   6004 |      6 | wall_clock | sec    |  0.283160 |  0.000047 |  0.000001 |  0.004087 | 0.000000 | 0.000303 |  100.0 |</span>
+<span class="go">| |00&gt;&gt;&gt;           |_ompt_sync_region_barrier_implementation   |   3952 |      6 | wall_clock | sec    |  2.829252 |  0.000716 |  0.000007 |  0.009005 | 0.000001 | 0.000985 |   99.7 |</span>
+<span class="go">| |00&gt;&gt;&gt;             |_ompt_sync_region_reduction              |  15808 |      7 | wall_clock | sec    |  0.009142 |  0.000001 |  0.000000 |  0.000007 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |00&gt;&gt;&gt;           |_ompt_work_single_other                    |   1249 |      6 | wall_clock | sec    |  0.000270 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |00&gt;&gt;&gt;         |_ompt_work_single_other                      |    114 |      5 | wall_clock | sec    |  0.000024 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |00&gt;&gt;&gt;         |_ompt_sync_region_barrier_implementation     |     76 |      5 | wall_clock | sec    |  0.000876 |  0.000012 |  0.000008 |  0.000025 | 0.000000 | 0.000003 |   84.4 |</span>
+<span class="go">| |00&gt;&gt;&gt;           |_ompt_sync_region_reduction                |    304 |      6 | wall_clock | sec    |  0.000136 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |00&gt;&gt;&gt;         |_ompt_master                                 |    226 |      5 | wall_clock | sec    |  0.001978 |  0.000009 |  0.000000 |  0.000038 | 0.000000 | 0.000012 |  100.0 |</span>
+<span class="go">| |11&gt;&gt;&gt;       |_ompt_thread_worker                            |      1 |      4 | wall_clock | sec    | 10.656145 | 10.656145 | 10.656145 | 10.656145 | 0.000000 | 0.000000 |    0.1 |</span>
+<span class="go">| |11&gt;&gt;&gt;         |_ompt_implicit_task                          |      1 |      5 | wall_clock | sec    | 10.649183 | 10.649183 | 10.649183 | 10.649183 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |11&gt;&gt;&gt;           |_ompt_work_loop                            |    156 |      6 | wall_clock | sec    |  0.000852 |  0.000005 |  0.000002 |  0.000230 | 0.000000 | 0.000019 |  100.0 |</span>
+<span class="go">| |11&gt;&gt;&gt;           |_ompt_work_single_other                    |    149 |      6 | wall_clock | sec    |  0.000035 |  0.000000 |  0.000000 |  0.000000 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |11&gt;&gt;&gt;           |_ompt_sync_region_barrier_implicit         |    308 |      6 | wall_clock | sec    |  0.004135 |  0.000013 |  0.000001 |  0.001233 | 0.000000 | 0.000070 |  100.0 |</span>
+<span class="go">| |11&gt;&gt;&gt;           |_conj_grad                                 |     76 |      6 | wall_clock | sec    | 10.641302 |  0.140017 |  0.131896 |  0.155102 | 0.000017 | 0.004080 |    0.6 |</span>
+<span class="go">| |11&gt;&gt;&gt;             |_ompt_work_single_other                  |   2023 |      7 | wall_clock | sec    |  0.000458 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |11&gt;&gt;&gt;             |_ompt_work_loop                          |   7904 |      7 | wall_clock | sec    |  8.253555 |  0.001044 |  0.000005 |  0.008021 | 0.000003 | 0.001790 |  100.0 |</span>
+<span class="go">| |11&gt;&gt;&gt;             |_ompt_sync_region_barrier_implicit       |   6004 |      7 | wall_clock | sec    |  0.263840 |  0.000044 |  0.000001 |  0.004087 | 0.000000 | 0.000297 |  100.0 |</span>
+<span class="go">| |11&gt;&gt;&gt;             |_ompt_sync_region_barrier_implementation |   3952 |      7 | wall_clock | sec    |  2.059823 |  0.000521 |  0.000007 |  0.009508 | 0.000001 | 0.000863 |  100.0 |</span>
+<span class="go">| |11&gt;&gt;&gt;             |_ompt_work_single_executor               |     29 |      7 | wall_clock | sec    |  0.000011 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |11&gt;&gt;&gt;           |_ompt_work_single_executor                 |      5 |      6 | wall_clock | sec    |  0.000002 |  0.000000 |  0.000000 |  0.000000 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |11&gt;&gt;&gt;           |_ompt_sync_region_barrier_implementation   |     76 |      6 | wall_clock | sec    |  0.000975 |  0.000013 |  0.000008 |  0.000024 | 0.000000 | 0.000003 |  100.0 |</span>
+<span class="go">| |10&gt;&gt;&gt;       |_ompt_thread_worker                            |      1 |      4 | wall_clock | sec    | 10.681664 | 10.681664 | 10.681664 | 10.681664 | 0.000000 | 0.000000 |    0.3 |</span>
+<span class="go">| |10&gt;&gt;&gt;         |_ompt_implicit_task                          |      1 |      5 | wall_clock | sec    | 10.649158 | 10.649158 | 10.649158 | 10.649158 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |10&gt;&gt;&gt;           |_ompt_work_loop                            |    156 |      6 | wall_clock | sec    |  0.000863 |  0.000006 |  0.000002 |  0.000231 | 0.000000 | 0.000019 |  100.0 |</span>
+<span class="go">| |10&gt;&gt;&gt;           |_ompt_work_single_other                    |    140 |      6 | wall_clock | sec    |  0.000037 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |10&gt;&gt;&gt;           |_ompt_sync_region_barrier_implicit         |    308 |      6 | wall_clock | sec    |  0.004149 |  0.000013 |  0.000001 |  0.001221 | 0.000000 | 0.000070 |  100.0 |</span>
+<span class="go">| |10&gt;&gt;&gt;           |_conj_grad                                 |     76 |      6 | wall_clock | sec    | 10.641288 |  0.140017 |  0.131896 |  0.155101 | 0.000017 | 0.004080 |    0.7 |</span>
+<span class="go">| |10&gt;&gt;&gt;             |_ompt_work_single_other                  |   1883 |      7 | wall_clock | sec    |  0.000487 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |10&gt;&gt;&gt;             |_ompt_work_loop                          |   7904 |      7 | wall_clock | sec    |  8.174545 |  0.001034 |  0.000005 |  0.006899 | 0.000003 | 0.001766 |  100.0 |</span>
+<span class="go">| |10&gt;&gt;&gt;             |_ompt_sync_region_barrier_implicit       |   6004 |      7 | wall_clock | sec    |  0.268808 |  0.000045 |  0.000001 |  0.004087 | 0.000000 | 0.000299 |  100.0 |</span>
+<span class="go">| |10&gt;&gt;&gt;             |_ompt_sync_region_barrier_implementation |   3952 |      7 | wall_clock | sec    |  2.126988 |  0.000538 |  0.000007 |  0.009843 | 0.000001 | 0.000872 |   99.9 |</span>
+<span class="go">| |10&gt;&gt;&gt;               |_ompt_sync_region_reduction            |   3952 |      8 | wall_clock | sec    |  0.002574 |  0.000001 |  0.000000 |  0.000014 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |10&gt;&gt;&gt;             |_ompt_work_single_executor               |    169 |      7 | wall_clock | sec    |  0.000072 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |10&gt;&gt;&gt;           |_ompt_sync_region_barrier_implementation   |     76 |      6 | wall_clock | sec    |  0.000954 |  0.000013 |  0.000009 |  0.000023 | 0.000000 | 0.000003 |   95.9 |</span>
+<span class="go">| |10&gt;&gt;&gt;             |_ompt_sync_region_reduction              |     76 |      7 | wall_clock | sec    |  0.000039 |  0.000001 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |10&gt;&gt;&gt;           |_ompt_work_single_executor                 |     14 |      6 | wall_clock | sec    |  0.000006 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |09&gt;&gt;&gt;       |_ompt_thread_worker                            |      1 |      4 | wall_clock | sec    | 10.686552 | 10.686552 | 10.686552 | 10.686552 | 0.000000 | 0.000000 |    0.3 |</span>
+<span class="go">| |09&gt;&gt;&gt;         |_ompt_implicit_task                          |      1 |      5 | wall_clock | sec    | 10.649151 | 10.649151 | 10.649151 | 10.649151 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |09&gt;&gt;&gt;           |_ompt_work_loop                            |    156 |      6 | wall_clock | sec    |  0.000880 |  0.000006 |  0.000002 |  0.000258 | 0.000000 | 0.000021 |  100.0 |</span>
+<span class="go">| |09&gt;&gt;&gt;           |_ompt_work_single_other                    |    148 |      6 | wall_clock | sec    |  0.000034 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |09&gt;&gt;&gt;           |_ompt_sync_region_barrier_implicit         |    308 |      6 | wall_clock | sec    |  0.004129 |  0.000013 |  0.000001 |  0.001210 | 0.000000 | 0.000069 |  100.0 |</span>
+<span class="go">| |09&gt;&gt;&gt;           |_conj_grad                                 |     76 |      6 | wall_clock | sec    | 10.641308 |  0.140017 |  0.131895 |  0.155102 | 0.000017 | 0.004080 |    0.7 |</span>
+<span class="go">| |09&gt;&gt;&gt;             |_ompt_work_single_other                  |   2043 |      7 | wall_clock | sec    |  0.000473 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |09&gt;&gt;&gt;             |_ompt_work_loop                          |   7904 |      7 | wall_clock | sec    |  7.977001 |  0.001009 |  0.000005 |  0.007325 | 0.000003 | 0.001732 |  100.0 |</span>
+<span class="go">| |09&gt;&gt;&gt;             |_ompt_sync_region_barrier_implicit       |   6004 |      7 | wall_clock | sec    |  0.242996 |  0.000040 |  0.000001 |  0.004087 | 0.000000 | 0.000284 |  100.0 |</span>
+<span class="go">| |09&gt;&gt;&gt;             |_ompt_sync_region_barrier_implementation |   3952 |      7 | wall_clock | sec    |  2.350895 |  0.000595 |  0.000007 |  0.008689 | 0.000001 | 0.000926 |  100.0 |</span>
+<span class="go">| |09&gt;&gt;&gt;             |_ompt_work_single_executor               |      9 |      7 | wall_clock | sec    |  0.000004 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |09&gt;&gt;&gt;           |_ompt_sync_region_barrier_implementation   |     76 |      6 | wall_clock | sec    |  0.000973 |  0.000013 |  0.000008 |  0.000025 | 0.000000 | 0.000003 |  100.0 |</span>
+<span class="go">| |09&gt;&gt;&gt;           |_ompt_work_single_executor                 |      6 |      6 | wall_clock | sec    |  0.000002 |  0.000000 |  0.000000 |  0.000000 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |08&gt;&gt;&gt;       |_ompt_thread_worker                            |      1 |      4 | wall_clock | sec    | 10.721622 | 10.721622 | 10.721622 | 10.721622 | 0.000000 | 0.000000 |    0.7 |</span>
+<span class="go">| |08&gt;&gt;&gt;         |_ompt_implicit_task                          |      1 |      5 | wall_clock | sec    | 10.649135 | 10.649135 | 10.649135 | 10.649135 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |08&gt;&gt;&gt;           |_ompt_work_loop                            |    156 |      6 | wall_clock | sec    |  0.000839 |  0.000005 |  0.000001 |  0.000231 | 0.000000 | 0.000019 |  100.0 |</span>
+<span class="go">| |08&gt;&gt;&gt;           |_ompt_work_single_other                    |    141 |      6 | wall_clock | sec    |  0.000030 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |08&gt;&gt;&gt;           |_ompt_sync_region_barrier_implicit         |    308 |      6 | wall_clock | sec    |  0.004114 |  0.000013 |  0.000001 |  0.001198 | 0.000000 | 0.000069 |  100.0 |</span>
+<span class="go">| |08&gt;&gt;&gt;           |_conj_grad                                 |     76 |      6 | wall_clock | sec    | 10.641294 |  0.140017 |  0.131896 |  0.155101 | 0.000017 | 0.004080 |    0.6 |</span>
+<span class="go">| |08&gt;&gt;&gt;             |_ompt_work_single_other                  |   1742 |      7 | wall_clock | sec    |  0.000392 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |08&gt;&gt;&gt;             |_ompt_work_loop                          |   7904 |      7 | wall_clock | sec    |  8.306388 |  0.001051 |  0.000005 |  0.007886 | 0.000003 | 0.001795 |  100.0 |</span>
+<span class="go">| |08&gt;&gt;&gt;             |_ompt_sync_region_barrier_implicit       |   6004 |      7 | wall_clock | sec    |  0.274358 |  0.000046 |  0.000001 |  0.004090 | 0.000000 | 0.000302 |  100.0 |</span>
+<span class="go">| |08&gt;&gt;&gt;             |_ompt_sync_region_barrier_implementation |   3952 |      7 | wall_clock | sec    |  1.991251 |  0.000504 |  0.000007 |  0.008694 | 0.000001 | 0.000844 |   99.8 |</span>
+<span class="go">| |08&gt;&gt;&gt;               |_ompt_sync_region_reduction            |   7904 |      8 | wall_clock | sec    |  0.003816 |  0.000000 |  0.000000 |  0.000017 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |08&gt;&gt;&gt;             |_ompt_work_single_executor               |    310 |      7 | wall_clock | sec    |  0.000112 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |08&gt;&gt;&gt;           |_ompt_sync_region_barrier_implementation   |     76 |      6 | wall_clock | sec    |  0.000955 |  0.000013 |  0.000009 |  0.000026 | 0.000000 | 0.000003 |   93.7 |</span>
+<span class="go">| |08&gt;&gt;&gt;             |_ompt_sync_region_reduction              |    152 |      7 | wall_clock | sec    |  0.000060 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |08&gt;&gt;&gt;           |_ompt_work_single_executor                 |     13 |      6 | wall_clock | sec    |  0.000005 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |07&gt;&gt;&gt;       |_ompt_thread_worker                            |      1 |      4 | wall_clock | sec    | 10.747282 | 10.747282 | 10.747282 | 10.747282 | 0.000000 | 0.000000 |    0.9 |</span>
+<span class="go">| |07&gt;&gt;&gt;         |_ompt_implicit_task                          |      1 |      5 | wall_clock | sec    | 10.649093 | 10.649093 | 10.649093 | 10.649093 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |07&gt;&gt;&gt;           |_ompt_work_loop                            |    156 |      6 | wall_clock | sec    |  0.000923 |  0.000006 |  0.000002 |  0.000231 | 0.000000 | 0.000019 |  100.0 |</span>
+<span class="go">| |07&gt;&gt;&gt;           |_ompt_work_single_other                    |    152 |      6 | wall_clock | sec    |  0.000048 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |07&gt;&gt;&gt;           |_ompt_sync_region_barrier_implicit         |    308 |      6 | wall_clock | sec    |  0.003981 |  0.000013 |  0.000001 |  0.001186 | 0.000000 | 0.000068 |  100.0 |</span>
+<span class="go">| |07&gt;&gt;&gt;           |_conj_grad                                 |     76 |      6 | wall_clock | sec    | 10.641295 |  0.140017 |  0.131896 |  0.155101 | 0.000017 | 0.004080 |    0.7 |</span>
+<span class="go">| |07&gt;&gt;&gt;             |_ompt_work_single_other                  |   2043 |      7 | wall_clock | sec    |  0.000648 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |07&gt;&gt;&gt;             |_ompt_work_loop                          |   7904 |      7 | wall_clock | sec    |  7.978811 |  0.001009 |  0.000005 |  0.006728 | 0.000003 | 0.001732 |  100.0 |</span>
+<span class="go">| |07&gt;&gt;&gt;             |_ompt_sync_region_barrier_implicit       |   6004 |      7 | wall_clock | sec    |  0.199939 |  0.000033 |  0.000001 |  0.004086 | 0.000000 | 0.000255 |  100.0 |</span>
+<span class="go">| |07&gt;&gt;&gt;             |_ompt_sync_region_barrier_implementation |   3952 |      7 | wall_clock | sec    |  2.385843 |  0.000604 |  0.000009 |  0.009039 | 0.000001 | 0.000938 |  100.0 |</span>
+<span class="go">| |07&gt;&gt;&gt;             |_ompt_work_single_executor               |      9 |      7 | wall_clock | sec    |  0.000004 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |07&gt;&gt;&gt;           |_ompt_sync_region_barrier_implementation   |     76 |      6 | wall_clock | sec    |  0.000905 |  0.000012 |  0.000010 |  0.000025 | 0.000000 | 0.000003 |  100.0 |</span>
+<span class="go">| |07&gt;&gt;&gt;           |_ompt_work_single_executor                 |      2 |      6 | wall_clock | sec    |  0.000001 |  0.000001 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |06&gt;&gt;&gt;       |_ompt_thread_worker                            |      1 |      4 | wall_clock | sec    | 10.772278 | 10.772278 | 10.772278 | 10.772278 | 0.000000 | 0.000000 |    1.1 |</span>
+<span class="go">| |06&gt;&gt;&gt;         |_ompt_implicit_task                          |      1 |      5 | wall_clock | sec    | 10.649092 | 10.649092 | 10.649092 | 10.649092 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |06&gt;&gt;&gt;           |_ompt_work_loop                            |    156 |      6 | wall_clock | sec    |  0.000888 |  0.000006 |  0.000002 |  0.000236 | 0.000000 | 0.000020 |  100.0 |</span>
+<span class="go">| |06&gt;&gt;&gt;           |_ompt_work_single_other                    |    153 |      6 | wall_clock | sec    |  0.000037 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |06&gt;&gt;&gt;           |_ompt_sync_region_barrier_implicit         |    308 |      6 | wall_clock | sec    |  0.004090 |  0.000013 |  0.000001 |  0.001175 | 0.000000 | 0.000067 |  100.0 |</span>
+<span class="go">| |06&gt;&gt;&gt;           |_conj_grad                                 |     76 |      6 | wall_clock | sec    | 10.641317 |  0.140017 |  0.131896 |  0.155101 | 0.000017 | 0.004080 |    0.8 |</span>
+<span class="go">| |06&gt;&gt;&gt;             |_ompt_work_single_other                  |   2041 |      7 | wall_clock | sec    |  0.000476 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |06&gt;&gt;&gt;             |_ompt_work_loop                          |   7904 |      7 | wall_clock | sec    |  7.467961 |  0.000945 |  0.000005 |  0.010712 | 0.000003 | 0.001627 |  100.0 |</span>
+<span class="go">| |06&gt;&gt;&gt;             |_ompt_sync_region_barrier_implicit       |   6004 |      7 | wall_clock | sec    |  0.250883 |  0.000042 |  0.000001 |  0.004087 | 0.000000 | 0.000285 |  100.0 |</span>
+<span class="go">| |06&gt;&gt;&gt;             |_ompt_sync_region_barrier_implementation |   3952 |      7 | wall_clock | sec    |  2.838733 |  0.000718 |  0.000009 |  0.009015 | 0.000001 | 0.001015 |   99.9 |</span>
+<span class="go">| |06&gt;&gt;&gt;               |_ompt_sync_region_reduction            |   3952 |      8 | wall_clock | sec    |  0.003334 |  0.000001 |  0.000000 |  0.000025 | 0.000000 | 0.000001 |  100.0 |</span>
+<span class="go">| |06&gt;&gt;&gt;             |_ompt_work_single_executor               |     11 |      7 | wall_clock | sec    |  0.000005 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |06&gt;&gt;&gt;           |_ompt_sync_region_barrier_implementation   |     76 |      6 | wall_clock | sec    |  0.000940 |  0.000012 |  0.000009 |  0.000025 | 0.000000 | 0.000003 |   95.4 |</span>
+<span class="go">| |06&gt;&gt;&gt;             |_ompt_sync_region_reduction              |     76 |      7 | wall_clock | sec    |  0.000044 |  0.000001 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |06&gt;&gt;&gt;           |_ompt_work_single_executor                 |      1 |      6 | wall_clock | sec    |  0.000000 |  0.000000 |  0.000000 |  0.000000 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |05&gt;&gt;&gt;       |_ompt_thread_worker                            |      1 |      4 | wall_clock | sec    | 10.797950 | 10.797950 | 10.797950 | 10.797950 | 0.000000 | 0.000000 |    1.4 |</span>
+<span class="go">| |05&gt;&gt;&gt;         |_ompt_implicit_task                          |      1 |      5 | wall_clock | sec    | 10.649072 | 10.649072 | 10.649072 | 10.649072 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |05&gt;&gt;&gt;           |_ompt_work_loop                            |    156 |      6 | wall_clock | sec    |  0.000879 |  0.000006 |  0.000001 |  0.000248 | 0.000000 | 0.000021 |  100.0 |</span>
+<span class="go">| |05&gt;&gt;&gt;           |_ompt_work_single_other                    |    142 |      6 | wall_clock | sec    |  0.000034 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |05&gt;&gt;&gt;           |_ompt_sync_region_barrier_implicit         |    308 |      6 | wall_clock | sec    |  0.004062 |  0.000013 |  0.000002 |  0.001163 | 0.000000 | 0.000067 |  100.0 |</span>
+<span class="go">| |05&gt;&gt;&gt;           |_conj_grad                                 |     76 |      6 | wall_clock | sec    | 10.641291 |  0.140017 |  0.131896 |  0.155101 | 0.000017 | 0.004080 |    0.7 |</span>
+<span class="go">| |05&gt;&gt;&gt;             |_ompt_work_single_other                  |   2038 |      7 | wall_clock | sec    |  0.000500 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |05&gt;&gt;&gt;             |_ompt_work_loop                          |   7904 |      7 | wall_clock | sec    |  8.279191 |  0.001047 |  0.000005 |  0.006596 | 0.000003 | 0.001792 |  100.0 |</span>
+<span class="go">| |05&gt;&gt;&gt;             |_ompt_sync_region_barrier_implicit       |   6004 |      7 | wall_clock | sec    |  0.250939 |  0.000042 |  0.000001 |  0.004090 | 0.000000 | 0.000286 |  100.0 |</span>
+<span class="go">| |05&gt;&gt;&gt;             |_ompt_sync_region_barrier_implementation |   3952 |      7 | wall_clock | sec    |  2.039013 |  0.000516 |  0.000009 |  0.008689 | 0.000001 | 0.000855 |  100.0 |</span>
+<span class="go">| |05&gt;&gt;&gt;             |_ompt_work_single_executor               |     14 |      7 | wall_clock | sec    |  0.000005 |  0.000000 |  0.000000 |  0.000000 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |05&gt;&gt;&gt;           |_ompt_sync_region_barrier_implementation   |     76 |      6 | wall_clock | sec    |  0.000926 |  0.000012 |  0.000009 |  0.000023 | 0.000000 | 0.000003 |  100.0 |</span>
+<span class="go">| |05&gt;&gt;&gt;           |_ompt_work_single_executor                 |     12 |      6 | wall_clock | sec    |  0.000005 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |04&gt;&gt;&gt;       |_ompt_thread_worker                            |      1 |      4 | wall_clock | sec    | 10.825935 | 10.825935 | 10.825935 | 10.825935 | 0.000000 | 0.000000 |    1.6 |</span>
+<span class="go">| |04&gt;&gt;&gt;         |_ompt_implicit_task                          |      1 |      5 | wall_clock | sec    | 10.649068 | 10.649068 | 10.649068 | 10.649068 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |04&gt;&gt;&gt;           |_ompt_work_loop                            |    156 |      6 | wall_clock | sec    |  0.000884 |  0.000006 |  0.000002 |  0.000245 | 0.000000 | 0.000020 |  100.0 |</span>
+<span class="go">| |04&gt;&gt;&gt;           |_ompt_work_single_other                    |    150 |      6 | wall_clock | sec    |  0.000034 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |04&gt;&gt;&gt;           |_ompt_sync_region_barrier_implicit         |    308 |      6 | wall_clock | sec    |  0.004069 |  0.000013 |  0.000001 |  0.001151 | 0.000000 | 0.000066 |  100.0 |</span>
+<span class="go">| |04&gt;&gt;&gt;           |_conj_grad                                 |     76 |      6 | wall_clock | sec    | 10.641300 |  0.140017 |  0.131896 |  0.155101 | 0.000017 | 0.004080 |    1.1 |</span>
+<span class="go">| |04&gt;&gt;&gt;             |_ompt_work_single_other                  |   2041 |      7 | wall_clock | sec    |  0.000448 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |04&gt;&gt;&gt;             |_ompt_work_loop                          |   7904 |      7 | wall_clock | sec    |  7.438393 |  0.000941 |  0.000005 |  0.007090 | 0.000003 | 0.001624 |  100.0 |</span>
+<span class="go">| |04&gt;&gt;&gt;             |_ompt_sync_region_barrier_implicit       |   6004 |      7 | wall_clock | sec    |  0.270654 |  0.000045 |  0.000001 |  0.004090 | 0.000000 | 0.000295 |  100.0 |</span>
+<span class="go">| |04&gt;&gt;&gt;             |_ompt_sync_region_barrier_implementation |   3952 |      7 | wall_clock | sec    |  2.819165 |  0.000713 |  0.000009 |  0.008379 | 0.000001 | 0.001013 |   99.9 |</span>
+<span class="go">| |04&gt;&gt;&gt;               |_ompt_sync_region_reduction            |   7904 |      8 | wall_clock | sec    |  0.003932 |  0.000000 |  0.000000 |  0.000015 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |04&gt;&gt;&gt;             |_ompt_work_single_executor               |     11 |      7 | wall_clock | sec    |  0.000005 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |04&gt;&gt;&gt;           |_ompt_sync_region_barrier_implementation   |     76 |      6 | wall_clock | sec    |  0.000936 |  0.000012 |  0.000009 |  0.000025 | 0.000000 | 0.000003 |   93.2 |</span>
+<span class="go">| |04&gt;&gt;&gt;             |_ompt_sync_region_reduction              |    152 |      7 | wall_clock | sec    |  0.000064 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |04&gt;&gt;&gt;           |_ompt_work_single_executor                 |      4 |      6 | wall_clock | sec    |  0.000001 |  0.000000 |  0.000000 |  0.000000 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |03&gt;&gt;&gt;       |_ompt_thread_worker                            |      1 |      4 | wall_clock | sec    | 10.849322 | 10.849322 | 10.849322 | 10.849322 | 0.000000 | 0.000000 |    1.8 |</span>
+<span class="go">| |03&gt;&gt;&gt;         |_ompt_implicit_task                          |      1 |      5 | wall_clock | sec    | 10.649075 | 10.649075 | 10.649075 | 10.649075 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |03&gt;&gt;&gt;           |_ompt_work_loop                            |    156 |      6 | wall_clock | sec    |  0.000861 |  0.000006 |  0.000002 |  0.000238 | 0.000000 | 0.000020 |  100.0 |</span>
+<span class="go">| |03&gt;&gt;&gt;           |_ompt_work_single_other                    |    120 |      6 | wall_clock | sec    |  0.000028 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |03&gt;&gt;&gt;           |_ompt_sync_region_barrier_implicit         |    308 |      6 | wall_clock | sec    |  0.003993 |  0.000013 |  0.000001 |  0.001138 | 0.000000 | 0.000065 |  100.0 |</span>
+<span class="go">| |03&gt;&gt;&gt;           |_conj_grad                                 |     76 |      6 | wall_clock | sec    | 10.641302 |  0.140017 |  0.131896 |  0.155101 | 0.000017 | 0.004080 |    0.8 |</span>
+<span class="go">| |03&gt;&gt;&gt;             |_ompt_work_single_other                  |   1756 |      7 | wall_clock | sec    |  0.000426 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |03&gt;&gt;&gt;             |_ompt_work_loop                          |   7904 |      7 | wall_clock | sec    |  8.005617 |  0.001013 |  0.000005 |  0.011500 | 0.000003 | 0.001741 |  100.0 |</span>
+<span class="go">| |03&gt;&gt;&gt;             |_ompt_sync_region_barrier_implicit       |   6004 |      7 | wall_clock | sec    |  0.231485 |  0.000039 |  0.000001 |  0.004086 | 0.000000 | 0.000277 |  100.0 |</span>
+<span class="go">| |03&gt;&gt;&gt;             |_ompt_sync_region_barrier_implementation |   3952 |      7 | wall_clock | sec    |  2.320428 |  0.000587 |  0.000009 |  0.010868 | 0.000001 | 0.000912 |  100.0 |</span>
+<span class="go">| |03&gt;&gt;&gt;             |_ompt_work_single_executor               |    296 |      7 | wall_clock | sec    |  0.000120 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |03&gt;&gt;&gt;           |_ompt_sync_region_barrier_implementation   |     76 |      6 | wall_clock | sec    |  0.000967 |  0.000013 |  0.000010 |  0.000023 | 0.000000 | 0.000003 |  100.0 |</span>
+<span class="go">| |03&gt;&gt;&gt;           |_ompt_work_single_executor                 |     34 |      6 | wall_clock | sec    |  0.000013 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |02&gt;&gt;&gt;       |_ompt_thread_worker                            |      1 |      4 | wall_clock | sec    | 10.876387 | 10.876387 | 10.876387 | 10.876387 | 0.000000 | 0.000000 |    2.1 |</span>
+<span class="go">| |02&gt;&gt;&gt;         |_ompt_implicit_task                          |      1 |      5 | wall_clock | sec    | 10.649050 | 10.649050 | 10.649050 | 10.649050 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |02&gt;&gt;&gt;           |_ompt_work_loop                            |    156 |      6 | wall_clock | sec    |  0.000924 |  0.000006 |  0.000001 |  0.000241 | 0.000000 | 0.000020 |  100.0 |</span>
+<span class="go">| |02&gt;&gt;&gt;           |_ompt_work_single_other                    |    139 |      6 | wall_clock | sec    |  0.000040 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |02&gt;&gt;&gt;           |_ompt_sync_region_barrier_implicit         |    308 |      6 | wall_clock | sec    |  0.003972 |  0.000013 |  0.000001 |  0.001127 | 0.000000 | 0.000064 |  100.0 |</span>
+<span class="go">| |02&gt;&gt;&gt;           |_conj_grad                                 |     76 |      6 | wall_clock | sec    | 10.641287 |  0.140017 |  0.131895 |  0.155101 | 0.000017 | 0.004080 |    0.7 |</span>
+<span class="go">| |02&gt;&gt;&gt;             |_ompt_work_single_other                  |   1902 |      7 | wall_clock | sec    |  0.000553 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |02&gt;&gt;&gt;             |_ompt_work_loop                          |   7904 |      7 | wall_clock | sec    |  7.906688 |  0.001000 |  0.000005 |  0.007068 | 0.000003 | 0.001713 |  100.0 |</span>
+<span class="go">| |02&gt;&gt;&gt;             |_ompt_sync_region_barrier_implicit       |   6004 |      7 | wall_clock | sec    |  0.261367 |  0.000044 |  0.000001 |  0.004088 | 0.000000 | 0.000295 |  100.0 |</span>
+<span class="go">| |02&gt;&gt;&gt;             |_ompt_sync_region_barrier_implementation |   3952 |      7 | wall_clock | sec    |  2.402362 |  0.000608 |  0.000009 |  0.010399 | 0.000001 | 0.000944 |   99.9 |</span>
+<span class="go">| |02&gt;&gt;&gt;               |_ompt_sync_region_reduction            |   3952 |      8 | wall_clock | sec    |  0.002937 |  0.000001 |  0.000000 |  0.000021 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |02&gt;&gt;&gt;             |_ompt_work_single_executor               |    150 |      7 | wall_clock | sec    |  0.000073 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |02&gt;&gt;&gt;           |_ompt_sync_region_barrier_implementation   |     76 |      6 | wall_clock | sec    |  0.000895 |  0.000012 |  0.000009 |  0.000026 | 0.000000 | 0.000003 |   95.2 |</span>
+<span class="go">| |02&gt;&gt;&gt;             |_ompt_sync_region_reduction              |     76 |      7 | wall_clock | sec    |  0.000043 |  0.000001 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |02&gt;&gt;&gt;           |_ompt_work_single_executor                 |     15 |      6 | wall_clock | sec    |  0.000007 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |01&gt;&gt;&gt;       |_ompt_thread_worker                            |      1 |      4 | wall_clock | sec    | 10.901650 | 10.901650 | 10.901650 | 10.901650 | 0.000000 | 0.000000 |    2.3 |</span>
+<span class="go">| |01&gt;&gt;&gt;         |_ompt_implicit_task                          |      1 |      5 | wall_clock | sec    | 10.649017 | 10.649017 | 10.649017 | 10.649017 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |01&gt;&gt;&gt;           |_ompt_work_loop                            |    156 |      6 | wall_clock | sec    |  0.000863 |  0.000006 |  0.000001 |  0.000231 | 0.000000 | 0.000019 |  100.0 |</span>
+<span class="go">| |01&gt;&gt;&gt;           |_ompt_work_single_other                    |    146 |      6 | wall_clock | sec    |  0.000033 |  0.000000 |  0.000000 |  0.000000 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |01&gt;&gt;&gt;           |_ompt_sync_region_barrier_implicit         |    308 |      6 | wall_clock | sec    |  0.004012 |  0.000013 |  0.000001 |  0.001115 | 0.000000 | 0.000064 |  100.0 |</span>
+<span class="go">| |01&gt;&gt;&gt;           |_conj_grad                                 |     76 |      6 | wall_clock | sec    | 10.641316 |  0.140017 |  0.131895 |  0.155101 | 0.000017 | 0.004080 |    0.8 |</span>
+<span class="go">| |01&gt;&gt;&gt;             |_ompt_work_single_other                  |   1811 |      7 | wall_clock | sec    |  0.000403 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |01&gt;&gt;&gt;             |_ompt_work_loop                          |   7904 |      7 | wall_clock | sec    |  7.410337 |  0.000938 |  0.000005 |  0.010556 | 0.000003 | 0.001610 |  100.0 |</span>
+<span class="go">| |01&gt;&gt;&gt;             |_ompt_sync_region_barrier_implicit       |   6004 |      7 | wall_clock | sec    |  0.202494 |  0.000034 |  0.000001 |  0.003521 | 0.000000 | 0.000256 |  100.0 |</span>
+<span class="go">| |01&gt;&gt;&gt;             |_ompt_sync_region_barrier_implementation |   3952 |      7 | wall_clock | sec    |  2.943604 |  0.000745 |  0.000008 |  0.009033 | 0.000001 | 0.001024 |  100.0 |</span>
+<span class="go">| |01&gt;&gt;&gt;             |_ompt_work_single_executor               |    241 |      7 | wall_clock | sec    |  0.000093 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |01&gt;&gt;&gt;           |_ompt_sync_region_barrier_implementation   |     76 |      6 | wall_clock | sec    |  0.000917 |  0.000012 |  0.000009 |  0.000026 | 0.000000 | 0.000003 |  100.0 |</span>
+<span class="go">| |01&gt;&gt;&gt;           |_ompt_work_single_executor                 |      8 |      6 | wall_clock | sec    |  0.000004 |  0.000000 |  0.000000 |  0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |00&gt;&gt;&gt;   |_c_print_results                                   |      1 |      2 | wall_clock | sec    |  0.000049 |  0.000049 |  0.000049 |  0.000049 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="timemory-flat-json-output">
+<h3>Timemory Flat JSON Output<a class="headerlink" href="#timemory-flat-json-output" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p><em><strong>Hint: the generation of flat JSON output is configurable via <code class="docutils literal notranslate"><span class="pre">OMNITRACE_JSON_OUTPUT</span></code></strong></em></p>
+</div></blockquote>
+<p>Timemory provides two JSON output formats. The flat JSON output files are similar to the text files: the hierarchical information
+is represented by the indentation of the <code class="docutils literal notranslate"><span class="pre">&quot;prefix&quot;</span></code> field and the <code class="docutils literal notranslate"><span class="pre">&quot;depth&quot;</span></code> field. All the data entries are in a single JSON array,
+e.g. the <code class="docutils literal notranslate"><span class="pre">[&quot;timemory&quot;][&quot;wall_clock&quot;][&quot;ranks&quot;][0][&quot;graph&quot;][&lt;N&gt;][&quot;prefix&quot;]</span></code> entry in the below:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;timemory&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;wall_clock&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Real-clock timer (i.e. wall-clock timer)&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;thread_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;process_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;cereal_class_version&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;WALL_CLOCK&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;wall_clock&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">78</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;ids&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;real_clock&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;virtual_clock&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;wall_clock&quot;</span><span class="w"></span>
+<span class="w">                </span><span class="p">]</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;mpi_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;num_ranks&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;concurrency&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;upcxx_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;unit_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000000000</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;thread_scope_only&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;wall_clock&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;unit_repr&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sec&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;ranks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;graph_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">173</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;rank&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;graph&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                        </span><span class="p">{</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;depth&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;stats&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">13.360264917</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;sqr&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">178.49667865242102</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;sum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">13.360264917</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;stddev&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">13.360264917</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;cereal_class_version&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;mean&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">13.360264917</span><span class="w"></span>
+<span class="w">                            </span><span class="p">},</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;prefix&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;|00&gt;&gt;&gt; main&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;rolling_hash&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">17481650134347108265</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;entry&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;repr_display&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">13.360264917</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">13360264917</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;repr_data&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">13.360264917</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;cereal_class_version&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;accum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">13360264917</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;laps&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                            </span><span class="p">},</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;hash&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">17481650134347108265</span><span class="w"></span>
+<span class="w">                        </span><span class="p">},</span><span class="w"></span>
+<span class="w">                        </span><span class="p">{</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;depth&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;stats&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">10.924160502</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">10.924160502</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;sum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">10.924160502</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;stddev&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;sqr&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">119.33728267345688</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;mean&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">10.924160502</span><span class="w"></span>
+<span class="w">                            </span><span class="p">},</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;prefix&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;|00&gt;&gt;&gt; |_ompt_thread_initial&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;rolling_hash&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5142782188440775656</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;entry&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;repr_display&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">10.924160502</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;laps&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;accum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10924160502</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;repr_data&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">10.924160502</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10924160502</span><span class="w"></span>
+<span class="w">                            </span><span class="p">},</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;hash&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6107876127803219007</span><span class="w"></span>
+<span class="w">                        </span><span class="p">},</span><span class="w"></span>
+<span class="w">                        </span><span class="p">{</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;depth&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;stats&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">10.923050237</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">10.923050237</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;sum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">10.923050237</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;stddev&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;sqr&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">119.31302648002575</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;mean&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">10.923050237</span><span class="w"></span>
+<span class="w">                            </span><span class="p">},</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;prefix&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;|00&gt;&gt;&gt;   |_ompt_implicit_task&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;rolling_hash&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2098840206724841601</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;entry&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;repr_display&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">10.923050237</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;laps&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;accum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10923050237</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;repr_data&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">10.923050237</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10923050237</span><span class="w"></span>
+<span class="w">                            </span><span class="p">},</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;hash&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15402802091993617561</span><span class="w"></span>
+<span class="w">                        </span><span class="p">},</span><span class="w"></span>
+<span class="w">                        </span><span class="p">{</span><span class="w"></span>
+<span class="w">                            </span><span class="nt">&quot;...&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;... etc. ...&quot;</span><span class="w"></span>
+<span class="w">                        </span><span class="p">}</span><span class="w"></span>
+<span class="w">                    </span><span class="p">]</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This format is easier than the hierarchical format to write a simple Python script for post-processing, e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+
+<span class="k">def</span> <span class="nf">read_json</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">find_max</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Find the max for any function called multiple times&quot;&quot;&quot;</span>
+    <span class="n">max_entry</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">itr</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">itr</span><span class="p">[</span><span class="s2">&quot;entry&quot;</span><span class="p">][</span><span class="s2">&quot;laps&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">max_entry</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">max_entry</span> <span class="o">=</span> <span class="n">itr</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">itr</span><span class="p">[</span><span class="s2">&quot;stats&quot;</span><span class="p">][</span><span class="s2">&quot;mean&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">max_entry</span><span class="p">[</span><span class="s2">&quot;stats&quot;</span><span class="p">][</span><span class="s2">&quot;mean&quot;</span><span class="p">]:</span>
+                <span class="n">max_entry</span> <span class="o">=</span> <span class="n">itr</span>
+    <span class="k">return</span> <span class="n">max_entry</span>
+
+
+<span class="k">def</span> <span class="nf">strip_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return everything after |_ if it exists&quot;&quot;&quot;</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;|_&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">name</span> <span class="k">if</span> <span class="n">idx</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">name</span><span class="p">[(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="p">:]</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="n">input_data</span> <span class="o">=</span> <span class="p">[[</span><span class="n">x</span><span class="p">,</span> <span class="n">read_json</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+
+    <span class="k">for</span> <span class="n">file</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">input_data</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">metric</span><span class="p">,</span> <span class="n">metric_data</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;timemory&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">] Found metric: </span><span class="si">{</span><span class="n">metric</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">itr</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">metric_data</span><span class="p">[</span><span class="s2">&quot;ranks&quot;</span><span class="p">]):</span>
+
+                <span class="n">max_entry</span> <span class="o">=</span> <span class="n">find_max</span><span class="p">(</span><span class="n">itr</span><span class="p">[</span><span class="s2">&quot;graph&quot;</span><span class="p">])</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s2">&quot;[</span><span class="si">{}</span><span class="s2">] Maximum value: &#39;</span><span class="si">{}</span><span class="s2">&#39; at depth </span><span class="si">{}</span><span class="s2"> was called </span><span class="si">{}</span><span class="s2">x :: </span><span class="si">{:.3f}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> (mean = </span><span class="si">{:.3e}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">file</span><span class="p">,</span>
+                        <span class="n">strip_name</span><span class="p">(</span><span class="n">max_entry</span><span class="p">[</span><span class="s2">&quot;prefix&quot;</span><span class="p">]),</span>
+                        <span class="n">max_entry</span><span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">],</span>
+                        <span class="n">max_entry</span><span class="p">[</span><span class="s2">&quot;entry&quot;</span><span class="p">][</span><span class="s2">&quot;laps&quot;</span><span class="p">],</span>
+                        <span class="n">max_entry</span><span class="p">[</span><span class="s2">&quot;entry&quot;</span><span class="p">][</span><span class="s2">&quot;repr_data&quot;</span><span class="p">],</span>
+                        <span class="n">metric_data</span><span class="p">[</span><span class="s2">&quot;unit_repr&quot;</span><span class="p">],</span>
+                        <span class="n">max_entry</span><span class="p">[</span><span class="s2">&quot;stats&quot;</span><span class="p">][</span><span class="s2">&quot;mean&quot;</span><span class="p">],</span>
+                        <span class="n">metric_data</span><span class="p">[</span><span class="s2">&quot;unit_repr&quot;</span><span class="p">],</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+</pre></div>
+</div>
+<p>This script applied to the corresponding JSON output from <a class="reference external" href="#timemory-text-output-example">Text Output Example</a> would be:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">[openmp-cg.inst-wall_clock.json] Found metric: wall_clock</span>
+<span class="go">[openmp-cg.inst-wall_clock.json] Maximum value: &#39;conj_grad&#39; at depth 6 was called 76x :: 10.641 sec (mean = 1.400e-01 sec)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="timemory-hierarchical-json-output">
+<h3>Timemory Hierarchical JSON Output<a class="headerlink" href="#timemory-hierarchical-json-output" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p><em><strong>Hint: the generation of hierarchical JSON output is configurable via <code class="docutils literal notranslate"><span class="pre">OMNITRACE_TREE_OUTPUT</span></code></strong></em></p>
+</div></blockquote>
+<p>The hierarchical JSON output (extension: <code class="docutils literal notranslate"><span class="pre">.tree.json</span></code>) contains the very similar data to the flat JSON output, however,
+it’s structure requires processing through recursion. The main use of these files are their analysis support
+by <a class="reference external" href="https://github.com/hatchet/hatchet">hatchet</a>.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="critical_trace.html" class="btn btn-neutral float-left" title="Generating a Critical Trace" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="user_api.html" class="btn btn-neutral float-right" title="User API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Advanced Micro Devices, Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1HLBBRSTT9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-1HLBBRSTT9', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

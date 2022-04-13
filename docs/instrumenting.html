@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instrumenting with Omnitrace &mdash; omnitrace 1.0.0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Customizing Omnitrace Runtime" href="runtime.html" />
+    <link rel="prev" title="Nomenclature" href="nomenclature.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> omnitrace
+          </a>
+              <div class="version">
+                1.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="getting_started.html">Getting Started</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="setup.html">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nomenclature.html">Nomenclature</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Instrumenting with Omnitrace</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#omnitrace-executable">omnitrace Executable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#runtime-instrumentation">Runtime Instrumentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#attaching-to-running-process">Attaching to Running Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#binary-rewrite">Binary Rewrite</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#binary-rewriting-a-library">Binary Rewriting a Library</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#binary-rewriting-a-library-example">Binary Rewriting a Library Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#selective-instrumentation">Selective Instrumentation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#viewing-the-available-instrumented-excluded-and-overlapping-functions">Viewing the Available, Instrumented, Excluded, and Overlapping Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#excluding-and-including-modules-and-functions">Excluding and Including Modules and Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#sampling">Sampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#embedding-a-default-configuration">Embedding a Default Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="runtime.html">Customizing Omnitrace Runtime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="critical_trace.html">Generating a Critical Trace</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="output.html">Omnitrace Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_api.html">User API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python Support</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">omnitrace</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="getting_started.html">Getting Started</a> &raquo;</li>
+      <li>Instrumenting with Omnitrace</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/instrumenting.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="instrumenting-with-omnitrace">
+<h1>Instrumenting with Omnitrace<a class="headerlink" href="#instrumenting-with-omnitrace" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="omnitrace-executable">
+<h2>omnitrace Executable<a class="headerlink" href="#omnitrace-executable" title="Permalink to this headline">¶</a></h2>
+<p>Instrumentation is performed with the <code class="docutils literal notranslate"><span class="pre">omnitrace</span></code> executable. View the help menu with the <code class="docutils literal notranslate"><span class="pre">-h</span></code> / <code class="docutils literal notranslate"><span class="pre">--help</span></code> option:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ omnitrace --help
+<span class="o">[</span>omnitrace<span class="o">]</span> Usage: omnitrace   <span class="o">[</span> --help <span class="o">(</span>count: <span class="m">0</span>, dtype: bool<span class="o">)</span>
+                                 --debug <span class="o">(</span>max: <span class="m">1</span>, dtype: bool<span class="o">)</span>
+                                 --verbose <span class="o">(</span>max: <span class="m">1</span>, dtype: bool<span class="o">)</span>
+                                 --error <span class="o">(</span>max: <span class="m">1</span>, dtype: boolean<span class="o">)</span>
+                                 --simulate <span class="o">(</span>max: <span class="m">1</span>, dtype: bool<span class="o">)</span>
+                                 --print-format <span class="o">(</span>min: <span class="m">1</span>, dtype: string<span class="o">)</span>
+                                 --print-dir <span class="o">(</span>count: <span class="m">1</span>, dtype: string<span class="o">)</span>
+                                 --print-available <span class="o">(</span>count: <span class="m">1</span><span class="o">)</span>
+                                 --print-instrumented <span class="o">(</span>count: <span class="m">1</span><span class="o">)</span>
+                                 --print-excluded <span class="o">(</span>count: <span class="m">1</span><span class="o">)</span>
+                                 --print-overlapping <span class="o">(</span>count: <span class="m">1</span><span class="o">)</span>
+                                 --output <span class="o">(</span>count: <span class="m">1</span><span class="o">)</span>
+                                 --pid <span class="o">(</span>count: <span class="m">1</span>, dtype: int<span class="o">)</span>
+                                 --mode <span class="o">(</span>count: <span class="m">1</span><span class="o">)</span>
+                                 --command <span class="o">(</span>count: <span class="m">1</span><span class="o">)</span>
+                                 --prefer <span class="o">(</span>count: <span class="m">1</span><span class="o">)</span>
+                                 --library <span class="o">(</span>count: unlimited<span class="o">)</span>
+                                 --main-function <span class="o">(</span>count: <span class="m">1</span><span class="o">)</span>
+                                 --driver <span class="o">(</span>max: <span class="m">1</span>, dtype: boolean<span class="o">)</span>
+                                 --load <span class="o">(</span>count: unlimited, dtype: string<span class="o">)</span>
+                                 --load-instr <span class="o">(</span>count: unlimited, dtype: filepath<span class="o">)</span>
+                                 --init-functions <span class="o">(</span>count: unlimited, dtype: string<span class="o">)</span>
+                                 --fini-functions <span class="o">(</span>count: unlimited, dtype: string<span class="o">)</span>
+                                 --function-include <span class="o">(</span>count: unlimited<span class="o">)</span>
+                                 --function-exclude <span class="o">(</span>count: unlimited<span class="o">)</span>
+                                 --module-include <span class="o">(</span>count: unlimited<span class="o">)</span>
+                                 --module-exclude <span class="o">(</span>count: unlimited<span class="o">)</span>
+                                 --label <span class="o">(</span>count: unlimited, dtype: string<span class="o">)</span>
+                                 --default-components <span class="o">(</span>count: unlimited, dtype: string<span class="o">)</span>
+                                 --env <span class="o">(</span>count: unlimited<span class="o">)</span>
+                                 --mpi <span class="o">(</span>max: <span class="m">1</span>, dtype: bool<span class="o">)</span>
+                                 --instrument-loops <span class="o">(</span>max: <span class="m">1</span>, dtype: boolean<span class="o">)</span>
+                                 --min-address-range <span class="o">(</span>count: <span class="m">1</span>, dtype: int<span class="o">)</span>
+                                 --min-address-range-loop <span class="o">(</span>count: <span class="m">1</span>, dtype: int<span class="o">)</span>
+                                 --dynamic-callsites <span class="o">(</span>max: <span class="m">1</span>, dtype: boolean<span class="o">)</span>
+                                 --traps <span class="o">(</span>max: <span class="m">1</span>, dtype: bool<span class="o">)</span>
+                                 --loop-traps <span class="o">(</span>max: <span class="m">1</span>, dtype: bool<span class="o">)</span>
+                                 --allow-overlapping <span class="o">(</span>count: <span class="m">0</span>, dtype: bool<span class="o">)</span>
+                                 --batch-size <span class="o">(</span>count: <span class="m">1</span>, dtype: int<span class="o">)</span>
+                                 --dyninst-options <span class="o">(</span>count: unlimited<span class="o">)</span>
+                               <span class="o">]</span> -- &lt;CMD&gt; &lt;ARGS&gt;
+
+Options:
+    -h, -?, --help                 Shows this page
+
+    <span class="o">[</span>DEBUG OPTIONS<span class="o">]</span>
+
+    --debug                        Debug output
+    -v, --verbose                  Verbose output
+    -e, --error                    All warnings produce runtime errors
+    --simulate                     Exit after outputting diagnostic <span class="o">{</span>available,instrumented,excluded,overlapping<span class="o">}</span> module
+                                   <span class="k">function</span> lists, e.g. available-instr.txt
+    --print-format <span class="o">[</span> json <span class="p">|</span> txt <span class="p">|</span> xml <span class="o">]</span>
+                                   Output format <span class="k">for</span> diagnostic <span class="o">{</span>available,instrumented,excluded,overlapping<span class="o">}</span> module
+                                   <span class="k">function</span> lists, e.g. <span class="o">{</span>print-dir<span class="o">}</span>/available-instr.txt
+    --print-dir                    Output directory <span class="k">for</span> diagnostic <span class="o">{</span>available,instrumented,excluded,overlapping<span class="o">}</span> module
+                                   <span class="k">function</span> lists, e.g. <span class="o">{</span>print-dir<span class="o">}</span>/available-instr.txt
+    --print-available <span class="o">[</span> functions <span class="p">|</span> functions+ <span class="p">|</span> modules <span class="p">|</span> pair <span class="p">|</span> pair+ <span class="o">]</span>
+                                   Print the available entities <span class="k">for</span> instrumentation <span class="o">(</span>functions, modules, or module-function
+                                   pair<span class="o">)</span> to stdout applying regular expressions and <span class="nb">exit</span>
+    --print-instrumented <span class="o">[</span> functions <span class="p">|</span> functions+ <span class="p">|</span> modules <span class="p">|</span> pair <span class="p">|</span> pair+ <span class="o">]</span>
+                                   Print the instrumented entities <span class="o">(</span>functions, modules, or module-function pair<span class="o">)</span> to stdout
+                                   after applying regular expressions and <span class="nb">exit</span>
+    --print-excluded <span class="o">[</span> functions <span class="p">|</span> functions+ <span class="p">|</span> modules <span class="p">|</span> pair <span class="p">|</span> pair+ <span class="o">]</span>
+                                   Print the entities <span class="k">for</span> instrumentation <span class="o">(</span>functions, modules, or module-function pair<span class="o">)</span>
+                                   which are excluded from the instrumentation to stdout after applying regular expressions
+                                   and <span class="nb">exit</span>
+    --print-overlapping <span class="o">[</span> functions <span class="p">|</span> functions+ <span class="p">|</span> modules <span class="p">|</span> pair <span class="p">|</span> pair+ <span class="o">]</span>
+                                   Print the entities <span class="k">for</span> instrumentation <span class="o">(</span>functions, modules, or module-function pair<span class="o">)</span>
+                                   which overlap other <span class="k">function</span> calls or have multiple entry points to stdout applying
+                                   regular expressions and <span class="nb">exit</span>
+
+    <span class="o">[</span>MODE OPTIONS<span class="o">]</span>
+
+    -o, --output                   Enable generation of a new executable <span class="o">(</span>binary-rewrite<span class="o">)</span>
+    -p, --pid                      Connect to running process
+    -M, --mode <span class="o">[</span> sampling <span class="p">|</span> trace <span class="o">]</span>
+                                   Instrumentation mode. <span class="s1">&#39;trace&#39;</span> mode instruments the selected functions, <span class="s1">&#39;sampling&#39;</span> mode
+                                   only instruments the main <span class="k">function</span> to start and stop the sampler.
+    -c, --command                  Input executable and arguments <span class="o">(</span><span class="k">if</span> <span class="s1">&#39;-- &lt;CMD&gt;&#39;</span> not provided<span class="o">)</span>
+
+    <span class="o">[</span>LIBRARY OPTIONS<span class="o">]</span>
+
+    --prefer <span class="o">[</span> shared <span class="p">|</span> static <span class="o">]</span>   Prefer this library types when available
+    -L, --library                  Libraries with instrumentation routines <span class="o">(</span>default: <span class="s2">&quot;libomnitrace&quot;</span><span class="o">)</span>
+    -m, --main-function            The primary <span class="k">function</span> to instrument around, e.g. <span class="s1">&#39;main&#39;</span>
+    --driver                       Force main or _init/_fini instrumentation
+    --load                         Supplemental instrumentation library names w/o extension <span class="o">(</span>e.g. <span class="s1">&#39;libinstr&#39;</span> <span class="k">for</span>
+                                   <span class="s1">&#39;libinstr.so&#39;</span> or <span class="s1">&#39;libinstr.a&#39;</span><span class="o">)</span>
+    --load-instr                   Load <span class="o">{</span>available,instrumented,excluded,overlapping<span class="o">}</span>-instr JSON or XML file<span class="o">(</span>s<span class="o">)</span> and override
+                                   what is <span class="nb">read</span> from the binary
+    --init-functions               Initialization <span class="k">function</span><span class="o">(</span>s<span class="o">)</span> <span class="k">for</span> supplemental instrumentation libraries <span class="o">(</span>see <span class="s1">&#39;--load&#39;</span>
+                                   option<span class="o">)</span>
+    --fini-functions               Finalization <span class="k">function</span><span class="o">(</span>s<span class="o">)</span> <span class="k">for</span> supplemental instrumentation libraries <span class="o">(</span>see <span class="s1">&#39;--load&#39;</span> option<span class="o">)</span>
+
+    <span class="o">[</span>SYMBOL SELECTION OPTIONS<span class="o">]</span>
+
+    -I, -R, --function-include     Regex <span class="k">for</span> selecting functions
+    -E, --function-exclude         Regex <span class="k">for</span> excluding functions
+    -MI, -MR, --module-include     Regex <span class="k">for</span> selecting modules/files/libraries
+    -ME, --module-exclude          Regex <span class="k">for</span> excluding modules/files/libraries
+
+    <span class="o">[</span>RUNTIME OPTIONS<span class="o">]</span>
+
+    --label <span class="o">[</span> args <span class="p">|</span> file <span class="p">|</span> line <span class="p">|</span> <span class="k">return</span> <span class="o">]</span>
+                                   Labeling info <span class="k">for</span> functions. By default, just the <span class="k">function</span> name is recorded. Use these
+                                   options to gain more information about the <span class="k">function</span> signature or location of the
+                                   functions
+    -d, --default-components       Default components to instrument <span class="o">(</span>only useful when timemory is enabled <span class="k">in</span> omnitrace
+                                   library<span class="o">)</span>
+    --env                          Environment variables to add to the runtime <span class="k">in</span> form <span class="nv">VARIABLE</span><span class="o">=</span>VALUE. E.g. use <span class="s1">&#39;--env</span>
+<span class="s1">                                   OMNITRACE_USE_TIMEMORY=ON&#39;</span> to default to using timemory instead of perfetto
+    --mpi                          Enable MPI support <span class="o">(</span>requires omnitrace built w/ MPI and GOTCHA support<span class="o">)</span>. NOTE: this will
+                                   automatically be activated <span class="k">if</span> MPI_Init/MPI_Init_thread and MPI_Finalize are found <span class="k">in</span> the
+                                   symbol table of target
+
+    <span class="o">[</span>GRANULARITY OPTIONS<span class="o">]</span>
+
+    -l, --instrument-loops         Instrument at the loop level
+    -r, --min-address-range        If the address range of a <span class="k">function</span> is less than this value, exclude it from
+                                   instrumentation
+    --min-address-range-loop       If the address range of a <span class="k">function</span> containing a loop is less than this value, exclude it
+                                   from instrumentation
+    --dynamic-callsites            Force instrumentation <span class="k">if</span> a <span class="k">function</span> has dynamic callsites <span class="o">(</span>e.g. <span class="k">function</span> pointers<span class="o">)</span>
+    --traps                        Instrument points which require using a trap. On the x86 architecture, because
+                                   instructions are of variable size, the instruction at a point may be too small <span class="k">for</span>
+                                   Dyninst to replace it with the normal code sequence used to call instrumentation. Also,
+                                   when instrumentation is placed at points other than subroutine entry, exit, or call
+                                   points, traps may be used to ensure the instrumentation fits. In this <span class="k">case</span>, Dyninst
+                                   replaces the instruction with a single-byte instruction that generates a trap.
+    --loop-traps                   Instrument points within a loop which require using a <span class="nb">trap</span> <span class="o">(</span>only relevant when
+                                   --instrument-loops is enabled<span class="o">)</span>.
+    --allow-overlapping            Allow dyninst to instrument either multiple functions which overlap <span class="o">(</span>share part of same
+                                   <span class="k">function</span> body<span class="o">)</span> or single functions with multiple entry points. For more info, see Section
+                                   <span class="m">2</span> of the DyninstAPI documentation.
+
+    <span class="o">[</span>DYNINST OPTIONS<span class="o">]</span>
+
+    -b, --batch-size               Dyninst supports batch insertion of multiple points during runtime instrumentation. If
+                                   one large batch insertion fails, this value will be used to create smaller batches.
+                                   Larger batches generally decrease the instrumentation <span class="nb">time</span>
+    --dyninst-options <span class="o">[</span> BaseTrampDeletion <span class="p">|</span> DebugParsing <span class="p">|</span> DelayedParsing <span class="p">|</span> InstrStackFrames <span class="p">|</span> MergeTramp <span class="p">|</span> SaveFPR <span class="p">|</span> TrampRecursive <span class="p">|</span> TypeChecking <span class="o">]</span>
+                                   Advanced dyninst options: BPatch::set&lt;OPTION&gt;<span class="o">(</span>bool<span class="o">)</span>, e.g. bpatch-&gt;setTrampRecursive<span class="o">(</span><span class="nb">true</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>There are three ways to perform instrumentation:</p>
+<ol class="simple">
+<li><p>Running the application via the omnitrace executable (analagous to <code class="docutils literal notranslate"><span class="pre">gdb</span> <span class="pre">--args</span> <span class="pre">&lt;program&gt;</span> <span class="pre">&lt;args&gt;</span></code>)</p>
+<ul class="simple">
+<li><p>This mode is the default if neither the <code class="docutils literal notranslate"><span class="pre">-p</span></code> nor <code class="docutils literal notranslate"><span class="pre">-o</span></code> comand-line options are used</p></li>
+<li><p>Runtime instrumentation supports instrumenting not only the target executable but also the
+the shared libraries loaded by the target executable. Consequently, this mode consumes more memory,
+takes longer to perform the instrumentation, and tends to have a more significant overhead on the
+runtime of the application</p></li>
+<li><p>This mode is recommended if you want to analyze not only the performance of your executable and/or
+libraries but also the performance of the library dependencies</p></li>
+</ul>
+</li>
+<li><p>Attaching to a process that is currently running (analagous to <code class="docutils literal notranslate"><span class="pre">gdb</span> <span class="pre">-p</span> <span class="pre">&lt;PID&gt;</span></code>)</p>
+<ul class="simple">
+<li><p>This mode is activate via <code class="docutils literal notranslate"><span class="pre">-p</span> <span class="pre">&lt;PID&gt;</span></code></p></li>
+<li><p>Same caveats as 1. with respect to memory and overhead</p></li>
+</ul>
+</li>
+<li><p>Generating a new executable or library with the instrumentation built-in (binary rewrite)</p>
+<ul class="simple">
+<li><p>This mode is activated via the <code class="docutils literal notranslate"><span class="pre">-o</span> <span class="pre">&lt;output-file&gt;</span></code> option</p></li>
+<li><p>Binary rewriting is limited to the text section of the target executable or library: it will not instrument
+the dynamically-linked libraries. Consequently, this mode performs the instrumentation significantly faster
+and has a much lower overhead when running the instrumentated executable and/or libraries</p></li>
+<li><p>Binary rewriting is the recommended mode when the target executable uses process-level parallelism (e.g. MPI)</p></li>
+<li><p>If your target executable has a minimal main which and the bulk of your application is in one specific dynamic library,
+see <a class="reference external" href="#binary-rewriting-a-library">Binary Rewriting a Library</a> for help</p></li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<div><p><em><strong>Attaching to a running process is an alpha feature and support for detaching from the target process</strong></em>
+<em><strong>without ending the target process is not currently supported.</strong></em></p>
+</div></blockquote>
+<p>The general syntax for separating omnitrace command line arguments from the application arguments follows the
+is consistent with the LLVM style of using a standalone double-hyphen (<code class="docutils literal notranslate"><span class="pre">--</span></code>). All arguments preceding the double-hyphen
+are interpreted as belonging to omnitrace and all arguments following the double-hyphen are interpreted as the
+application and it’s arguments. In binary rewrite mode, all application arguments after the first argument
+are ignored, i.e. <code class="docutils literal notranslate"><span class="pre">./omnitrace</span> <span class="pre">-o</span> <span class="pre">ls.inst</span> <span class="pre">--</span> <span class="pre">ls</span> <span class="pre">-l</span></code> interprets <code class="docutils literal notranslate"><span class="pre">ls</span></code> as the target to instrument (ignores the <code class="docutils literal notranslate"><span class="pre">-l</span></code> argument)
+and generates a <code class="docutils literal notranslate"><span class="pre">ls.inst</span></code> executable that you can subsequently run <code class="docutils literal notranslate"><span class="pre">ls.inst</span> <span class="pre">-l</span></code> with.</p>
+</div>
+<div class="section" id="runtime-instrumentation">
+<h2>Runtime Instrumentation<a class="headerlink" href="#runtime-instrumentation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace &lt;omnitrace-options&gt; -- &lt;exe&gt; <span class="o">[</span>&lt;exe-options&gt;...<span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="attaching-to-running-process">
+<h2>Attaching to Running Process<a class="headerlink" href="#attaching-to-running-process" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace &lt;omnitrace-options&gt; -p &lt;PID&gt; -- &lt;exe-name&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="binary-rewrite">
+<h2>Binary Rewrite<a class="headerlink" href="#binary-rewrite" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace &lt;omnitrace-options&gt; -o &lt;name-of-new-exe-or-library&gt; -- &lt;exe-or-library&gt;
+</pre></div>
+</div>
+<div class="section" id="binary-rewriting-a-library">
+<h3>Binary Rewriting a Library<a class="headerlink" href="#binary-rewriting-a-library" title="Permalink to this headline">¶</a></h3>
+<p>Many applications bundle the bulk of their functionality into one or more dynamic libraries and have a relatively simple main
+which links to these libraries and simply serves as the “driver” for setting up the workflow. If you binary rewrite your
+executable and find there is insufficient info because of this, you can either switch to runtime instrumentation or
+binary rewrite the libraries of interest.</p>
+<p>Support for standalone binary rewriting of a dynamic library without binary rewriting the executable is a beta feature.
+In general, it is supported as long as the library contains the <code class="docutils literal notranslate"><span class="pre">_init</span></code> and <code class="docutils literal notranslate"><span class="pre">_fini</span></code> symbols but these symbols are not
+standardized to the extent of <code class="docutils literal notranslate"><span class="pre">main</span></code> in an executable.
+The recommended workflow is as follows:</p>
+<ol class="simple">
+<li><p>Determine the names of the dynamically linked libraries of interest via <code class="docutils literal notranslate"><span class="pre">ldd</span></code></p></li>
+<li><p>Generate a binary rewrite of the executable</p></li>
+<li><p>Generate a binary rewrite of the desired libraries with the same base name as the original library, e.g. <code class="docutils literal notranslate"><span class="pre">libfoo.so.2</span></code> instead of <code class="docutils literal notranslate"><span class="pre">libfoo.so</span></code></p>
+<ul class="simple">
+<li><p>Output the instrumented library into a different folder than the original library</p></li>
+</ul>
+</li>
+<li><p>Prefix the <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> executable with the output folder from 3</p></li>
+<li><p>Verify via <code class="docutils literal notranslate"><span class="pre">ldd</span></code> that the instrumented executable resolves the location of the instrumented library</p></li>
+</ol>
+</div>
+<div class="section" id="binary-rewriting-a-library-example">
+<h3>Binary Rewriting a Library Example<a class="headerlink" href="#binary-rewriting-a-library-example" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">foo</span></code> executable is dynamically linked to <code class="docutils literal notranslate"><span class="pre">libfoo.so.2</span></code>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">pwd</span>
+/home/user
+$ which foo
+/usr/local/bin/foo
+$ ldd /usr/local/bin/foo
+        ...
+        libfoo.so.2 <span class="o">=</span>&gt; /usr/local/lib/libfoo.so.2 <span class="o">(</span>...<span class="o">)</span>
+        ...
+</pre></div>
+</div>
+<p>Generate binary rewrites of <code class="docutils literal notranslate"><span class="pre">foo</span></code> and <code class="docutils literal notranslate"><span class="pre">libfoo.so.2</span></code>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace -o ./foo.inst -- foo
+omnitrace -o ./libfoo.so.2 -- /usr/local/lib/libfoo.so.2
+</pre></div>
+</div>
+<p>At this point, the instrumented <code class="docutils literal notranslate"><span class="pre">foo.inst</span></code> executable will still dynamically load the original <code class="docutils literal notranslate"><span class="pre">libfoo.so.2</span></code> in <code class="docutils literal notranslate"><span class="pre">/usr/local/lib</span></code>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ ldd ./foo.inst
+        ...
+        libfoo.so.2 <span class="o">=</span>&gt; /usr/local/lib/libfoo.so.2 <span class="o">(</span>...<span class="o">)</span>
+        ...
+</pre></div>
+</div>
+<p>Prefix the <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> environment variable with the folder containing the instrumented <code class="docutils literal notranslate"><span class="pre">libfoo.so.2</span></code>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/home/user:<span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="si">}</span>
+</pre></div>
+</div>
+<p>When <code class="docutils literal notranslate"><span class="pre">foo.inst</span></code> is executed, it will now load the instrumented library:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ ldd ./foo.inst
+        ...
+        libfoo.so.2 <span class="o">=</span>&gt; /home/user/libfoo.so.2 <span class="o">(</span>...<span class="o">)</span>
+        ...
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="selective-instrumentation">
+<h2>Selective Instrumentation<a class="headerlink" href="#selective-instrumentation" title="Permalink to this headline">¶</a></h2>
+<p>The default behavior of omnitrace does not instrument every symbol in the binary. These default rules are:</p>
+<ul class="simple">
+<li><p>Skip instrumenting dynamic call-sites (i.e. function pointers)</p>
+<ul>
+<li><p>Option <code class="docutils literal notranslate"><span class="pre">--dynamic-callsites</span></code> will force instrumentation for all dynamic call-sites</p></li>
+</ul>
+</li>
+<li><p>The cost of a function can be loosely approximated by the size of the function in the binary so by default, omnitrace only instruments functions which span an address range of 256 bytes.</p>
+<ul>
+<li><p>Option <code class="docutils literal notranslate"><span class="pre">--min-address-range</span></code> will modify this heuristic for all functions which do not contain loops</p></li>
+<li><p>Option <code class="docutils literal notranslate"><span class="pre">--min-address-range-loop</span></code> will modify this heuristic for functions which contain loops</p>
+<ul>
+<li><p>This separate loop option is provided because functions with loops can be compact in the binary while also being costly</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Skip instrumentation points which require using a trap</p>
+<ul>
+<li><p>See the description for the <code class="docutils literal notranslate"><span class="pre">--traps</span></code> and <code class="docutils literal notranslate"><span class="pre">--loop-traps</span></code> options for more information</p></li>
+</ul>
+</li>
+<li><p>Skip instrumenting loops within the body of a function</p>
+<ul>
+<li><p>Option <code class="docutils literal notranslate"><span class="pre">--instrument-loops</span></code> will enable this behavior</p></li>
+</ul>
+</li>
+<li><p>Skip instrumenting functions with overlapping function bodies and single functions with multiple entry point</p>
+<ul>
+<li><p>These arise from various optimizations and instrumenting these functions can be enabled via the <code class="docutils literal notranslate"><span class="pre">--allow-overlapping</span></code> option</p></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="viewing-the-available-instrumented-excluded-and-overlapping-functions">
+<h3>Viewing the Available, Instrumented, Excluded, and Overlapping Functions<a class="headerlink" href="#viewing-the-available-instrumented-excluded-and-overlapping-functions" title="Permalink to this headline">¶</a></h3>
+<p>Whenever omnitrace is executed with a verbosity of zero or higher, it emits files which detail which functions (and which module they were defined in)
+were available for instrumentation, which functions were instrumented, which functions were excluded, and which functions contained overlapping function bodies.
+The default output path of these files will be in a <code class="docutils literal notranslate"><span class="pre">omnitrace-&lt;NAME&gt;-output</span></code> folder where <code class="docutils literal notranslate"><span class="pre">&lt;NAME&gt;</span></code> is the basename of the targeted binary or
+(in the case of binary rewrite, the basename of the resulting executable), e.g.
+<code class="docutils literal notranslate"><span class="pre">omnitrace</span> <span class="pre">--</span> <span class="pre">ls</span></code> will output it’s files to <code class="docutils literal notranslate"><span class="pre">omnitrace-ls-output</span></code> whereas <code class="docutils literal notranslate"><span class="pre">omnitrace</span> <span class="pre">-o</span> <span class="pre">ls.inst</span> <span class="pre">--</span> <span class="pre">ls</span></code> will output to <code class="docutils literal notranslate"><span class="pre">omnitrace-ls.inst-output</span></code>.</p>
+<p>If you would like to generate these files without executing or generating an executable, use the <code class="docutils literal notranslate"><span class="pre">--simulate</span></code> option:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace --simulate -- foo
+omnitrace --simulate -o foo.inst -- foo
+</pre></div>
+</div>
+</div>
+<div class="section" id="excluding-and-including-modules-and-functions">
+<h3>Excluding and Including Modules and Functions<a class="headerlink" href="#excluding-and-including-modules-and-functions" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> has a set of 6 command-line options which each accept one or more regular expressions for customizing the scope of which module and/or functions are
+instrumented. Multiple regexes per option are treated as an OR operation, e.g. <code class="docutils literal notranslate"><span class="pre">--module-include</span> <span class="pre">libfoo</span> <span class="pre">libbar</span></code> is effectively that same as <code class="docutils literal notranslate"><span class="pre">--module-include</span> <span class="pre">'libfoo|libbar'</span></code>.</p>
+<p>If you would like to force the inclusion of certain modules and/or function without changing any of the heuristics, use the <code class="docutils literal notranslate"><span class="pre">--module-include</span></code> and/or <code class="docutils literal notranslate"><span class="pre">--function-include</span></code> options.
+Note that these options will not exclude modules and/or functions which do not satisfy their regular expression.</p>
+<p>If you would like to narrow the scope of the instrumentation to a specific set of libraries and/or functions, use the <code class="docutils literal notranslate"><span class="pre">--module-restrict</span></code> and <code class="docutils literal notranslate"><span class="pre">--function-restrict</span></code> options.
+Applying these options allow you to exclusively select the union one or more regular expressions, regardless of whether or not the functions satisfy the
+aforementioned default heuristics. Any function or module that is not within the union of these regular expressions will be excluded from instrumentation.</p>
+<p>If you would like to avoid instrumenting a set of modules and/or functions, use the <code class="docutils literal notranslate"><span class="pre">--module-exclude</span></code> and <code class="docutils literal notranslate"><span class="pre">--function-exclude</span></code> options.
+These options are always applied regardless of whether the module or function satisfied the “restrict” or “include” regular expression.</p>
+<div class="section" id="example-available-module-and-function-info-output">
+<h4>Example Available Module and Function Info Output<a class="headerlink" href="#example-available-module-and-function-info-output" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><p><em><strong><code class="docutils literal notranslate"><span class="pre">omnitrace</span> <span class="pre">-o</span> <span class="pre">lulesh.inst</span> <span class="pre">--label</span> <span class="pre">file</span> <span class="pre">line</span> <span class="pre">args</span> <span class="pre">--simulate</span> <span class="pre">--</span> <span class="pre">lulesh</span></code></strong></em></p>
+</div></blockquote>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">  AddressRange  Module                                    Function                                                                                 FunctionSignature</span>
+<span class="go">          9165  ../examples/lulesh/lulesh-comm.cc         CommMonoQ                                                                                CommMonoQ(domain) [lulesh-comm.cc:1891]</span>
+<span class="go">          3396  ../examples/lulesh/lulesh-comm.cc         CommRecv                                                                                 CommRecv(domain, int, Index_t, Index_t, Index_t, Index_t, bool, bool) [lulesh...</span>
+<span class="go">          8666  ../examples/lulesh/lulesh-comm.cc         CommSBN                                                                                  CommSBN(domain, int, Domain_member *) [lulesh-comm.cc:926]</span>
+<span class="go">         10212  ../examples/lulesh/lulesh-comm.cc         CommSend                                                                                 CommSend(domain, int, Index_t, Domain_member *, Index_t, Index_t, Index_t, bo...</span>
+<span class="go">          6823  ../examples/lulesh/lulesh-comm.cc         CommSyncPosVel                                                                           CommSyncPosVel(domain) [lulesh-comm.cc:1404]</span>
+<span class="go">           126  ../examples/lulesh/lulesh-comm.cc         _GLOBAL__sub_I_lulesh_comm.cc                                                            _GLOBAL__sub_I_lulesh_comm.cc() [lulesh-comm.cc]</span>
+<span class="go">           308  ../examples/lulesh/lulesh-init.cc         .omp_outlined..26                                                                        .omp_outlined..26(const , const , const ParallelFor&lt;Kokkos::Impl::ViewCopy&lt;Ko...</span>
+<span class="go">           628  ../examples/lulesh/lulesh-init.cc         .omp_outlined..34                                                                        .omp_outlined..34(const , const , const ParallelFor&lt;Kokkos::Impl::ViewCopy&lt;Ko...</span>
+<span class="go">           656  ../examples/lulesh/lulesh-init.cc         .omp_outlined..41                                                                        .omp_outlined..41(const , const , const ParallelFor&lt;Kokkos::Impl::ViewCopy&lt;Ko...</span>
+<span class="go">           662  ../examples/lulesh/lulesh-init.cc         .omp_outlined..45                                                                        .omp_outlined..45(const , const , const ParallelFor&lt;Kokkos::Impl::ViewCopy&lt;Ko...</span>
+<span class="go">           550  ../examples/lulesh/lulesh-init.cc         .omp_outlined..55                                                                        .omp_outlined..55(const , const , const ParallelFor&lt;Kokkos::Impl::ViewFill&lt;Ko...</span>
+<span class="go">           556  ../examples/lulesh/lulesh-init.cc         .omp_outlined..57                                                                        .omp_outlined..57(const , const , const ParallelFor&lt;Kokkos::Impl::ViewFill&lt;Ko...</span>
+<span class="go">           550  ../examples/lulesh/lulesh-init.cc         .omp_outlined..78                                                                        .omp_outlined..78(const , const , const ParallelFor&lt;Kokkos::Impl::ViewFill&lt;Ko...</span>
+<span class="go">           640  ../examples/lulesh/lulesh-init.cc         .omp_outlined..84                                                                        .omp_outlined..84(const , const , const ParallelFor&lt;Kokkos::Impl::ViewCopy&lt;Ko...</span>
+<span class="go">           646  ../examples/lulesh/lulesh-init.cc         .omp_outlined..88                                                                        .omp_outlined..88(const , const , const ParallelFor&lt;Kokkos::Impl::ViewCopy&lt;Ko...</span>
+<span class="go">          1840  ../examples/lulesh/lulesh-init.cc         Domain::AllocateElemPersistent                                                           Domain::AllocateElemPersistent(Domain *, Int_t) [lulesh-init.cc:94]</span>
+<span class="go">          1384  ../examples/lulesh/lulesh-init.cc         Domain::AllocateNodePersistent                                                           Domain::AllocateNodePersistent(Domain *, Int_t) [lulesh-init.cc:94]</span>
+<span class="go">          1264  ../examples/lulesh/lulesh-init.cc         Domain::BuildMesh                                                                        Domain::BuildMesh(Domain *, Int_t, Int_t, Int_t) [lulesh-init.cc:308]</span>
+<span class="go">          2312  ../examples/lulesh/lulesh-init.cc         Domain::CreateRegionIndexSets                                                            Domain::CreateRegionIndexSets(Domain *, Int_t, Int_t) [lulesh-init.cc:409]</span>
+<span class="go">          7109  ../examples/lulesh/lulesh-init.cc         Domain::Domain                                                                           Domain::Domain(Domain *, Int_t, Index_t, Index_t, Index_t, Index_t, int, int,...</span>
+<span class="go">          2458  ../examples/lulesh/lulesh-init.cc         Domain::SetupBoundaryConditions                                                          Domain::SetupBoundaryConditions(Domain *, Int_t) [lulesh-init.cc:409]</span>
+<span class="go">           956  ../examples/lulesh/lulesh-init.cc         Domain::SetupCommBuffers                                                                 Domain::SetupCommBuffers(Domain *, Int_t) [lulesh-init.cc]</span>
+<span class="go">          1456  ../examples/lulesh/lulesh-init.cc         Domain::SetupElementConnectivities                                                       Domain::SetupElementConnectivities(Domain *, Int_t) [lulesh-init.cc:409]</span>
+<span class="go">           721  ../examples/lulesh/lulesh-init.cc         Domain::SetupSymmetryPlanes                                                              Domain::SetupSymmetryPlanes(Domain *, Int_t) [lulesh-init.cc:409]</span>
+<span class="go">          1591  ../examples/lulesh/lulesh-init.cc         Domain::SetupThreadSupportStructures                                                     Domain::SetupThreadSupportStructures(Domain *) [lulesh-init.cc:376]</span>
+<span class="go">          1644  ../examples/lulesh/lulesh-init.cc         Domain::~Domain                                                                          Domain::~Domain(Domain *) [lulesh-init.cc:286]</span>
+<span class="go">           218  ../examples/lulesh/lulesh-init.cc         InitMeshDecomp                                                                           InitMeshDecomp(Int_t, Int_t, Int_t *, Int_t *, Int_t *, Int_t *) [lulesh-init...</span>
+<span class="go">           260  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::CommonSubview&lt;Kokkos::View&lt;int* [8], Kokkos::LayoutRight&gt;, Kokk...         Kokkos::Impl::CommonSubview&lt;Kokkos::View&lt;int* [8], Kokkos::LayoutRight&gt;, Kokk...</span>
+<span class="go">          1786  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::HostIterateTile&lt;Kokkos::MDRangePolicy&lt;Kokkos::OpenMP, Kokkos::R...         Kokkos::Impl::HostIterateTile&lt;Kokkos::MDRangePolicy&lt;Kokkos::OpenMP, Kokkos::R...</span>
+<span class="go">           330  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int**...         Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int**...</span>
+<span class="go">           330  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int**...         Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int**...</span>
+<span class="go">           330  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int*,...         Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int*,...</span>
+<span class="go">           330  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int*,...         Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int*,...</span>
+<span class="go">           330  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewFill&lt;Kokkos::View&lt;doubl...         Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewFill&lt;Kokkos::View&lt;doubl...</span>
+<span class="go">           330  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewFill&lt;Kokkos::View&lt;doubl...         Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewFill&lt;Kokkos::View&lt;doubl...</span>
+<span class="go">           330  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewFill&lt;Kokkos::View&lt;doubl...         Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewFill&lt;Kokkos::View&lt;doubl...</span>
+<span class="go">           522  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ParallelFor&lt;Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int**, Kokkos::...         Kokkos::Impl::ParallelFor&lt;Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int**, Kokkos::...</span>
+<span class="go">           232  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ParallelFor&lt;Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int**, Kokkos::...         Kokkos::Impl::ParallelFor&lt;Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int**, Kokkos::...</span>
+<span class="go">            49  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::SharedAllocationRecord&lt;Kokkos::HostSpace, Kokkos::Impl::ViewVal...         Kokkos::Impl::SharedAllocationRecord&lt;Kokkos::HostSpace, Kokkos::Impl::ViewVal...</span>
+<span class="go">          1476  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::Tile_Loop_Type&lt;2, false, int, void, void&gt;::apply&lt;Kokkos::Impl::...         Kokkos::Impl::Tile_Loop_Type&lt;2, false, int, void, void&gt;::apply&lt;Kokkos::Impl::...</span>
+<span class="go">           555  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int**, Kokkos::LayoutRight, Kokkos::Devic...         Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int**, Kokkos::LayoutRight, Kokkos::Devic...</span>
+<span class="go">           613  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int**, Kokkos::LayoutRight, Kokkos::Devic...         Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int**, Kokkos::LayoutRight, Kokkos::Devic...</span>
+<span class="go">           603  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int*, Kokkos::LayoutLeft, Kokkos::Device&lt;...         Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int*, Kokkos::LayoutLeft, Kokkos::Device&lt;...</span>
+<span class="go">           604  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int*, Kokkos::LayoutLeft, Kokkos::Device&lt;...         Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;int*, Kokkos::LayoutLeft, Kokkos::Device&lt;...</span>
+<span class="go">           281  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewCtorProp&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;...         Kokkos::Impl::ViewCtorProp&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;...</span>
+<span class="go">           281  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewCtorProp&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;...         Kokkos::Impl::ViewCtorProp&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;...</span>
+<span class="go">           281  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewCtorProp&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;...         Kokkos::Impl::ViewCtorProp&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;...</span>
+<span class="go">           281  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewCtorProp&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;...         Kokkos::Impl::ViewCtorProp&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;...</span>
+<span class="go">           281  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewCtorProp&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;...         Kokkos::Impl::ViewCtorProp&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;...</span>
+<span class="go">           524  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewFill&lt;Kokkos::View&lt;double*, Kokkos::LayoutRight, Kokkos::Dev...         Kokkos::Impl::ViewFill&lt;Kokkos::View&lt;double*, Kokkos::LayoutRight, Kokkos::Dev...</span>
+<span class="go">           525  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewFill&lt;Kokkos::View&lt;double*, Kokkos::LayoutRight, Kokkos::Dev...         Kokkos::Impl::ViewFill&lt;Kokkos::View&lt;double*, Kokkos::LayoutRight, Kokkos::Dev...</span>
+<span class="go">           524  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewFill&lt;Kokkos::View&lt;double*, Kokkos::LayoutRight, Kokkos::Dev...         Kokkos::Impl::ViewFill&lt;Kokkos::View&lt;double*, Kokkos::LayoutRight, Kokkos::Dev...</span>
+<span class="go">           583  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewMapping&lt;Kokkos::ViewTraits&lt;int* [8], Kokkos::LayoutRight&gt;, ...         SharedAllocationRecord&lt;void, void&gt; * Kokkos::Impl::ViewMapping&lt;Kokkos::ViewTr...</span>
+<span class="go">           529  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewMapping&lt;Kokkos::ViewTraits&lt;int*, Kokkos::HostSpace&gt;, void&gt;:...         SharedAllocationRecord&lt;void, void&gt; * Kokkos::Impl::ViewMapping&lt;Kokkos::ViewTr...</span>
+<span class="go">           529  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewMapping&lt;Kokkos::ViewTraits&lt;int*&gt;, void&gt;::allocate_shared&lt;st...         SharedAllocationRecord&lt;void, void&gt; * Kokkos::Impl::ViewMapping&lt;Kokkos::ViewTr...</span>
+<span class="go">           203  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewRemap&lt;Kokkos::View&lt;int* [8], Kokkos::LayoutRight&gt;, Kokkos::...         Kokkos::Impl::ViewRemap&lt;Kokkos::View&lt;int* [8], Kokkos::LayoutRight&gt;, Kokkos::...</span>
+<span class="go">           331  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewRemap&lt;Kokkos::View&lt;int*&gt;, Kokkos::View&lt;int*&gt;, Kokkos::OpenM...         Kokkos::Impl::ViewRemap&lt;Kokkos::View&lt;int*&gt;, Kokkos::View&lt;int*&gt;, Kokkos::OpenM...</span>
+<span class="go">           461  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::ViewValueFunctor&lt;Kokkos::Device&lt;Kokkos::OpenMP, Kokkos::HostSpa...         enable_if_t&lt;std::is_trivial&lt;int&gt;::value &amp;&amp; std::is_trivially_copy_assignable&lt;...</span>
+<span class="go">           353  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::contiguous_fill&lt;Kokkos::OpenMP, double*&gt;                                   Kokkos::Impl::contiguous_fill&lt;Kokkos::OpenMP, double*&gt;(exec_space, dst, value...</span>
+<span class="go">           139  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::contiguous_fill&lt;Kokkos::OpenMP, double, Kokkos::LayoutRight, Ko...         Kokkos::Impl::contiguous_fill&lt;Kokkos::OpenMP, double, Kokkos::LayoutRight, Ko...</span>
+<span class="go">           824  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::view_copy&lt;Kokkos::View&lt;int* [8], Kokkos::LayoutRight, Kokkos::D...         Kokkos::Impl::view_copy&lt;Kokkos::View&lt;int* [8], Kokkos::LayoutRight, Kokkos::D...</span>
+<span class="go">           824  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::view_copy&lt;Kokkos::View&lt;int* [8], Kokkos::LayoutRight, Kokkos::D...         Kokkos::Impl::view_copy&lt;Kokkos::View&lt;int* [8], Kokkos::LayoutRight, Kokkos::D...</span>
+<span class="go">           824  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::view_copy&lt;Kokkos::View&lt;int* [8], Kokkos::LayoutRight&gt;, Kokkos::...         Kokkos::Impl::view_copy&lt;Kokkos::View&lt;int* [8], Kokkos::LayoutRight&gt;, Kokkos::...</span>
+<span class="go">           824  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::view_copy&lt;Kokkos::View&lt;int* [8], Kokkos::LayoutRight&gt;, Kokkos::...         Kokkos::Impl::view_copy&lt;Kokkos::View&lt;int* [8], Kokkos::LayoutRight&gt;, Kokkos::...</span>
+<span class="go">           697  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::view_copy&lt;Kokkos::View&lt;int*, Kokkos::LayoutRight, Kokkos::Devic...         Kokkos::Impl::view_copy&lt;Kokkos::View&lt;int*, Kokkos::LayoutRight, Kokkos::Devic...</span>
+<span class="go">           697  ../examples/lulesh/lulesh-init.cc         Kokkos::Impl::view_copy&lt;Kokkos::View&lt;int*&gt;, Kokkos::View&lt;int*&gt; &gt;                         Kokkos::Impl::view_copy&lt;Kokkos::View&lt;int*&gt;, Kokkos::View&lt;int*&gt; &gt;(dst, src) [l...</span>
+<span class="go">          2036  ../examples/lulesh/lulesh-init.cc         Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::Schedule&lt;Kokkos::Static&gt;, int&gt;::R...         Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::Schedule&lt;Kokkos::Static&gt;, int&gt;::R...</span>
+<span class="go">          2506  ../examples/lulesh/lulesh-init.cc         Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::Schedule&lt;Kokkos::Static&gt;, long&gt;::...         Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::Schedule&lt;Kokkos::Static&gt;, long&gt;::...</span>
+<span class="go">           271  ../examples/lulesh/lulesh-init.cc         Kokkos::StaticCrsGraph&lt;int, Kokkos::LayoutLeft, Kokkos::OpenMP, Kokkos::Memor...         Kokkos::StaticCrsGraph&lt;int, Kokkos::LayoutLeft, Kokkos::OpenMP, Kokkos::Memor...</span>
+<span class="go">           470  ../examples/lulesh/lulesh-init.cc         Kokkos::View&lt;int* [8], Kokkos::LayoutRight&gt;::View&lt;std::__cxx11::basic_string&lt;...         Kokkos::View&lt;int* [8], Kokkos::LayoutRight&gt;::View&lt;std::__cxx11::basic_string&lt;...</span>
+<span class="go">           323  ../examples/lulesh/lulesh-init.cc         Kokkos::View&lt;int* [8], Kokkos::LayoutRight&gt;::View&lt;std::__cxx11::basic_string&lt;...         Kokkos::View&lt;int* [8], Kokkos::LayoutRight&gt;::View&lt;std::__cxx11::basic_string&lt;...</span>
+<span class="go">           410  ../examples/lulesh/lulesh-init.cc         Kokkos::View&lt;int*, Kokkos::HostSpace&gt;::View&lt;char [10]&gt;                                   Kokkos::View&lt;int*, Kokkos::HostSpace&gt;::View&lt;char [10]&gt;(View&lt;int *, Kokkos::Ho...</span>
+<span class="go">           410  ../examples/lulesh/lulesh-init.cc         Kokkos::View&lt;int*, Kokkos::HostSpace&gt;::View&lt;char [14]&gt;                                   Kokkos::View&lt;int*, Kokkos::HostSpace&gt;::View&lt;char [14]&gt;(View&lt;int *, Kokkos::Ho...</span>
+<span class="go">           462  ../examples/lulesh/lulesh-init.cc         Kokkos::View&lt;int*, Kokkos::HostSpace&gt;::View&lt;std::__cxx11::basic_string&lt;char, ...         Kokkos::View&lt;int*, Kokkos::HostSpace&gt;::View&lt;std::__cxx11::basic_string&lt;char, ...</span>
+<span class="go">           410  ../examples/lulesh/lulesh-init.cc         Kokkos::View&lt;int*&gt;::View&lt;char [16]&gt;                                                      Kokkos::View&lt;int*&gt;::View&lt;char [16]&gt;(View&lt;int *&gt; *, arg_label, type, const siz...</span>
+<span class="go">           410  ../examples/lulesh/lulesh-init.cc         Kokkos::View&lt;int*&gt;::View&lt;char [19]&gt;                                                      Kokkos::View&lt;int*&gt;::View&lt;char [19]&gt;(View&lt;int *&gt; *, arg_label, type, const siz...</span>
+<span class="go">           410  ../examples/lulesh/lulesh-init.cc         Kokkos::View&lt;int*&gt;::View&lt;char [21]&gt;                                                      Kokkos::View&lt;int*&gt;::View&lt;char [21]&gt;(View&lt;int *&gt; *, arg_label, type, const siz...</span>
+<span class="go">           462  ../examples/lulesh/lulesh-init.cc         Kokkos::View&lt;int*&gt;::View&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;ch...         Kokkos::View&lt;int*&gt;::View&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;ch...</span>
+<span class="go">           323  ../examples/lulesh/lulesh-init.cc         Kokkos::View&lt;int*&gt;::View&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;ch...         Kokkos::View&lt;int*&gt;::View&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;ch...</span>
+<span class="go">          6589  ../examples/lulesh/lulesh-init.cc         Kokkos::deep_copy&lt;double*, , double*, Kokkos::LayoutRight, Kokkos::Device&lt;Kok...         Kokkos::deep_copy&lt;double*, , double*, Kokkos::LayoutRight, Kokkos::Device&lt;Kok...</span>
+<span class="go">          1052  ../examples/lulesh/lulesh-init.cc         Kokkos::deep_copy&lt;double*&gt;                                                               Kokkos::deep_copy&lt;double*&gt;(dst, value) [lulesh-init.cc]</span>
+<span class="go">          1050  ../examples/lulesh/lulesh-init.cc         Kokkos::deep_copy&lt;double, Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::OpenMP,...         Kokkos::deep_copy&lt;double, Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::OpenMP,...</span>
+<span class="go">          7686  ../examples/lulesh/lulesh-init.cc         Kokkos::deep_copy&lt;int* [8], Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::OpenM...         Kokkos::deep_copy&lt;int* [8], Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::OpenM...</span>
+<span class="go">          7686  ../examples/lulesh/lulesh-init.cc         Kokkos::deep_copy&lt;int* [8], Kokkos::LayoutRight, int* [8], Kokkos::LayoutRigh...         Kokkos::deep_copy&lt;int* [8], Kokkos::LayoutRight, int* [8], Kokkos::LayoutRigh...</span>
+<span class="go">          6589  ../examples/lulesh/lulesh-init.cc         Kokkos::deep_copy&lt;int*, , int*, Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::O...         Kokkos::deep_copy&lt;int*, , int*, Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::O...</span>
+<span class="go">          6589  ../examples/lulesh/lulesh-init.cc         Kokkos::deep_copy&lt;int*, Kokkos::LayoutLeft, Kokkos::Device&lt;Kokkos::OpenMP, Ko...         Kokkos::deep_copy&lt;int*, Kokkos::LayoutLeft, Kokkos::Device&lt;Kokkos::OpenMP, Ko...</span>
+<span class="go">          6589  ../examples/lulesh/lulesh-init.cc         Kokkos::deep_copy&lt;int*, Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::OpenMP, K...         Kokkos::deep_copy&lt;int*, Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::OpenMP, K...</span>
+<span class="go">           863  ../examples/lulesh/lulesh-init.cc         Kokkos::impl_resize&lt;, int* [8], Kokkos::LayoutRight&gt;                                     type Kokkos::impl_resize&lt;, int* [8], Kokkos::LayoutRight&gt;(v, const size_t, co...</span>
+<span class="go">           854  ../examples/lulesh/lulesh-init.cc         Kokkos::impl_resize&lt;, int*&gt;                                                              type Kokkos::impl_resize&lt;, int*&gt;(v, const size_t, const size_t, const size_t,...</span>
+<span class="go">           697  ../examples/lulesh/lulesh-init.cc         Kokkos::parallel_for&lt;Kokkos::MDRangePolicy&lt;Kokkos::OpenMP, Kokkos::Rank&lt;2u, (...         Kokkos::parallel_for&lt;Kokkos::MDRangePolicy&lt;Kokkos::OpenMP, Kokkos::Rank&lt;2u, (...</span>
+<span class="go">           706  ../examples/lulesh/lulesh-init.cc         Kokkos::parallel_for&lt;Kokkos::MDRangePolicy&lt;Kokkos::OpenMP, Kokkos::Rank&lt;2u, (...         Kokkos::parallel_for&lt;Kokkos::MDRangePolicy&lt;Kokkos::OpenMP, Kokkos::Rank&lt;2u, (...</span>
+<span class="go">           912  ../examples/lulesh/lulesh-init.cc         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;in...         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;in...</span>
+<span class="go">           791  ../examples/lulesh/lulesh-init.cc         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;in...         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;in...</span>
+<span class="go">           791  ../examples/lulesh/lulesh-init.cc         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;in...         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;in...</span>
+<span class="go">           944  ../examples/lulesh/lulesh-init.cc         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;lo...         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;lo...</span>
+<span class="go">           839  ../examples/lulesh/lulesh-init.cc         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;lo...         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;lo...</span>
+<span class="go">           126  ../examples/lulesh/lulesh-init.cc         _GLOBAL__sub_I_lulesh_init.cc                                                            _GLOBAL__sub_I_lulesh_init.cc() [lulesh-init.cc]</span>
+<span class="go">          6589  ../examples/lulesh/lulesh-util.cc         Kokkos::deep_copy&lt;double*, Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::OpenMP...         Kokkos::deep_copy&lt;double*, Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::OpenMP...</span>
+<span class="go">          1345  ../examples/lulesh/lulesh-util.cc         ParseCommandLineOptions                                                                  ParseCommandLineOptions(int, char * *, int, cmdLineOpts *) [lulesh-util.cc:67]</span>
+<span class="go">           171  ../examples/lulesh/lulesh-util.cc         PrintCommandLineOptions                                                                  PrintCommandLineOptions(char *, int) [lulesh-util.cc:31]</span>
+<span class="go">            67  ../examples/lulesh/lulesh-util.cc         StrToInt                                                                                 int StrToInt(const char *, int *) [lulesh-util.cc:13]</span>
+<span class="go">           706  ../examples/lulesh/lulesh-util.cc         VerifyAndWriteFinalOutput                                                                VerifyAndWriteFinalOutput(Real_t, locDom, Int_t, Int_t) [lulesh-util.cc:222]</span>
+<span class="go">           126  ../examples/lulesh/lulesh-util.cc         _GLOBAL__sub_I_lulesh_util.cc                                                            _GLOBAL__sub_I_lulesh_util.cc() [lulesh-util.cc]</span>
+<span class="go">            17  ../examples/lulesh/lulesh-viz.cc          DumpToVisit                                                                              DumpToVisit(domain, int, int, int) [lulesh-viz.cc:415]</span>
+<span class="go">           126  ../examples/lulesh/lulesh-viz.cc          _GLOBAL__sub_I_lulesh_viz.cc                                                             _GLOBAL__sub_I_lulesh_viz.cc() [lulesh-viz.cc]</span>
+<span class="go">           451  ../examples/lulesh/lulesh.cc              .omp_outlined..103                                                                       .omp_outlined..103(const , const , const ParallelReduce&lt;(lambda at ../example...</span>
+<span class="go">           796  ../examples/lulesh/lulesh.cc              .omp_outlined..109                                                                       .omp_outlined..109(const , const , const ParallelFor&lt;(lambda at ../examples/l...</span>
+<span class="go">           394  ../examples/lulesh/lulesh.cc              .omp_outlined..111                                                                       .omp_outlined..111(const , const , const ParallelFor&lt;(lambda at ../examples/l...</span>
+<span class="go">           402  ../examples/lulesh/lulesh.cc              .omp_outlined..113                                                                       .omp_outlined..113(const , const , const ParallelFor&lt;(lambda at ../examples/l...</span>
+<span class="go">           427  ../examples/lulesh/lulesh.cc              .omp_outlined..115                                                                       .omp_outlined..115(const , const , const ParallelReduce&lt;(lambda at ../example...</span>
+<span class="go">           859  ../examples/lulesh/lulesh.cc              .omp_outlined..119                                                                       .omp_outlined..119(const , const , const ParallelFor&lt;(lambda at ../examples/l...</span>
+<span class="go">           243  ../examples/lulesh/lulesh.cc              .omp_outlined..122                                                                       .omp_outlined..122(const , const , const ParallelFor&lt;(lambda at ../examples/l...</span>
+<span class="go">           426  ../examples/lulesh/lulesh.cc              .omp_outlined..124                                                                       .omp_outlined..124(const , const , const ParallelFor&lt;(lambda at ../examples/l...</span>
+<span class="go">           529  ../examples/lulesh/lulesh.cc              .omp_outlined..127                                                                       .omp_outlined..127(const , const , const ParallelFor&lt;(lambda at ../examples/l...</span>
+<span class="go">           865  ../examples/lulesh/lulesh.cc              .omp_outlined..130                                                                       .omp_outlined..130(const , const , const ParallelFor&lt;(lambda at ../examples/l...</span>
+<span class="go">           539  ../examples/lulesh/lulesh.cc              .omp_outlined..132                                                                       .omp_outlined..132(const , const , const ParallelReduce&lt;(lambda at ../example...</span>
+<span class="go">           456  ../examples/lulesh/lulesh.cc              .omp_outlined..134                                                                       .omp_outlined..134(const , const , const ParallelReduce&lt;(lambda at ../example...</span>
+<span class="go">           252  ../examples/lulesh/lulesh.cc              .omp_outlined..20                                                                        .omp_outlined..20(const , const , const ParallelFor&lt;(lambda at ../examples/lu...</span>
+<span class="go">           870  ../examples/lulesh/lulesh.cc              .omp_outlined..35                                                                        .omp_outlined..35(const , const , const ParallelFor&lt;(lambda at ../examples/lu...</span>
+<span class="go">           473  ../examples/lulesh/lulesh.cc              .omp_outlined..42                                                                        .omp_outlined..42(const , const , const ParallelFor&lt;(lambda at ../examples/lu...</span>
+<span class="go">           252  ../examples/lulesh/lulesh.cc              .omp_outlined..46                                                                        .omp_outlined..46(const , const , const ParallelFor&lt;(lambda at ../examples/lu...</span>
+<span class="go">          1101  ../examples/lulesh/lulesh.cc              .omp_outlined..48                                                                        .omp_outlined..48(const , const , const ParallelFor&lt;(lambda at ../examples/lu...</span>
+<span class="go">           427  ../examples/lulesh/lulesh.cc              .omp_outlined..55                                                                        .omp_outlined..55(const , const , const ParallelReduce&lt;(lambda at ../examples...</span>
+<span class="go">          1326  ../examples/lulesh/lulesh.cc              .omp_outlined..57                                                                        .omp_outlined..57(const , const , const ParallelReduce&lt;(lambda at ../examples...</span>
+<span class="go">           243  ../examples/lulesh/lulesh.cc              .omp_outlined..61                                                                        .omp_outlined..61(const , const , const ParallelFor&lt;(lambda at ../examples/lu...</span>
+<span class="go">          1101  ../examples/lulesh/lulesh.cc              .omp_outlined..63                                                                        .omp_outlined..63(const , const , const ParallelFor&lt;(lambda at ../examples/lu...</span>
+<span class="go">           372  ../examples/lulesh/lulesh.cc              .omp_outlined..66                                                                        .omp_outlined..66(const , const , const ParallelFor&lt;(lambda at ../examples/lu...</span>
+<span class="go">           499  ../examples/lulesh/lulesh.cc              .omp_outlined..71                                                                        .omp_outlined..71(const , const , const ParallelFor&lt;(lambda at ../examples/lu...</span>
+<span class="go">           499  ../examples/lulesh/lulesh.cc              .omp_outlined..73                                                                        .omp_outlined..73(const , const , const ParallelFor&lt;(lambda at ../examples/lu...</span>
+<span class="go">           499  ../examples/lulesh/lulesh.cc              .omp_outlined..75                                                                        .omp_outlined..75(const , const , const ParallelFor&lt;(lambda at ../examples/lu...</span>
+<span class="go">           465  ../examples/lulesh/lulesh.cc              .omp_outlined..78                                                                        .omp_outlined..78(const , const , const ParallelFor&lt;(lambda at ../examples/lu...</span>
+<span class="go">           396  ../examples/lulesh/lulesh.cc              .omp_outlined..81                                                                        .omp_outlined..81(const , const , const ParallelFor&lt;(lambda at ../examples/lu...</span>
+<span class="go">           656  ../examples/lulesh/lulesh.cc              .omp_outlined..85                                                                        .omp_outlined..85(const , const , const ParallelFor&lt;Kokkos::Impl::ViewCopy&lt;Ko...</span>
+<span class="go">           662  ../examples/lulesh/lulesh.cc              .omp_outlined..89                                                                        .omp_outlined..89(const , const , const ParallelFor&lt;Kokkos::Impl::ViewCopy&lt;Ko...</span>
+<span class="go">           443  ../examples/lulesh/lulesh.cc              .omp_outlined..93                                                                        .omp_outlined..93(const , const , const ParallelReduce&lt;(lambda at ../examples...</span>
+<span class="go">           243  ../examples/lulesh/lulesh.cc              .omp_outlined..96                                                                        .omp_outlined..96(const , const , const ParallelFor&lt;(lambda at ../examples/lu...</span>
+<span class="go">           243  ../examples/lulesh/lulesh.cc              .omp_outlined..99                                                                        .omp_outlined..99(const , const , const ParallelFor&lt;(lambda at ../examples/lu...</span>
+<span class="go">         13367  ../examples/lulesh/lulesh.cc              ApplyMaterialPropertiesForElems                                                          ApplyMaterialPropertiesForElems(domain) [lulesh.cc:409]</span>
+<span class="go">          1530  ../examples/lulesh/lulesh.cc              CalcElemCharacteristicLength                                                             Real_t CalcElemCharacteristicLength(const Real_t *, const Real_t *, const Rea...</span>
+<span class="go">           982  ../examples/lulesh/lulesh.cc              CalcElemFBHourglassForce                                                                 CalcElemFBHourglassForce(const Real_t *, const Real_t[] *, coefficient, Real_...</span>
+<span class="go">          2428  ../examples/lulesh/lulesh.cc              CalcElemNodeNormals                                                                      CalcElemNodeNormals(Real_t *, Real_t *, Real_t *, const Real_t *, const Real_...</span>
+<span class="go">           853  ../examples/lulesh/lulesh.cc              CalcElemShapeFunctionDerivatives                                                         CalcElemShapeFunctionDerivatives(const Real_t *, const Real_t *, const Real_t...</span>
+<span class="go">          1097  ../examples/lulesh/lulesh.cc              CalcElemVolumeDerivative                                                                 CalcElemVolumeDerivative(i, dvdx, dvdy, dvdz, const Real_t *, const Real_t *,...</span>
+<span class="go">          1054  ../examples/lulesh/lulesh.cc              CalcKinematicsForElems                                                                   CalcKinematicsForElems(domain, Real_t, Index_t) [lulesh.cc]</span>
+<span class="go">         14160  ../examples/lulesh/lulesh.cc              CalcVolumeForceForElems                                                                  CalcVolumeForceForElems(domain) [lulesh.cc:409]</span>
+<span class="go">           366  ../examples/lulesh/lulesh.cc              Domain::AllocateGradients                                                                Domain::AllocateGradients(Domain *, Int_t, Int_t) [lulesh.cc:214]</span>
+<span class="go">           475  ../examples/lulesh/lulesh.cc              Domain::DeallocateGradients                                                              Domain::DeallocateGradients(Domain *) [lulesh.cc:105]</span>
+<span class="go">           250  ../examples/lulesh/lulesh.cc              Domain::DeallocateStrains                                                                Domain::DeallocateStrains(Domain *) [lulesh.cc:105]</span>
+<span class="go">          4356  ../examples/lulesh/lulesh.cc              Domain::Domain                                                                           Domain::Domain(Domain *) [lulesh.cc:78]</span>
+<span class="go">            15  ../examples/lulesh/lulesh.cc              Domain::delv_eta                                                                         Domain::delv_eta(const Domain *, const Index_t) [lulesh.cc:371]</span>
+<span class="go">            15  ../examples/lulesh/lulesh.cc              Domain::delv_xi                                                                          Domain::delv_xi(const Domain *, const Index_t) [lulesh.cc:368]</span>
+<span class="go">            15  ../examples/lulesh/lulesh.cc              Domain::delv_zeta                                                                        Domain::delv_zeta(const Domain *, const Index_t) [lulesh.cc:374]</span>
+<span class="go">            15  ../examples/lulesh/lulesh.cc              Domain::fx                                                                               Domain::fx(const Domain *, const Index_t) [lulesh.cc:303]</span>
+<span class="go">            15  ../examples/lulesh/lulesh.cc              Domain::fy                                                                               Domain::fy(const Domain *, const Index_t) [lulesh.cc:306]</span>
+<span class="go">            15  ../examples/lulesh/lulesh.cc              Domain::fz                                                                               Domain::fz(const Domain *, const Index_t) [lulesh.cc:309]</span>
+<span class="go">            15  ../examples/lulesh/lulesh.cc              Domain::nodalMass                                                                        Domain::nodalMass(const Domain *, const Index_t) [lulesh.cc:314]</span>
+<span class="go">            15  ../examples/lulesh/lulesh.cc              Domain::x                                                                                Domain::x(const Domain *, const Index_t) [lulesh.cc:257]</span>
+<span class="go">            15  ../examples/lulesh/lulesh.cc              Domain::xd                                                                               Domain::xd(const Domain *, const Index_t) [lulesh.cc:272]</span>
+<span class="go">            15  ../examples/lulesh/lulesh.cc              Domain::y                                                                                Domain::y(const Domain *, const Index_t) [lulesh.cc:258]</span>
+<span class="go">            15  ../examples/lulesh/lulesh.cc              Domain::yd                                                                               Domain::yd(const Domain *, const Index_t) [lulesh.cc:275]</span>
+<span class="go">            15  ../examples/lulesh/lulesh.cc              Domain::z                                                                                Domain::z(const Domain *, const Index_t) [lulesh.cc:259]</span>
+<span class="go">            15  ../examples/lulesh/lulesh.cc              Domain::zd                                                                               Domain::zd(const Domain *, const Index_t) [lulesh.cc:278]</span>
+<span class="go">           330  ../examples/lulesh/lulesh.cc              Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;doubl...         Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;doubl...</span>
+<span class="go">           330  ../examples/lulesh/lulesh.cc              Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;doubl...         Kokkos::Impl::ParallelConstructName&lt;Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;doubl...</span>
+<span class="go">          1508  ../examples/lulesh/lulesh.cc              Kokkos::Impl::ParallelFor&lt;CalcEnergyForElems(double*, double*, double*, doubl...         type Kokkos::Impl::ParallelFor&lt;CalcEnergyForElems(double*, double*, double*, ...</span>
+<span class="go">          3606  ../examples/lulesh/lulesh.cc              Kokkos::Impl::ParallelFor&lt;CalcFBHourglassForceForElems(Domain&amp;, double*, Kokk...         type Kokkos::Impl::ParallelFor&lt;CalcFBHourglassForceForElems(Domain&amp;, double*,...</span>
+<span class="go">          2917  ../examples/lulesh/lulesh.cc              Kokkos::Impl::ParallelFor&lt;CalcKinematicsForElems(Domain&amp;, double, int)::$_0, ...         type Kokkos::Impl::ParallelFor&lt;CalcKinematicsForElems(Domain&amp;, double, int)::...</span>
+<span class="go">          3119  ../examples/lulesh/lulesh.cc              Kokkos::Impl::ParallelFor&lt;CalcMonotonicQGradientsForElems(Domain&amp;)::{lambda(i...         type Kokkos::Impl::ParallelFor&lt;CalcMonotonicQGradientsForElems(Domain&amp;)::{lam...</span>
+<span class="go">          1969  ../examples/lulesh/lulesh.cc              Kokkos::Impl::ParallelFor&lt;CalcMonotonicQRegionForElems(Domain&amp;, int, double):...         type Kokkos::Impl::ParallelFor&lt;CalcMonotonicQRegionForElems(Domain&amp;, int, dou...</span>
+<span class="go">          1265  ../examples/lulesh/lulesh.cc              Kokkos::Impl::ParallelFor&lt;IntegrateStressForElems(Domain&amp;, double*, double*, ...         type Kokkos::Impl::ParallelFor&lt;IntegrateStressForElems(Domain&amp;, double*, doub...</span>
+<span class="go">            49  ../examples/lulesh/lulesh.cc              Kokkos::Impl::SharedAllocationRecord&lt;Kokkos::HostSpace, Kokkos::Impl::ViewVal...         Kokkos::Impl::SharedAllocationRecord&lt;Kokkos::HostSpace, Kokkos::Impl::ViewVal...</span>
+<span class="go">          1497  ../examples/lulesh/lulesh.cc              Kokkos::Impl::TeamPolicyInternal&lt;Kokkos::OpenMP&gt;::TeamPolicyInternal                     Kokkos::Impl::TeamPolicyInternal&lt;Kokkos::OpenMP&gt;::TeamPolicyInternal(TeamPoli...</span>
+<span class="go">           603  ../examples/lulesh/lulesh.cc              Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;double*, Kokkos::LayoutLeft, Kokkos::Devi...         Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;double*, Kokkos::LayoutLeft, Kokkos::Devi...</span>
+<span class="go">           604  ../examples/lulesh/lulesh.cc              Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;double*, Kokkos::LayoutLeft, Kokkos::Devi...         Kokkos::Impl::ViewCopy&lt;Kokkos::View&lt;double*, Kokkos::LayoutLeft, Kokkos::Devi...</span>
+<span class="go">           281  ../examples/lulesh/lulesh.cc              Kokkos::Impl::ViewCtorProp&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;...         Kokkos::Impl::ViewCtorProp&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;...</span>
+<span class="go">           281  ../examples/lulesh/lulesh.cc              Kokkos::Impl::ViewCtorProp&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;...         Kokkos::Impl::ViewCtorProp&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;...</span>
+<span class="go">           521  ../examples/lulesh/lulesh.cc              Kokkos::Impl::ViewMapping&lt;Kokkos::ViewTraits&lt;double*&gt;, void&gt;::allocate_shared...         SharedAllocationRecord&lt;void, void&gt; * Kokkos::Impl::ViewMapping&lt;Kokkos::ViewTr...</span>
+<span class="go">           331  ../examples/lulesh/lulesh.cc              Kokkos::Impl::ViewRemap&lt;Kokkos::View&lt;double*&gt;, Kokkos::View&lt;double*&gt;, Kokkos:...         Kokkos::Impl::ViewRemap&lt;Kokkos::View&lt;double*&gt;, Kokkos::View&lt;double*&gt;, Kokkos:...</span>
+<span class="go">           461  ../examples/lulesh/lulesh.cc              Kokkos::Impl::ViewValueFunctor&lt;Kokkos::Device&lt;Kokkos::OpenMP, Kokkos::HostSpa...         enable_if_t&lt;std::is_trivial&lt;double&gt;::value &amp;&amp; std::is_trivially_copy_assignab...</span>
+<span class="go">          1609  ../examples/lulesh/lulesh.cc              Kokkos::Impl::runtime_check_rank_host                                                    Kokkos::Impl::runtime_check_rank_host(const size_t, const bool, const size_t,...</span>
+<span class="go">           697  ../examples/lulesh/lulesh.cc              Kokkos::Impl::view_copy&lt;Kokkos::View&lt;double*, Kokkos::LayoutRight, Kokkos::De...         Kokkos::Impl::view_copy&lt;Kokkos::View&lt;double*, Kokkos::LayoutRight, Kokkos::De...</span>
+<span class="go">           697  ../examples/lulesh/lulesh.cc              Kokkos::Impl::view_copy&lt;Kokkos::View&lt;double*&gt;, Kokkos::View&lt;double*&gt; &gt;                   Kokkos::Impl::view_copy&lt;Kokkos::View&lt;double*&gt;, Kokkos::View&lt;double*&gt; &gt;(dst, s...</span>
+<span class="go">          2250  ../examples/lulesh/lulesh.cc              Kokkos::RangePolicy&lt;Kokkos::OpenMP&gt;::RangePolicy                                         Kokkos::RangePolicy&lt;Kokkos::OpenMP&gt;::RangePolicy(RangePolicy&lt;Kokkos::OpenMP&gt; ...</span>
+<span class="go">           213  ../examples/lulesh/lulesh.cc              Kokkos::StaticCrsGraph&lt;int, Kokkos::LayoutLeft, Kokkos::OpenMP, Kokkos::Memor...         Kokkos::StaticCrsGraph&lt;int, Kokkos::LayoutLeft, Kokkos::OpenMP, Kokkos::Memor...</span>
+<span class="go">           410  ../examples/lulesh/lulesh.cc              Kokkos::View&lt;double*&gt;::View&lt;char [6]&gt;                                                    Kokkos::View&lt;double*&gt;::View&lt;char [6]&gt;(View&lt;double *&gt; *, arg_label, type, cons...</span>
+<span class="go">           410  ../examples/lulesh/lulesh.cc              Kokkos::View&lt;double*&gt;::View&lt;char [7]&gt;                                                    Kokkos::View&lt;double*&gt;::View&lt;char [7]&gt;(View&lt;double *&gt; *, arg_label, type, cons...</span>
+<span class="go">           462  ../examples/lulesh/lulesh.cc              Kokkos::View&lt;double*&gt;::View&lt;std::__cxx11::basic_string&lt;char, std::char_traits...         Kokkos::View&lt;double*&gt;::View&lt;std::__cxx11::basic_string&lt;char, std::char_traits...</span>
+<span class="go">           323  ../examples/lulesh/lulesh.cc              Kokkos::View&lt;double*&gt;::View&lt;std::__cxx11::basic_string&lt;char, std::char_traits...         Kokkos::View&lt;double*&gt;::View&lt;std::__cxx11::basic_string&lt;char, std::char_traits...</span>
+<span class="go">            25  ../examples/lulesh/lulesh.cc              Kokkos::View&lt;double*&gt;::~View                                                             Kokkos::View&lt;double*&gt;::~View(View&lt;double *&gt; *) [lulesh.cc:409]</span>
+<span class="go">           840  ../examples/lulesh/lulesh.cc              Kokkos::abort                                                                            Kokkos::abort(const const char *, const const char *) [lulesh.cc:202]</span>
+<span class="go">           854  ../examples/lulesh/lulesh.cc              Kokkos::impl_resize&lt;, double*&gt;                                                           type Kokkos::impl_resize&lt;, double*&gt;(v, const size_t, const size_t, const size...</span>
+<span class="go">           928  ../examples/lulesh/lulesh.cc              Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;in...         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;in...</span>
+<span class="go">           960  ../examples/lulesh/lulesh.cc              Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;lo...         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;lo...</span>
+<span class="go">         21470  ../examples/lulesh/lulesh.cc              LagrangeLeapFrog                                                                         LagrangeLeapFrog(domain) [lulesh.cc]</span>
+<span class="go">           226  ../examples/lulesh/lulesh.cc              ResizeBuffer                                                                             ResizeBuffer(const size_t) [lulesh.cc:23]</span>
+<span class="go">           169  ../examples/lulesh/lulesh.cc              _GLOBAL__sub_I_lulesh.cc                                                                 _GLOBAL__sub_I_lulesh.cc() [lulesh.cc]</span>
+<span class="go">          1836  ../examples/lulesh/lulesh.cc              main                                                                                     int main(int, char * *) [lulesh.cc]</span>
+<span class="go">            63  ../examples/lulesh/lulesh.cc              std::_Rb_tree&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::a...         std::_Rb_tree&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::a...</span>
+<span class="go">            20  ../examples/lulesh/lulesh.cc              std::map&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::alloca...         std::map&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::alloca...</span>
+<span class="go">           160  ../examples/lulesh/lulesh.cc              std::operator+&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;                      basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; std::operat...</span>
+<span class="go">           187  ../examples/lulesh/lulesh.cc              std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::alloc...         std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::alloc...</span>
+<span class="go">            11  lulesh                                    __clang_call_terminate                                                                   __clang_call_terminate() [lulesh]</span>
+<span class="go">            33  lulesh                                    __do_global_dtors_aux                                                                    __do_global_dtors_aux() [lulesh]</span>
+<span class="go">             5  lulesh                                    __libc_csu_fini                                                                          __libc_csu_fini() [lulesh]</span>
+<span class="go">           101  lulesh                                    __libc_csu_init                                                                          __libc_csu_init() [lulesh]</span>
+<span class="go">             5  lulesh                                    _dl_relocate_static_pie                                                                  _dl_relocate_static_pie() [lulesh]</span>
+<span class="go">            13  lulesh                                    _fini                                                                                    _fini() [lulesh]</span>
+<span class="go">            27  lulesh                                    _init                                                                                    _init() [lulesh]</span>
+<span class="go">            47  lulesh                                    _start                                                                                   _start() [lulesh]</span>
+<span class="go">             6  lulesh                                    frame_dummy                                                                              frame_dummy() [lulesh]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-instrumented-module-and-function-info-output">
+<h4>Example Instrumented Module and Function Info Output<a class="headerlink" href="#example-instrumented-module-and-function-info-output" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><p><em><strong><code class="docutils literal notranslate"><span class="pre">omnitrace</span> <span class="pre">-o</span> <span class="pre">lulesh.inst</span> <span class="pre">--label</span> <span class="pre">file</span> <span class="pre">line</span> <span class="pre">args</span> <span class="pre">--simulate</span> <span class="pre">--</span> <span class="pre">lulesh</span></code></strong></em></p>
+</div></blockquote>
+<p>After the heuristics are applied in <a class="reference external" href="#example-available-module-and-function-info-output">Example Available Module and Function Info Output</a>,
+the selected module/functions are:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">  AddressRange  Module                                    Function                                                                                 FunctionSignature</span>
+<span class="go">          9165  ../examples/lulesh/lulesh-comm.cc         CommMonoQ                                                                                CommMonoQ(domain) [lulesh-comm.cc:1891]</span>
+<span class="go">          3396  ../examples/lulesh/lulesh-comm.cc         CommRecv                                                                                 CommRecv(domain, int, Index_t, Index_t, Index_t, Index_t, bool, bool) [lulesh...</span>
+<span class="go">          8666  ../examples/lulesh/lulesh-comm.cc         CommSBN                                                                                  CommSBN(domain, int, Domain_member *) [lulesh-comm.cc:926]</span>
+<span class="go">         10212  ../examples/lulesh/lulesh-comm.cc         CommSend                                                                                 CommSend(domain, int, Index_t, Domain_member *, Index_t, Index_t, Index_t, bo...</span>
+<span class="go">          6823  ../examples/lulesh/lulesh-comm.cc         CommSyncPosVel                                                                           CommSyncPosVel(domain) [lulesh-comm.cc:1404]</span>
+<span class="go">          1840  ../examples/lulesh/lulesh-init.cc         Domain::AllocateElemPersistent                                                           Domain::AllocateElemPersistent(Domain *, Int_t) [lulesh-init.cc:94]</span>
+<span class="go">          1384  ../examples/lulesh/lulesh-init.cc         Domain::AllocateNodePersistent                                                           Domain::AllocateNodePersistent(Domain *, Int_t) [lulesh-init.cc:94]</span>
+<span class="go">          1264  ../examples/lulesh/lulesh-init.cc         Domain::BuildMesh                                                                        Domain::BuildMesh(Domain *, Int_t, Int_t, Int_t) [lulesh-init.cc:308]</span>
+<span class="go">          2312  ../examples/lulesh/lulesh-init.cc         Domain::CreateRegionIndexSets                                                            Domain::CreateRegionIndexSets(Domain *, Int_t, Int_t) [lulesh-init.cc:409]</span>
+<span class="go">          7109  ../examples/lulesh/lulesh-init.cc         Domain::Domain                                                                           Domain::Domain(Domain *, Int_t, Index_t, Index_t, Index_t, Index_t, int, int,...</span>
+<span class="go">          2458  ../examples/lulesh/lulesh-init.cc         Domain::SetupBoundaryConditions                                                          Domain::SetupBoundaryConditions(Domain *, Int_t) [lulesh-init.cc:409]</span>
+<span class="go">           956  ../examples/lulesh/lulesh-init.cc         Domain::SetupCommBuffers                                                                 Domain::SetupCommBuffers(Domain *, Int_t) [lulesh-init.cc]</span>
+<span class="go">          1456  ../examples/lulesh/lulesh-init.cc         Domain::SetupElementConnectivities                                                       Domain::SetupElementConnectivities(Domain *, Int_t) [lulesh-init.cc:409]</span>
+<span class="go">           721  ../examples/lulesh/lulesh-init.cc         Domain::SetupSymmetryPlanes                                                              Domain::SetupSymmetryPlanes(Domain *, Int_t) [lulesh-init.cc:409]</span>
+<span class="go">          1591  ../examples/lulesh/lulesh-init.cc         Domain::SetupThreadSupportStructures                                                     Domain::SetupThreadSupportStructures(Domain *) [lulesh-init.cc:376]</span>
+<span class="go">          1644  ../examples/lulesh/lulesh-init.cc         Domain::~Domain                                                                          Domain::~Domain(Domain *) [lulesh-init.cc:286]</span>
+<span class="go">           271  ../examples/lulesh/lulesh-init.cc         Kokkos::StaticCrsGraph&lt;int, Kokkos::LayoutLeft, Kokkos::OpenMP, Kokkos::Memor...         Kokkos::StaticCrsGraph&lt;int, Kokkos::LayoutLeft, Kokkos::OpenMP, Kokkos::Memor...</span>
+<span class="go">           410  ../examples/lulesh/lulesh-init.cc         Kokkos::View&lt;int*, Kokkos::HostSpace&gt;::View&lt;char [10]&gt;                                   Kokkos::View&lt;int*, Kokkos::HostSpace&gt;::View&lt;char [10]&gt;(View&lt;int *, Kokkos::Ho...</span>
+<span class="go">           410  ../examples/lulesh/lulesh-init.cc         Kokkos::View&lt;int*, Kokkos::HostSpace&gt;::View&lt;char [14]&gt;                                   Kokkos::View&lt;int*, Kokkos::HostSpace&gt;::View&lt;char [14]&gt;(View&lt;int *, Kokkos::Ho...</span>
+<span class="go">           410  ../examples/lulesh/lulesh-init.cc         Kokkos::View&lt;int*&gt;::View&lt;char [16]&gt;                                                      Kokkos::View&lt;int*&gt;::View&lt;char [16]&gt;(View&lt;int *&gt; *, arg_label, type, const siz...</span>
+<span class="go">           410  ../examples/lulesh/lulesh-init.cc         Kokkos::View&lt;int*&gt;::View&lt;char [19]&gt;                                                      Kokkos::View&lt;int*&gt;::View&lt;char [19]&gt;(View&lt;int *&gt; *, arg_label, type, const siz...</span>
+<span class="go">           410  ../examples/lulesh/lulesh-init.cc         Kokkos::View&lt;int*&gt;::View&lt;char [21]&gt;                                                      Kokkos::View&lt;int*&gt;::View&lt;char [21]&gt;(View&lt;int *&gt; *, arg_label, type, const siz...</span>
+<span class="go">          6589  ../examples/lulesh/lulesh-init.cc         Kokkos::deep_copy&lt;double*, , double*, Kokkos::LayoutRight, Kokkos::Device&lt;Kok...         Kokkos::deep_copy&lt;double*, , double*, Kokkos::LayoutRight, Kokkos::Device&lt;Kok...</span>
+<span class="go">          1052  ../examples/lulesh/lulesh-init.cc         Kokkos::deep_copy&lt;double*&gt;                                                               Kokkos::deep_copy&lt;double*&gt;(dst, value) [lulesh-init.cc]</span>
+<span class="go">          1050  ../examples/lulesh/lulesh-init.cc         Kokkos::deep_copy&lt;double, Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::OpenMP,...         Kokkos::deep_copy&lt;double, Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::OpenMP,...</span>
+<span class="go">          7686  ../examples/lulesh/lulesh-init.cc         Kokkos::deep_copy&lt;int* [8], Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::OpenM...         Kokkos::deep_copy&lt;int* [8], Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::OpenM...</span>
+<span class="go">          7686  ../examples/lulesh/lulesh-init.cc         Kokkos::deep_copy&lt;int* [8], Kokkos::LayoutRight, int* [8], Kokkos::LayoutRigh...         Kokkos::deep_copy&lt;int* [8], Kokkos::LayoutRight, int* [8], Kokkos::LayoutRigh...</span>
+<span class="go">          6589  ../examples/lulesh/lulesh-init.cc         Kokkos::deep_copy&lt;int*, , int*, Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::O...         Kokkos::deep_copy&lt;int*, , int*, Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::O...</span>
+<span class="go">          6589  ../examples/lulesh/lulesh-init.cc         Kokkos::deep_copy&lt;int*, Kokkos::LayoutLeft, Kokkos::Device&lt;Kokkos::OpenMP, Ko...         Kokkos::deep_copy&lt;int*, Kokkos::LayoutLeft, Kokkos::Device&lt;Kokkos::OpenMP, Ko...</span>
+<span class="go">          6589  ../examples/lulesh/lulesh-init.cc         Kokkos::deep_copy&lt;int*, Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::OpenMP, K...         Kokkos::deep_copy&lt;int*, Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::OpenMP, K...</span>
+<span class="go">           697  ../examples/lulesh/lulesh-init.cc         Kokkos::parallel_for&lt;Kokkos::MDRangePolicy&lt;Kokkos::OpenMP, Kokkos::Rank&lt;2u, (...         Kokkos::parallel_for&lt;Kokkos::MDRangePolicy&lt;Kokkos::OpenMP, Kokkos::Rank&lt;2u, (...</span>
+<span class="go">           706  ../examples/lulesh/lulesh-init.cc         Kokkos::parallel_for&lt;Kokkos::MDRangePolicy&lt;Kokkos::OpenMP, Kokkos::Rank&lt;2u, (...         Kokkos::parallel_for&lt;Kokkos::MDRangePolicy&lt;Kokkos::OpenMP, Kokkos::Rank&lt;2u, (...</span>
+<span class="go">           912  ../examples/lulesh/lulesh-init.cc         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;in...         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;in...</span>
+<span class="go">           791  ../examples/lulesh/lulesh-init.cc         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;in...         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;in...</span>
+<span class="go">           791  ../examples/lulesh/lulesh-init.cc         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;in...         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;in...</span>
+<span class="go">           944  ../examples/lulesh/lulesh-init.cc         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;lo...         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;lo...</span>
+<span class="go">           839  ../examples/lulesh/lulesh-init.cc         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;lo...         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;lo...</span>
+<span class="go">          6589  ../examples/lulesh/lulesh-util.cc         Kokkos::deep_copy&lt;double*, Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::OpenMP...         Kokkos::deep_copy&lt;double*, Kokkos::LayoutRight, Kokkos::Device&lt;Kokkos::OpenMP...</span>
+<span class="go">          1345  ../examples/lulesh/lulesh-util.cc         ParseCommandLineOptions                                                                  ParseCommandLineOptions(int, char * *, int, cmdLineOpts *) [lulesh-util.cc:67]</span>
+<span class="go">           706  ../examples/lulesh/lulesh-util.cc         VerifyAndWriteFinalOutput                                                                VerifyAndWriteFinalOutput(Real_t, locDom, Int_t, Int_t) [lulesh-util.cc:222]</span>
+<span class="go">         13367  ../examples/lulesh/lulesh.cc              ApplyMaterialPropertiesForElems                                                          ApplyMaterialPropertiesForElems(domain) [lulesh.cc:409]</span>
+<span class="go">           982  ../examples/lulesh/lulesh.cc              CalcElemFBHourglassForce                                                                 CalcElemFBHourglassForce(const Real_t *, const Real_t[] *, coefficient, Real_...</span>
+<span class="go">          2428  ../examples/lulesh/lulesh.cc              CalcElemNodeNormals                                                                      CalcElemNodeNormals(Real_t *, Real_t *, Real_t *, const Real_t *, const Real_...</span>
+<span class="go">           853  ../examples/lulesh/lulesh.cc              CalcElemShapeFunctionDerivatives                                                         CalcElemShapeFunctionDerivatives(const Real_t *, const Real_t *, const Real_t...</span>
+<span class="go">          1054  ../examples/lulesh/lulesh.cc              CalcKinematicsForElems                                                                   CalcKinematicsForElems(domain, Real_t, Index_t) [lulesh.cc]</span>
+<span class="go">         14160  ../examples/lulesh/lulesh.cc              CalcVolumeForceForElems                                                                  CalcVolumeForceForElems(domain) [lulesh.cc:409]</span>
+<span class="go">           366  ../examples/lulesh/lulesh.cc              Domain::AllocateGradients                                                                Domain::AllocateGradients(Domain *, Int_t, Int_t) [lulesh.cc:214]</span>
+<span class="go">           475  ../examples/lulesh/lulesh.cc              Domain::DeallocateGradients                                                              Domain::DeallocateGradients(Domain *) [lulesh.cc:105]</span>
+<span class="go">          4356  ../examples/lulesh/lulesh.cc              Domain::Domain                                                                           Domain::Domain(Domain *) [lulesh.cc:78]</span>
+<span class="go">           410  ../examples/lulesh/lulesh.cc              Kokkos::View&lt;double*&gt;::View&lt;char [6]&gt;                                                    Kokkos::View&lt;double*&gt;::View&lt;char [6]&gt;(View&lt;double *&gt; *, arg_label, type, cons...</span>
+<span class="go">           410  ../examples/lulesh/lulesh.cc              Kokkos::View&lt;double*&gt;::View&lt;char [7]&gt;                                                    Kokkos::View&lt;double*&gt;::View&lt;char [7]&gt;(View&lt;double *&gt; *, arg_label, type, cons...</span>
+<span class="go">           928  ../examples/lulesh/lulesh.cc              Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;in...         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;in...</span>
+<span class="go">           960  ../examples/lulesh/lulesh.cc              Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;lo...         Kokkos::parallel_for&lt;Kokkos::RangePolicy&lt;Kokkos::OpenMP, Kokkos::IndexType&lt;lo...</span>
+<span class="go">         21470  ../examples/lulesh/lulesh.cc              LagrangeLeapFrog                                                                         LagrangeLeapFrog(domain) [lulesh.cc]</span>
+<span class="go">          1836  ../examples/lulesh/lulesh.cc              main                                                                                     int main(int, char * *) [lulesh.cc]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="sampling">
+<h2>Sampling<a class="headerlink" href="#sampling" title="Permalink to this headline">¶</a></h2>
+<p>By default, omnitrace uses <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">trace</span></code> for instrumentation. The <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">sampling</span></code> option
+will only instrument <code class="docutils literal notranslate"><span class="pre">main</span></code> in an executable and will activate both CPU call-stack sampling and
+background system-level thread sampling by default.
+Tracing capabilities which do not rely on instrumentation, such as the HIP API and kernel tracing
+(which is collected via roctracer), will still be available.</p>
+<p><a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a>’s sampling capabilities are always available, even in trace mode, but is deactivated by default.
+In order to activate sampling in trace mode, simply set <code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_SAMPLING=ON</span></code> in the environment
+or in an omnitrace configuration file.</p>
+</div>
+<div class="section" id="embedding-a-default-configuration">
+<h2>Embedding a Default Configuration<a class="headerlink" href="#embedding-a-default-configuration" title="Permalink to this headline">¶</a></h2>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">--env</span></code> option, a default configuration can be embedded into the target. Although this option
+works for runtime instrumentation, it is most useful when generating new binaries since the generated
+binary may be used later in a different login sessions when the environment may have changed.</p>
+<p>For example, if the following sequence of commands are run:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace -o ./foo.inst -- ./foo
+<span class="nb">export</span> <span class="nv">OMNITRACE_USE_SAMPLING</span><span class="o">=</span>ON
+<span class="nb">export</span> <span class="nv">OMNITRACE_SAMPLING_FREQ</span><span class="o">=</span><span class="m">5</span>
+./foo.inst
+</pre></div>
+</div>
+<p>These configuration settings will not be preserved in another session, whereas:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace -o ./foo.samp --env <span class="nv">OMNITRACE_USE_SAMPLING</span><span class="o">=</span>ON <span class="nv">OMNITRACE_SAMPLING_FREQ</span><span class="o">=</span><span class="m">5</span> -- ./foo
+</pre></div>
+</div>
+<p>will preserve those environment variables:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># will sample 5x per second</span>
+./foo.samp
+</pre></div>
+</div>
+<p>while still allowing the subsequent session to override those defaults:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># will sample 100x per second</span>
+<span class="nb">export</span> <span class="nv">OMNITRACE_SAMPLING_FREQ</span><span class="o">=</span><span class="m">100</span>
+./foo.samp
+</pre></div>
+</div>
+<div class="section" id="troubleshooting">
+<h3>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="checking-for-rpath">
+<h4>Checking for RPATH<a class="headerlink" href="#checking-for-rpath" title="Permalink to this headline">¶</a></h4>
+<p>If <code class="docutils literal notranslate"><span class="pre">ldd</span> <span class="pre">./foo.inst</span></code> from the <a class="reference external" href="#binary-rewriting-a-library-example">Binary Rewriting a Library Example</a> section still returned <code class="docutils literal notranslate"><span class="pre">/usr/local/lib/libfoo.so.2</span></code>, your executable may have an rpath encoded in the binary.
+This ELF entry will result in the dynamic linker to ignore <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> if it finds a <code class="docutils literal notranslate"><span class="pre">libfoo.so.2</span></code> in the rpath.
+You can use the <code class="docutils literal notranslate"><span class="pre">objdump</span></code> tool to perform this query:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>objdump -p &lt;exe-or-library&gt; <span class="p">|</span> egrep <span class="s1">&#39;RPATH|RUNPATH&#39;</span>
+</pre></div>
+</div>
+<p>If this produces output, e.g.:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>  RUNPATH              <span class="nv">$ORIGIN</span>:<span class="nv">$ORIGIN</span>/../lib
+</pre></div>
+</div>
+<p>You will have to remove or modify the rpath in order to get <code class="docutils literal notranslate"><span class="pre">foo.inst</span></code> to resolve to the instrumented <code class="docutils literal notranslate"><span class="pre">libfoo.so.2</span></code></p>
+</div>
+<div class="section" id="modifying-rpath">
+<h4>Modifying RPATH<a class="headerlink" href="#modifying-rpath" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><p><em><strong>Requires <code class="docutils literal notranslate"><span class="pre">patchelf</span></code> package</strong></em></p>
+</div></blockquote>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>patchelf --remove-rpath &lt;exe-or-library&gt;
+patchelf --set-rpath <span class="s1">&#39;/home/user&#39;</span> &lt;exe-or-library&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="nomenclature.html" class="btn btn-neutral float-left" title="Nomenclature" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="runtime.html" class="btn btn-neutral float-right" title="Customizing Omnitrace Runtime" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Advanced Micro Devices, Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1HLBBRSTT9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-1HLBBRSTT9', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

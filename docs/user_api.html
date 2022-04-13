@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User API &mdash; omnitrace 1.0.0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Python Support" href="python.html" />
+    <link rel="prev" title="Omnitrace Output" href="output.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> omnitrace
+          </a>
+              <div class="version">
+                1.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output.html">Omnitrace Output</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">User API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#example">Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#user-api-implementation">User API Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#user-api-output">User API Output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python Support</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">omnitrace</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>User API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/user_api.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="user-api">
+<h1>User API<a class="headerlink" href="#user-api" title="Permalink to this headline">¶</a></h1>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-enums">Enums</p>
+<dl class="cpp enum">
+<dt id="_CPPv420OMNITRACE_USER_ERROR">
+<span id="_CPPv320OMNITRACE_USER_ERROR"></span><span id="_CPPv220OMNITRACE_USER_ERROR"></span><span class="target" id="d8/ddb/user_8h_1a15de0ccbe1e31c369cf7b1458ca58fab"></span><em class="property"><span class="pre">enum</span> </em><code class="sig-name descname"><span class="pre">OMNITRACE_USER_ERROR</span></code><a class="headerlink" href="#_CPPv420OMNITRACE_USER_ERROR" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Identifier for errors. </p>
+<p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt id="_CPPv4N20OMNITRACE_USER_ERROR22OMNITRACE_USER_SUCCESSE">
+<span id="_CPPv3N20OMNITRACE_USER_ERROR22OMNITRACE_USER_SUCCESSE"></span><span id="_CPPv2N20OMNITRACE_USER_ERROR22OMNITRACE_USER_SUCCESSE"></span><span class="target" id="d8/ddb/user_8h_1a15de0ccbe1e31c369cf7b1458ca58faba3979008ff62785e77ec1c71f0ef8ca13"></span><em class="property"><span class="pre">enumerator</span> </em><code class="sig-name descname"><span class="pre">OMNITRACE_USER_SUCCESS</span></code><a class="headerlink" href="#_CPPv4N20OMNITRACE_USER_ERROR22OMNITRACE_USER_SUCCESSE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>No error. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N20OMNITRACE_USER_ERROR31OMNITRACE_USER_ERROR_NO_BINDINGE">
+<span id="_CPPv3N20OMNITRACE_USER_ERROR31OMNITRACE_USER_ERROR_NO_BINDINGE"></span><span id="_CPPv2N20OMNITRACE_USER_ERROR31OMNITRACE_USER_ERROR_NO_BINDINGE"></span><span class="target" id="d8/ddb/user_8h_1a15de0ccbe1e31c369cf7b1458ca58faba8930a61637964840879da2adea7a0f6a"></span><em class="property"><span class="pre">enumerator</span> </em><code class="sig-name descname"><span class="pre">OMNITRACE_USER_ERROR_NO_BINDING</span></code><a class="headerlink" href="#_CPPv4N20OMNITRACE_USER_ERROR31OMNITRACE_USER_ERROR_NO_BINDINGE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function pointer was not assigned. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N20OMNITRACE_USER_ERROR41OMNITRACE_USER_ERROR_BAD_FUNCTION_POINTERE">
+<span id="_CPPv3N20OMNITRACE_USER_ERROR41OMNITRACE_USER_ERROR_BAD_FUNCTION_POINTERE"></span><span id="_CPPv2N20OMNITRACE_USER_ERROR41OMNITRACE_USER_ERROR_BAD_FUNCTION_POINTERE"></span><span class="target" id="d8/ddb/user_8h_1a15de0ccbe1e31c369cf7b1458ca58fabae443fe7d3d5f2832157406bb1a8a8b5e"></span><em class="property"><span class="pre">enumerator</span> </em><code class="sig-name descname"><span class="pre">OMNITRACE_USER_ERROR_BAD_FUNCTION_POINTER</span></code><a class="headerlink" href="#_CPPv4N20OMNITRACE_USER_ERROR41OMNITRACE_USER_ERROR_BAD_FUNCTION_POINTERE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Provided function pointer was invalid. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N20OMNITRACE_USER_ERROR37OMNITRACE_USER_ERROR_INVALID_CATEGORYE">
+<span id="_CPPv3N20OMNITRACE_USER_ERROR37OMNITRACE_USER_ERROR_INVALID_CATEGORYE"></span><span id="_CPPv2N20OMNITRACE_USER_ERROR37OMNITRACE_USER_ERROR_INVALID_CATEGORYE"></span><span class="target" id="d8/ddb/user_8h_1a15de0ccbe1e31c369cf7b1458ca58faba7912af4d017d7b0b7fae0ecf518634c2"></span><em class="property"><span class="pre">enumerator</span> </em><code class="sig-name descname"><span class="pre">OMNITRACE_USER_ERROR_INVALID_CATEGORY</span></code><a class="headerlink" href="#_CPPv4N20OMNITRACE_USER_ERROR37OMNITRACE_USER_ERROR_INVALID_CATEGORYE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Invalid user binding category. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N20OMNITRACE_USER_ERROR29OMNITRACE_USER_ERROR_INTERNALE">
+<span id="_CPPv3N20OMNITRACE_USER_ERROR29OMNITRACE_USER_ERROR_INTERNALE"></span><span id="_CPPv2N20OMNITRACE_USER_ERROR29OMNITRACE_USER_ERROR_INTERNALE"></span><span class="target" id="d8/ddb/user_8h_1a15de0ccbe1e31c369cf7b1458ca58faba5e1df2d9bd3efc093e460867484ea57c"></span><em class="property"><span class="pre">enumerator</span> </em><code class="sig-name descname"><span class="pre">OMNITRACE_USER_ERROR_INTERNAL</span></code><a class="headerlink" href="#_CPPv4N20OMNITRACE_USER_ERROR29OMNITRACE_USER_ERROR_INTERNALE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Internal error occurred within libomnitrace. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N20OMNITRACE_USER_ERROR25OMNITRACE_USER_ERROR_LASTE">
+<span id="_CPPv3N20OMNITRACE_USER_ERROR25OMNITRACE_USER_ERROR_LASTE"></span><span id="_CPPv2N20OMNITRACE_USER_ERROR25OMNITRACE_USER_ERROR_LASTE"></span><span class="target" id="d8/ddb/user_8h_1a15de0ccbe1e31c369cf7b1458ca58faba158e6e5763d922a3a6c5c18c10613d68"></span><em class="property"><span class="pre">enumerator</span> </em><code class="sig-name descname"><span class="pre">OMNITRACE_USER_ERROR_LAST</span></code><a class="headerlink" href="#_CPPv4N20OMNITRACE_USER_ERROR25OMNITRACE_USER_ERROR_LASTE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="cpp enum">
+<dt id="_CPPv423OMNITRACE_USER_BINDINGS">
+<span id="_CPPv323OMNITRACE_USER_BINDINGS"></span><span id="_CPPv223OMNITRACE_USER_BINDINGS"></span><span class="target" id="d8/ddb/user_8h_1ac2037f95663369e4bb26c0a1f3813f84"></span><em class="property"><span class="pre">enum</span> </em><code class="sig-name descname"><span class="pre">OMNITRACE_USER_BINDINGS</span></code><a class="headerlink" href="#_CPPv423OMNITRACE_USER_BINDINGS" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Identifier for function pointer categories. </p>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="p">(</span><span class="o">*</span><span class="n">omnitrace_push_region_f</span><span class="p">)(</span><span class="n">const</span> <span class="n">char</span><span class="o">*</span><span class="p">)</span> <span class="o">=</span> <span class="n">nullptr</span><span class="p">;</span>
+
+<span class="nb">int</span> <span class="n">custom_push_region</span><span class="p">(</span><span class="n">const</span> <span class="n">char</span><span class="o">*</span> <span class="n">name</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">custom</span> <span class="n">push</span> <span class="n">region</span> <span class="n">prints</span> <span class="n">message</span> <span class="n">before</span> <span class="n">calling</span> <span class="n">internal</span> <span class="n">callback</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;Pushing region </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">);</span>
+    <span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="n">omnitrace_push_region_f</span><span class="p">)(</span><span class="n">name</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nb">int</span> <span class="n">main</span><span class="p">(</span><span class="nb">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">get</span> <span class="n">the</span> <span class="n">internal</span> <span class="n">callback</span> <span class="n">to</span> <span class="n">start</span> <span class="n">a</span> <span class="n">user</span><span class="o">-</span><span class="n">defined</span> <span class="n">region</span>
+    <span class="n">omnitrace_user_get_callbacks</span><span class="p">(</span><span class="n">OMNITRACE_USER_REGION</span><span class="p">,</span>
+                                 <span class="p">(</span><span class="n">void</span><span class="o">**</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">omnitrace_push_region_f</span><span class="p">,</span>
+                                 <span class="n">nullptr</span><span class="p">);</span>
+    <span class="o">//</span> <span class="n">assign</span> <span class="n">the</span> <span class="n">custom</span> <span class="n">callback</span> <span class="n">to</span> <span class="n">start</span> <span class="n">a</span> <span class="n">user</span><span class="o">-</span><span class="n">defined</span> <span class="n">region</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">omnitrace_push_region_f</span><span class="p">)</span>
+        <span class="n">omnitrace_user_configure</span><span class="p">(</span><span class="n">OMNITRACE_USER_REGION</span><span class="p">,</span>
+                                 <span class="p">(</span><span class="n">void</span><span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">custom_push_region</span><span class="p">,</span>
+                                 <span class="n">nullptr</span><span class="p">);</span>
+    <span class="o">//</span> <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+ </p>
+<p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt id="_CPPv4N23OMNITRACE_USER_BINDINGS25OMNITRACE_USER_START_STOPE">
+<span id="_CPPv3N23OMNITRACE_USER_BINDINGS25OMNITRACE_USER_START_STOPE"></span><span id="_CPPv2N23OMNITRACE_USER_BINDINGS25OMNITRACE_USER_START_STOPE"></span><span class="target" id="d8/ddb/user_8h_1ac2037f95663369e4bb26c0a1f3813f84aa45c05a3d3f66dba30da569ebefcf77c"></span><em class="property"><span class="pre">enumerator</span> </em><code class="sig-name descname"><span class="pre">OMNITRACE_USER_START_STOP</span></code><a class="headerlink" href="#_CPPv4N23OMNITRACE_USER_BINDINGS25OMNITRACE_USER_START_STOPE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function pointers which control global start/stop. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N23OMNITRACE_USER_BINDINGS32OMNITRACE_USER_START_STOP_THREADE">
+<span id="_CPPv3N23OMNITRACE_USER_BINDINGS32OMNITRACE_USER_START_STOP_THREADE"></span><span id="_CPPv2N23OMNITRACE_USER_BINDINGS32OMNITRACE_USER_START_STOP_THREADE"></span><span class="target" id="d8/ddb/user_8h_1ac2037f95663369e4bb26c0a1f3813f84a4d5923e1a73e509aa977afad8206e4d4"></span><em class="property"><span class="pre">enumerator</span> </em><code class="sig-name descname"><span class="pre">OMNITRACE_USER_START_STOP_THREAD</span></code><a class="headerlink" href="#_CPPv4N23OMNITRACE_USER_BINDINGS32OMNITRACE_USER_START_STOP_THREADE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function pointers which control per-thread start/stop. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N23OMNITRACE_USER_BINDINGS21OMNITRACE_USER_REGIONE">
+<span id="_CPPv3N23OMNITRACE_USER_BINDINGS21OMNITRACE_USER_REGIONE"></span><span id="_CPPv2N23OMNITRACE_USER_BINDINGS21OMNITRACE_USER_REGIONE"></span><span class="target" id="d8/ddb/user_8h_1ac2037f95663369e4bb26c0a1f3813f84ab521b9e3892ee5429034611739133ce2"></span><em class="property"><span class="pre">enumerator</span> </em><code class="sig-name descname"><span class="pre">OMNITRACE_USER_REGION</span></code><a class="headerlink" href="#_CPPv4N23OMNITRACE_USER_BINDINGS21OMNITRACE_USER_REGIONE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function pointers which generate user-defined regions. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N23OMNITRACE_USER_BINDINGS28OMNITRACE_USER_BINDINGS_LASTE">
+<span id="_CPPv3N23OMNITRACE_USER_BINDINGS28OMNITRACE_USER_BINDINGS_LASTE"></span><span id="_CPPv2N23OMNITRACE_USER_BINDINGS28OMNITRACE_USER_BINDINGS_LASTE"></span><span class="target" id="d8/ddb/user_8h_1ac2037f95663369e4bb26c0a1f3813f84a561a33f1f01b054b2f8ce382ffe41642"></span><em class="property"><span class="pre">enumerator</span> </em><code class="sig-name descname"><span class="pre">OMNITRACE_USER_BINDINGS_LAST</span></code><a class="headerlink" href="#_CPPv4N23OMNITRACE_USER_BINDINGS28OMNITRACE_USER_BINDINGS_LASTE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv426omnitrace_user_start_tracev">
+<span id="_CPPv326omnitrace_user_start_tracev"></span><span id="_CPPv226omnitrace_user_start_tracev"></span><span id="omnitrace_user_start_trace__void"></span><span class="target" id="d8/ddb/user_8h_1a9e3049f9784585b1035a40dc63f8fe93"></span><span class="pre">int</span> <code class="sig-name descname"><span class="pre">omnitrace_user_start_trace</span></code><span class="sig-paren">(</span><span class="pre">void</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426omnitrace_user_start_tracev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable tracing on this thread and all subsequently created threads. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#d8/ddb/user_8h_1a15de0ccbe1e31c369cf7b1458ca58fab"><span class="std std-ref">OMNITRACE_USER_ERROR</span></a> value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv425omnitrace_user_stop_tracev">
+<span id="_CPPv325omnitrace_user_stop_tracev"></span><span id="_CPPv225omnitrace_user_stop_tracev"></span><span id="omnitrace_user_stop_trace__void"></span><span class="target" id="d8/ddb/user_8h_1a8e42afe54252edc6c6037504d8e77fbe"></span><span class="pre">int</span> <code class="sig-name descname"><span class="pre">omnitrace_user_stop_trace</span></code><span class="sig-paren">(</span><span class="pre">void</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425omnitrace_user_stop_tracev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable tracing on this thread and all subsequently created threads. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#d8/ddb/user_8h_1a15de0ccbe1e31c369cf7b1458ca58fab"><span class="std std-ref">OMNITRACE_USER_ERROR</span></a> value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv433omnitrace_user_start_thread_tracev">
+<span id="_CPPv333omnitrace_user_start_thread_tracev"></span><span id="_CPPv233omnitrace_user_start_thread_tracev"></span><span id="omnitrace_user_start_thread_trace__void"></span><span class="target" id="d8/ddb/user_8h_1a653286e2e2e225dc4fc19c346b067f5a"></span><span class="pre">int</span> <code class="sig-name descname"><span class="pre">omnitrace_user_start_thread_trace</span></code><span class="sig-paren">(</span><span class="pre">void</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv433omnitrace_user_start_thread_tracev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable tracing on this specific thread. Does not apply to subsequently created threads. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#d8/ddb/user_8h_1a15de0ccbe1e31c369cf7b1458ca58fab"><span class="std std-ref">OMNITRACE_USER_ERROR</span></a> value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv432omnitrace_user_stop_thread_tracev">
+<span id="_CPPv332omnitrace_user_stop_thread_tracev"></span><span id="_CPPv232omnitrace_user_stop_thread_tracev"></span><span id="omnitrace_user_stop_thread_trace__void"></span><span class="target" id="d8/ddb/user_8h_1aa297d11362239b4416b3926970ec5052"></span><span class="pre">int</span> <code class="sig-name descname"><span class="pre">omnitrace_user_stop_thread_trace</span></code><span class="sig-paren">(</span><span class="pre">void</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv432omnitrace_user_stop_thread_tracev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable tracing on this specific thread. Does not apply to subsequently created threads. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#d8/ddb/user_8h_1a15de0ccbe1e31c369cf7b1458ca58fab"><span class="std std-ref">OMNITRACE_USER_ERROR</span></a> value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv426omnitrace_user_push_regionPKc">
+<span id="_CPPv326omnitrace_user_push_regionPKc"></span><span id="_CPPv226omnitrace_user_push_regionPKc"></span><span id="omnitrace_user_push_region__cCP"></span><span class="target" id="d8/ddb/user_8h_1ae42c569728645abdc207e49ebb1432c4"></span><span class="pre">int</span> <code class="sig-name descname"><span class="pre">omnitrace_user_push_region</span></code><span class="sig-paren">(</span><em class="property"><span class="pre">const</span></em> <span class="pre">char</span><span class="pre">*</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426omnitrace_user_push_regionPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start a user defined region. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>id</strong> – The string identifier for the region </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference internal" href="#d8/ddb/user_8h_1a15de0ccbe1e31c369cf7b1458ca58fab"><span class="std std-ref">OMNITRACE_USER_ERROR</span></a> value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv425omnitrace_user_pop_regionPKc">
+<span id="_CPPv325omnitrace_user_pop_regionPKc"></span><span id="_CPPv225omnitrace_user_pop_regionPKc"></span><span id="omnitrace_user_pop_region__cCP"></span><span class="target" id="d8/ddb/user_8h_1abf9ced8deb52412679e71a709b606782"></span><span class="pre">int</span> <code class="sig-name descname"><span class="pre">omnitrace_user_pop_region</span></code><span class="sig-paren">(</span><em class="property"><span class="pre">const</span></em> <span class="pre">char</span><span class="pre">*</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425omnitrace_user_pop_regionPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>End a user defined region. In general, user regions should be popped in the inverse order that they were pushed, i.e. first-in, last-out (FILO). The timemory backend was designed to accommodate asynchronous tasking, where FILO may be violated, and will thus compenstate for out-of-order popping, however, the perfetto backend will not; thus, out-of-order popping will result in different results in timemory vs. perfetto. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>id</strong> – The string identifier for the region </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference internal" href="#d8/ddb/user_8h_1a15de0ccbe1e31c369cf7b1458ca58fab"><span class="std std-ref">OMNITRACE_USER_ERROR</span></a> value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv424omnitrace_user_configureiPvPv">
+<span id="_CPPv324omnitrace_user_configureiPvPv"></span><span id="_CPPv224omnitrace_user_configureiPvPv"></span><span id="omnitrace_user_configure__i.voidP.voidP"></span><span class="target" id="d8/ddb/user_8h_1a3f8c445c7c81f0238bdf9954c548a1b7"></span><span class="pre">int</span> <code class="sig-name descname"><span class="pre">omnitrace_user_configure</span></code><span class="sig-paren">(</span><span class="pre">int</span>, <span class="pre">void</span><span class="pre">*</span>, <span class="pre">void</span><span class="pre">*</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424omnitrace_user_configureiPvPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Configure the function pointers for a given category. This is handled by omnitrace-dl at start up but the user can specify their own if desired. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>category</strong> – An <a class="reference internal" href="#d8/ddb/user_8h_1ac2037f95663369e4bb26c0a1f3813f84"><span class="std std-ref">OMNITRACE_USER_BINDINGS</span></a> value </p></li>
+<li><p><strong>begin_func</strong> – The pointer to the function which corresponds to “starting” the category, e.g. omnitrace_user_start_trace or omnitrace_user_push_region </p></li>
+<li><p><strong>end_func</strong> – The pointer to the function which corresponds to “ending” the category, e.g. omnitrace_user_stop_trace or omnitrace_user_pop_region </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference internal" href="#d8/ddb/user_8h_1a15de0ccbe1e31c369cf7b1458ca58fab"><span class="std std-ref">OMNITRACE_USER_ERROR</span></a> value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv428omnitrace_user_get_callbacksiPPvPPv">
+<span id="_CPPv328omnitrace_user_get_callbacksiPPvPPv"></span><span id="_CPPv228omnitrace_user_get_callbacksiPPvPPv"></span><span id="omnitrace_user_get_callbacks__i.voidPP.voidPP"></span><span class="target" id="d8/ddb/user_8h_1aefee79bdcf15ae9eccbf3176f5d65cca"></span><span class="pre">int</span> <code class="sig-name descname"><span class="pre">omnitrace_user_get_callbacks</span></code><span class="sig-paren">(</span><span class="pre">int</span>, <span class="pre">void</span><span class="pre">*</span><span class="pre">*</span>, <span class="pre">void</span><span class="pre">*</span><span class="pre">*</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428omnitrace_user_get_callbacksiPPvPPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the current function pointers for a given category. The initial values are assigned by omnitrace-dl at start up. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>category</strong> – <strong>[in]</strong> An <a class="reference internal" href="#d8/ddb/user_8h_1ac2037f95663369e4bb26c0a1f3813f84"><span class="std std-ref">OMNITRACE_USER_BINDINGS</span></a> value </p></li>
+<li><p><strong>begin_func</strong> – <strong>[out]</strong> The pointer to the function which corresponds to “starting” the category, e.g. omnitrace_user_start_trace or omnitrace_user_push_region </p></li>
+<li><p><strong>end_func</strong> – <strong>[out]</strong> The pointer to the function which corresponds to “ending” the category, e.g. omnitrace_user_stop_trace or omnitrace_user_pop_region </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference internal" href="#d8/ddb/user_8h_1a15de0ccbe1e31c369cf7b1458ca58fab"><span class="std std-ref">OMNITRACE_USER_ERROR</span></a> value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv427omnitrace_user_error_stringi">
+<span id="_CPPv327omnitrace_user_error_stringi"></span><span id="_CPPv227omnitrace_user_error_stringi"></span><span id="omnitrace_user_error_string__i"></span><span class="target" id="d8/ddb/user_8h_1aa8fe1e32d74fb4403af5a515ae7bebd2"></span><em class="property"><span class="pre">const</span></em> <span class="pre">char</span> <span class="pre">*</span><code class="sig-name descname"><span class="pre">omnitrace_user_error_string</span></code><span class="sig-paren">(</span><span class="pre">int</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427omnitrace_user_error_stringi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a descriptor for the provided error code. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>error_category</strong> – OMNITRACE_USER_ERROR value </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference internal" href="#d8/ddb/user_8h_1a15de0ccbe1e31c369cf7b1458ca58fab"><span class="std std-ref">OMNITRACE_USER_ERROR</span></a> value </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<p>By default, when omnitrace detects any <code class="docutils literal notranslate"><span class="pre">omnitrace_user_start_*</span></code> or <code class="docutils literal notranslate"><span class="pre">omnitrace_user_stop_*</span></code> function, instrumentation
+is disabled at start-up – thus, <code class="docutils literal notranslate"><span class="pre">omnitrace_user_stop_trace()</span></code> is not required at the beginning of main. This is
+can be manually controlled via the <code class="docutils literal notranslate"><span class="pre">OMNITRACE_INIT_ENABLED</span></code> environment variable. User-defined regions are always
+recorded, regardless of whether whether <code class="docutils literal notranslate"><span class="pre">omnitrace_user_start_*</span></code> or <code class="docutils literal notranslate"><span class="pre">omnitrace_user_stop_*</span></code> has been called.</p>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="user-api-implementation">
+<h3>User API Implementation<a class="headerlink" href="#user-api-implementation" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;omnitrace/user.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;atomic&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cassert&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdio&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdlib&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sstream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;thread&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span><span class="cp"></span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="kt">long</span><span class="o">&gt;</span><span class="w"> </span><span class="n">total</span><span class="p">{</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+
+<span class="kt">long</span><span class="w"></span>
+<span class="nf">fib</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">noinline</span><span class="p">));</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"></span>
+<span class="nf">run</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">nitr</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="p">)</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">noinline</span><span class="p">));</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"></span>
+<span class="nf">custom_push_region</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">name</span><span class="p">);</span><span class="w"></span>
+
+<span class="k">namespace</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">omnitrace_push_region_f</span><span class="p">)(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"></span>
+<span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// get the internal callback to start a user-defined region</span>
+<span class="w">    </span><span class="n">omnitrace_user_get_callbacks</span><span class="p">(</span><span class="n">OMNITRACE_USER_REGION</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="o">**</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">omnitrace_push_region_f</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                 </span><span class="k">nullptr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// assign the custom callback to start a user-defined region</span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">omnitrace_push_region_f</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">omnitrace_user_configure</span><span class="p">(</span><span class="n">OMNITRACE_USER_REGION</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">custom_push_region</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                 </span><span class="k">nullptr</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">omnitrace_user_push_region</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">omnitrace_user_push_region</span><span class="p">(</span><span class="s">&quot;initialization&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">nthread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">min</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="o">::</span><span class="n">hardware_concurrency</span><span class="p">());</span><span class="w"></span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">nitr</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">50000</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">long</span><span class="w">   </span><span class="n">nfib</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">nfib</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atol</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="n">nthread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atol</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="n">nitr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atol</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">omnitrace_user_pop_region</span><span class="p">(</span><span class="s">&quot;initialization&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%s] Threads: %zu</span><span class="se">\n</span><span class="s">[%s] Iterations: %zu</span><span class="se">\n</span><span class="s">[%s] fibonacci(%li)...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"></span>
+<span class="w">           </span><span class="n">nthread</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">nitr</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">nfib</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">omnitrace_user_push_region</span><span class="p">(</span><span class="s">&quot;thread_creation&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="o">&gt;</span><span class="w"> </span><span class="n">threads</span><span class="p">{};</span><span class="w"></span>
+<span class="w">    </span><span class="n">threads</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">nthread</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// disable instrumentation for child threads</span>
+<span class="w">    </span><span class="n">omnitrace_user_stop_thread_trace</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nthread</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kt">size_t</span><span class="w"> </span><span class="n">_nitr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">i</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">(</span><span class="n">nitr</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="mf">0.1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nitr</span><span class="p">))</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="n">nitr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mf">0.1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nitr</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span><span class="kt">long</span><span class="w">   </span><span class="n">_nfib</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">i</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">(</span><span class="n">nfib</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="mf">0.1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nfib</span><span class="p">))</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="n">nfib</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mf">0.1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nfib</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span><span class="n">threads</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="o">&amp;</span><span class="n">run</span><span class="p">,</span><span class="w"> </span><span class="n">_nitr</span><span class="p">,</span><span class="w"> </span><span class="n">_nfib</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// re-enable instrumentation</span>
+<span class="w">    </span><span class="n">omnitrace_user_start_thread_trace</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">omnitrace_user_pop_region</span><span class="p">(</span><span class="s">&quot;thread_creation&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">omnitrace_user_push_region</span><span class="p">(</span><span class="s">&quot;thread_wait&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">itr</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">threads</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">itr</span><span class="p">.</span><span class="n">join</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">omnitrace_user_pop_region</span><span class="p">(</span><span class="s">&quot;thread_wait&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">run</span><span class="p">(</span><span class="n">nitr</span><span class="p">,</span><span class="w"> </span><span class="n">nfib</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%s] fibonacci(%li) x %lu = %li</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">nfib</span><span class="p">,</span><span class="w"> </span><span class="n">nthread</span><span class="p">,</span><span class="w"> </span><span class="n">total</span><span class="p">.</span><span class="n">load</span><span class="p">());</span><span class="w"></span>
+<span class="w">    </span><span class="n">omnitrace_user_pop_region</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">long</span><span class="w"></span>
+<span class="n">fib</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cp">#define RUN_LABEL                                                                        \</span>
+<span class="cp">    std::string{ std::string{ __FUNCTION__ } + &quot;(&quot; + std::to_string(n) + &quot;) x &quot; +        \</span>
+<span class="cp">                 std::to_string(nitr) }                                                  \</span>
+<span class="cp">        .c_str()</span>
+
+<span class="kt">void</span><span class="w"></span>
+<span class="n">run</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">nitr</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">omnitrace_user_push_region</span><span class="p">(</span><span class="n">RUN_LABEL</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nitr</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">local</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">total</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">local</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">omnitrace_user_pop_region</span><span class="p">(</span><span class="n">RUN_LABEL</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"></span>
+<span class="n">custom_push_region</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Pushing custom region :: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">omnitrace_push_region_f</span><span class="p">)(</span><span class="n">name</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="user-api-output">
+<h3>User API Output<a class="headerlink" href="#user-api-output" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>omnitrace -l --min-address-range<span class="o">=</span><span class="m">0</span> --min-address-range-loop<span class="o">=</span><span class="m">0</span> --min-instructions<span class="o">=</span><span class="m">8</span> -E custom_push_region -o -- ./user-api
+<span class="go">...</span>
+<span class="gp">$ </span><span class="nb">export</span> <span class="nv">OMNITRACE_USE_TIMEMORY</span><span class="o">=</span>ON
+<span class="gp">$ </span><span class="nb">export</span> <span class="nv">OMNITRACE_USE_PID</span><span class="o">=</span>OFF
+<span class="gp">$ </span><span class="nb">export</span> <span class="nv">OMNITRACE_TIME_OUTPUT</span><span class="o">=</span>OFF
+<span class="gp">$ </span><span class="nb">export</span> <span class="nv">OMNITRACE_OUTPUT_PATH</span><span class="o">=</span>omnitrace-example-output
+<span class="gp">$ </span>./user-api.inst <span class="m">20</span> <span class="m">4</span> <span class="m">100</span>
+<span class="go">Pushing custom region :: ./user-api.inst</span>
+<span class="go">[omnitrace][omnitrace_init_tooling] Instrumentation mode: Trace</span>
+
+
+<span class="go">      ______   .___  ___. .__   __.  __  .___________..______          ___       ______  _______</span>
+<span class="go">     /  __  \  |   \/   | |  \ |  | |  | |           ||   _  \        /   \     /      ||   ____|</span>
+<span class="go">    |  |  |  | |  \  /  | |   \|  | |  | `---|  |----`|  |_)  |      /  ^  \   |  ,----&#39;|  |__</span>
+<span class="go">    |  |  |  | |  |\/|  | |  . `  | |  |     |  |     |      /      /  /_\  \  |  |     |   __|</span>
+<span class="go">    |  `--&#39;  | |  |  |  | |  |\   | |  |     |  |     |  |\  \----./  _____  \ |  `----.|  |____</span>
+<span class="go">     \______/  |__|  |__| |__| \__| |__|     |__|     | _| `._____/__/     \__\ \______||_______|</span>
+
+
+
+<span class="go">Pushing custom region :: initialization</span>
+<span class="go">[./user-api.inst] Threads: 4</span>
+<span class="go">[./user-api.inst] Iterations: 100</span>
+<span class="go">[./user-api.inst] fibonacci(20)...</span>
+<span class="go">Pushing custom region :: thread_creation</span>
+<span class="go">Pushing custom region :: run(20) x 100</span>
+<span class="go">Pushing custom region :: thread_wait</span>
+<span class="go">Pushing custom region :: run(20) x 100</span>
+<span class="go">Pushing custom region :: run(20) x 100</span>
+<span class="go">Pushing custom region :: run(20) x 100</span>
+<span class="go">Pushing custom region :: run(20) x 100</span>
+<span class="go">[./user-api.inst] fibonacci(20) x 4 = 3382500</span>
+
+
+<span class="go">[omnitrace][2637959][0] omnitrace : 2.716905 sec wall_clock,    1.216 mb peak_rss, 3.680000 sec cpu_clock,  135.4 % cpu_util [laps: 1]</span>
+<span class="go">[omnitrace][2637959][0] user-api.inst/thread-0 : 2.715708 sec wall_clock, 2.354223 sec thread_cpu_clock,   86.7 % thread_cpu_util,    1.216 mb peak_rss [laps: 1]</span>
+<span class="go">[omnitrace][2637959][0] user-api.inst/thread-1 : 0.329802 sec wall_clock, 0.329739 sec thread_cpu_clock,  100.0 % thread_cpu_util,    0.000 mb peak_rss [laps: 1]</span>
+<span class="go">[omnitrace][2637959][0] user-api.inst/thread-2 : 0.355981 sec wall_clock, 0.335795 sec thread_cpu_clock,   94.3 % thread_cpu_util,    0.528 mb peak_rss [laps: 1]</span>
+<span class="go">[omnitrace][2637959][0] user-api.inst/thread-3 : 0.341329 sec wall_clock, 0.331214 sec thread_cpu_clock,   97.0 % thread_cpu_util,    0.456 mb peak_rss [laps: 1]</span>
+<span class="go">[omnitrace][2637959][0] user-api.inst/thread-4 : 0.360631 sec wall_clock, 0.330374 sec thread_cpu_clock,   91.6 % thread_cpu_util,    0.600 mb peak_rss [laps: 1]</span>
+<span class="go">[wall_clock]|0&gt; Outputting &#39;omnitrace-example-output/wall_clock.json&#39;...</span>
+<span class="go">[wall_clock]|0&gt; Outputting &#39;omnitrace-example-output/wall_clock.tree.json&#39;...</span>
+<span class="go">[wall_clock]|0&gt; Outputting &#39;omnitrace-example-output/wall_clock.txt&#39;...</span>
+
+
+<span class="go">[metadata::manager::finalize]&gt; Outputting &#39;omnitrace-example-output/metadata.json&#39; and &#39;omnitrace-example-output/functions.json&#39;...</span>
+<span class="gp">$ </span>cat omnitrace-example-output/wall_clock.txt
+<span class="go">|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|</span>
+<span class="go">|                                                                          REAL-CLOCK TIMER (I.E. WALL-CLOCK TIMER)                                                                         |</span>
+<span class="go">|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|</span>
+<span class="go">|                                LABEL                                  | COUNT   | DEPTH  |   METRIC   | UNITS  |   SUM    |   MEAN   |   MIN    |   MAX    |   VAR    | STDDEV   | % SELF |</span>
+<span class="go">|-----------------------------------------------------------------------|---------|--------|------------|--------|----------|----------|----------|----------|----------|----------|--------|</span>
+<span class="go">| |0&gt;&gt;&gt; ./user-api.inst                                                 |       1 |      0 | wall_clock | sec    | 2.715611 | 2.715611 | 2.715611 | 2.715611 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |0&gt;&gt;&gt; |_initialization                                                |       1 |      1 | wall_clock | sec    | 0.000001 | 0.000001 | 0.000001 | 0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt; |_thread_creation                                               |       1 |      1 | wall_clock | sec    | 0.000170 | 0.000170 | 0.000170 | 0.000170 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt; |_thread_wait                                                   |       1 |      1 | wall_clock | sec    | 0.360751 | 0.360751 | 0.360751 | 0.360751 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |1&gt;&gt;&gt;   |_run(20) x 100                                               |       1 |      2 | wall_clock | sec    | 0.329472 | 0.329472 | 0.329472 | 0.329472 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |3&gt;&gt;&gt;   |_run(20) x 100                                               |       1 |      2 | wall_clock | sec    | 0.331028 | 0.331028 | 0.331028 | 0.331028 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |2&gt;&gt;&gt;   |_run(20) x 100                                               |       1 |      2 | wall_clock | sec    | 0.335554 | 0.335554 | 0.335554 | 0.335554 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |4&gt;&gt;&gt;   |_run(20) x 100                                               |       1 |      2 | wall_clock | sec    | 0.330220 | 0.330220 | 0.330220 | 0.330220 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt; |_run                                                           |       1 |      1 | wall_clock | sec    | 2.354618 | 2.354618 | 2.354618 | 2.354618 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;   |_run(20) x 100                                               |       1 |      2 | wall_clock | sec    | 2.354600 | 2.354600 | 2.354600 | 2.354600 | 0.000000 | 0.000000 |   48.3 |</span>
+<span class="go">| |0&gt;&gt;&gt;     |_fib                                                       | 1094600 |      3 | wall_clock | sec    | 1.217671 | 0.000001 | 0.000000 | 0.000055 | 0.000000 | 0.000002 |   41.3 |</span>
+<span class="go">| |0&gt;&gt;&gt;       |_fib                                                     |  418100 |      4 | wall_clock | sec    | 0.714197 | 0.000002 | 0.000000 | 0.000050 | 0.000000 | 0.000002 |   38.1 |</span>
+<span class="go">| |0&gt;&gt;&gt;         |_fib                                                   |  258400 |      5 | wall_clock | sec    | 0.441874 | 0.000002 | 0.000000 | 0.000047 | 0.000000 | 0.000002 |   37.9 |</span>
+<span class="go">| |0&gt;&gt;&gt;           |_fib                                                 |  159700 |      6 | wall_clock | sec    | 0.274224 | 0.000002 | 0.000000 | 0.000044 | 0.000000 | 0.000002 |   37.9 |</span>
+<span class="go">| |0&gt;&gt;&gt;             |_fib                                               |   98700 |      7 | wall_clock | sec    | 0.170399 | 0.000002 | 0.000000 | 0.000042 | 0.000000 | 0.000002 |   37.7 |</span>
+<span class="go">| |0&gt;&gt;&gt;               |_fib                                             |   61000 |      8 | wall_clock | sec    | 0.106093 | 0.000002 | 0.000000 | 0.000039 | 0.000000 | 0.000002 |   37.5 |</span>
+<span class="go">| |0&gt;&gt;&gt;                 |_fib                                           |   37700 |      9 | wall_clock | sec    | 0.066316 | 0.000002 | 0.000000 | 0.000036 | 0.000000 | 0.000002 |   40.2 |</span>
+<span class="go">| |0&gt;&gt;&gt;                   |_fib                                         |   23300 |     10 | wall_clock | sec    | 0.039640 | 0.000002 | 0.000000 | 0.000033 | 0.000000 | 0.000002 |   38.2 |</span>
+<span class="go">| |0&gt;&gt;&gt;                     |_fib                                       |   14400 |     11 | wall_clock | sec    | 0.024504 | 0.000002 | 0.000000 | 0.000030 | 0.000000 | 0.000002 |   37.9 |</span>
+<span class="go">| |0&gt;&gt;&gt;                       |_fib                                     |    8900 |     12 | wall_clock | sec    | 0.015219 | 0.000002 | 0.000000 | 0.000027 | 0.000000 | 0.000002 |   38.1 |</span>
+<span class="go">| |0&gt;&gt;&gt;                         |_fib                                   |    5500 |     13 | wall_clock | sec    | 0.009417 | 0.000002 | 0.000000 | 0.000024 | 0.000000 | 0.000002 |   38.3 |</span>
+<span class="go">| |0&gt;&gt;&gt;                           |_fib                                 |    3400 |     14 | wall_clock | sec    | 0.005806 | 0.000002 | 0.000000 | 0.000021 | 0.000000 | 0.000002 |   38.4 |</span>
+<span class="go">| |0&gt;&gt;&gt;                             |_fib                               |    2100 |     15 | wall_clock | sec    | 0.003576 | 0.000002 | 0.000000 | 0.000019 | 0.000000 | 0.000002 |   38.4 |</span>
+<span class="go">| |0&gt;&gt;&gt;                               |_fib                             |    1300 |     16 | wall_clock | sec    | 0.002201 | 0.000002 | 0.000000 | 0.000016 | 0.000000 | 0.000002 |   40.3 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                 |_fib                           |     800 |     17 | wall_clock | sec    | 0.001315 | 0.000002 | 0.000000 | 0.000014 | 0.000000 | 0.000002 |   42.1 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                   |_fib                         |     500 |     18 | wall_clock | sec    | 0.000762 | 0.000002 | 0.000000 | 0.000010 | 0.000000 | 0.000001 |   42.1 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                     |_fib                       |     300 |     19 | wall_clock | sec    | 0.000441 | 0.000001 | 0.000000 | 0.000008 | 0.000000 | 0.000001 |   47.8 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                       |_fib                     |     200 |     20 | wall_clock | sec    | 0.000230 | 0.000001 | 0.000000 | 0.000006 | 0.000000 | 0.000001 |   49.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                         |_fib                   |     100 |     21 | wall_clock | sec    | 0.000117 | 0.000001 | 0.000001 | 0.000003 | 0.000000 | 0.000000 |   84.5 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                           |_fib                 |     100 |     22 | wall_clock | sec    | 0.000018 | 0.000000 | 0.000000 | 0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt; std::vector&lt;std::thread, std::allocator&lt;std::thread&gt; &gt;::~vector |       1 |      0 | wall_clock | sec    | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="output.html" class="btn btn-neutral float-left" title="Omnitrace Output" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="python.html" class="btn btn-neutral float-right" title="Python Support" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Advanced Micro Devices, Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1HLBBRSTT9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-1HLBBRSTT9', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>
