@@ -57,8 +57,8 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#creating-a-configuration-file">Creating a Configuration File</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#sample-text-configuration-file">Sample Text Configuration File</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sample-xml-configuration-file">Sample XML Configuration File</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sample-json-configuration-file">Sample JSON Configuration File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sample-xml-configuration-file">Sample XML Configuration File</a></li>
 </ul>
 </li>
 </ul>
@@ -312,120 +312,401 @@ from source with the CMake option(s) <code class="docutils literal notranslate">
 <div class="section" id="hardware-counters">
 <h4>Hardware Counters<a class="headerlink" href="#hardware-counters" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>omnitrace-avail -H -bd
-<span class="go">|---------------------|-------------------------------------------------|</span>
-<span class="go">|  HARDWARE COUNTER   |                   DESCRIPTION                   |</span>
-<span class="go">|---------------------|-------------------------------------------------|</span>
-<span class="go">|         CPU         |                                                 |</span>
-<span class="go">|---------------------|-------------------------------------------------|</span>
-<span class="go">| PAPI_L1_DCM         | Level 1 data cache misses                       |</span>
-<span class="go">| PAPI_L1_ICM         | Level 1 instruction cache misses                |</span>
-<span class="go">| PAPI_L2_DCM         | Level 2 data cache misses                       |</span>
-<span class="go">| PAPI_L2_ICM         | Level 2 instruction cache misses                |</span>
-<span class="go">| PAPI_L3_DCM         | Level 3 data cache misses                       |</span>
-<span class="go">| PAPI_L3_ICM         | Level 3 instruction cache misses                |</span>
-<span class="go">| PAPI_L1_TCM         | Level 1 cache misses                            |</span>
-<span class="go">| PAPI_L2_TCM         | Level 2 cache misses                            |</span>
-<span class="go">| PAPI_L3_TCM         | Level 3 cache misses                            |</span>
-<span class="go">| PAPI_CA_SNP         | Requests for a snoop                            |</span>
-<span class="go">| PAPI_CA_SHR         | Requests for exclusive access to shared cach... |</span>
-<span class="go">| PAPI_CA_CLN         | Requests for exclusive access to clean cache... |</span>
-<span class="go">| PAPI_CA_INV         | Requests for cache line invalidation            |</span>
-<span class="go">| PAPI_CA_ITV         | Requests for cache line intervention            |</span>
-<span class="go">| PAPI_L3_LDM         | Level 3 load misses                             |</span>
-<span class="go">| PAPI_L3_STM         | Level 3 store misses                            |</span>
-<span class="go">| PAPI_BRU_IDL        | Cycles branch units are idle                    |</span>
-<span class="go">| PAPI_FXU_IDL        | Cycles integer units are idle                   |</span>
-<span class="go">| PAPI_FPU_IDL        | Cycles floating point units are idle            |</span>
-<span class="go">| PAPI_LSU_IDL        | Cycles load/store units are idle                |</span>
-<span class="go">| PAPI_TLB_DM         | Data translation lookaside buffer misses        |</span>
-<span class="go">| PAPI_TLB_IM         | Instruction translation lookaside buffer misses |</span>
-<span class="go">| PAPI_TLB_TL         | Total translation lookaside buffer misses       |</span>
-<span class="go">| PAPI_L1_LDM         | Level 1 load misses                             |</span>
-<span class="go">| PAPI_L1_STM         | Level 1 store misses                            |</span>
-<span class="go">| PAPI_L2_LDM         | Level 2 load misses                             |</span>
-<span class="go">| PAPI_L2_STM         | Level 2 store misses                            |</span>
-<span class="go">| PAPI_BTAC_M         | Branch target address cache misses              |</span>
-<span class="go">| PAPI_PRF_DM         | Data prefetch cache misses                      |</span>
-<span class="go">| PAPI_L3_DCH         | Level 3 data cache hits                         |</span>
-<span class="go">| PAPI_TLB_SD         | Translation lookaside buffer shootdowns         |</span>
-<span class="go">| PAPI_CSR_FAL        | Failed store conditional instructions           |</span>
-<span class="go">| PAPI_CSR_SUC        | Successful store conditional instructions       |</span>
-<span class="go">| PAPI_CSR_TOT        | Total store conditional instructions            |</span>
-<span class="go">| PAPI_MEM_SCY        | Cycles Stalled Waiting for memory accesses      |</span>
-<span class="go">| PAPI_MEM_RCY        | Cycles Stalled Waiting for memory reads         |</span>
-<span class="go">| PAPI_MEM_WCY        | Cycles Stalled Waiting for memory writes        |</span>
-<span class="go">| PAPI_STL_ICY        | Cycles with no instruction issue                |</span>
-<span class="go">| PAPI_FUL_ICY        | Cycles with maximum instruction issue           |</span>
-<span class="go">| PAPI_STL_CCY        | Cycles with no instructions completed           |</span>
-<span class="go">| PAPI_FUL_CCY        | Cycles with maximum instructions completed      |</span>
-<span class="go">| PAPI_HW_INT         | Hardware interrupts                             |</span>
-<span class="go">| PAPI_BR_UCN         | Unconditional branch instructions               |</span>
-<span class="go">| PAPI_BR_CN          | Conditional branch instructions                 |</span>
-<span class="go">| PAPI_BR_TKN         | Conditional branch instructions taken           |</span>
-<span class="go">| PAPI_BR_NTK         | Conditional branch instructions not taken       |</span>
-<span class="go">| PAPI_BR_MSP         | Conditional branch instructions mispredicted    |</span>
-<span class="go">| PAPI_BR_PRC         | Conditional branch instructions correctly pr... |</span>
-<span class="go">| PAPI_FMA_INS        | FMA instructions completed                      |</span>
-<span class="go">| PAPI_TOT_IIS        | Instructions issued                             |</span>
-<span class="go">| PAPI_TOT_INS        | Instructions completed                          |</span>
-<span class="go">| PAPI_INT_INS        | Integer instructions                            |</span>
-<span class="go">| PAPI_FP_INS         | Floating point instructions                     |</span>
-<span class="go">| PAPI_LD_INS         | Load instructions                               |</span>
-<span class="go">| PAPI_SR_INS         | Store instructions                              |</span>
-<span class="go">| PAPI_BR_INS         | Branch instructions                             |</span>
-<span class="go">| PAPI_VEC_INS        | Vector/SIMD instructions (could include inte... |</span>
-<span class="go">| PAPI_RES_STL        | Cycles stalled on any resource                  |</span>
-<span class="go">| PAPI_FP_STAL        | Cycles the FP unit(s) are stalled               |</span>
-<span class="go">| PAPI_TOT_CYC        | Total cycles                                    |</span>
-<span class="go">| PAPI_LST_INS        | Load/store instructions completed               |</span>
-<span class="go">| PAPI_SYC_INS        | Synchronization instructions completed          |</span>
-<span class="go">| PAPI_L1_DCH         | Level 1 data cache hits                         |</span>
-<span class="go">| PAPI_L2_DCH         | Level 2 data cache hits                         |</span>
-<span class="go">| PAPI_L1_DCA         | Level 1 data cache accesses                     |</span>
-<span class="go">| PAPI_L2_DCA         | Level 2 data cache accesses                     |</span>
-<span class="go">| PAPI_L3_DCA         | Level 3 data cache accesses                     |</span>
-<span class="go">| PAPI_L1_DCR         | Level 1 data cache reads                        |</span>
-<span class="go">| PAPI_L2_DCR         | Level 2 data cache reads                        |</span>
-<span class="go">| PAPI_L3_DCR         | Level 3 data cache reads                        |</span>
-<span class="go">| PAPI_L1_DCW         | Level 1 data cache writes                       |</span>
-<span class="go">| PAPI_L2_DCW         | Level 2 data cache writes                       |</span>
-<span class="go">| PAPI_L3_DCW         | Level 3 data cache writes                       |</span>
-<span class="go">| PAPI_L1_ICH         | Level 1 instruction cache hits                  |</span>
-<span class="go">| PAPI_L2_ICH         | Level 2 instruction cache hits                  |</span>
-<span class="go">| PAPI_L3_ICH         | Level 3 instruction cache hits                  |</span>
-<span class="go">| PAPI_L1_ICA         | Level 1 instruction cache accesses              |</span>
-<span class="go">| PAPI_L2_ICA         | Level 2 instruction cache accesses              |</span>
-<span class="go">| PAPI_L3_ICA         | Level 3 instruction cache accesses              |</span>
-<span class="go">| PAPI_L1_ICR         | Level 1 instruction cache reads                 |</span>
-<span class="go">| PAPI_L2_ICR         | Level 2 instruction cache reads                 |</span>
-<span class="go">| PAPI_L3_ICR         | Level 3 instruction cache reads                 |</span>
-<span class="go">| PAPI_L1_ICW         | Level 1 instruction cache writes                |</span>
-<span class="go">| PAPI_L2_ICW         | Level 2 instruction cache writes                |</span>
-<span class="go">| PAPI_L3_ICW         | Level 3 instruction cache writes                |</span>
-<span class="go">| PAPI_L1_TCH         | Level 1 total cache hits                        |</span>
-<span class="go">| PAPI_L2_TCH         | Level 2 total cache hits                        |</span>
-<span class="go">| PAPI_L3_TCH         | Level 3 total cache hits                        |</span>
-<span class="go">| PAPI_L1_TCA         | Level 1 total cache accesses                    |</span>
-<span class="go">| PAPI_L2_TCA         | Level 2 total cache accesses                    |</span>
-<span class="go">| PAPI_L3_TCA         | Level 3 total cache accesses                    |</span>
-<span class="go">| PAPI_L1_TCR         | Level 1 total cache reads                       |</span>
-<span class="go">| PAPI_L2_TCR         | Level 2 total cache reads                       |</span>
-<span class="go">| PAPI_L3_TCR         | Level 3 total cache reads                       |</span>
-<span class="go">| PAPI_L1_TCW         | Level 1 total cache writes                      |</span>
-<span class="go">| PAPI_L2_TCW         | Level 2 total cache writes                      |</span>
-<span class="go">| PAPI_L3_TCW         | Level 3 total cache writes                      |</span>
-<span class="go">| PAPI_FML_INS        | Floating point multiply instructions            |</span>
-<span class="go">| PAPI_FAD_INS        | Floating point add instructions                 |</span>
-<span class="go">| PAPI_FDV_INS        | Floating point divide instructions              |</span>
-<span class="go">| PAPI_FSQ_INS        | Floating point square root instructions         |</span>
-<span class="go">| PAPI_FNV_INS        | Floating point inverse instructions             |</span>
-<span class="go">| PAPI_FP_OPS         | Floating point operations                       |</span>
-<span class="go">| PAPI_SP_OPS         | Floating point operations; optimized to coun... |</span>
-<span class="go">| PAPI_DP_OPS         | Floating point operations; optimized to coun... |</span>
-<span class="go">| PAPI_VEC_SP         | Single precision vector/SIMD instructions       |</span>
-<span class="go">| PAPI_VEC_DP         | Double precision vector/SIMD instructions       |</span>
-<span class="go">| PAPI_REF_CYC        | Reference clock cycles                          |</span>
-<span class="go">|---------------------|-------------------------------------------------|</span>
+<span class="go">|---------------------------------------|---------------------------------------|</span>
+<span class="go">|           HARDWARE COUNTER            |              DESCRIPTION              |</span>
+<span class="go">|---------------------------------------|---------------------------------------|</span>
+<span class="go">|                  CPU                  |                                       |</span>
+<span class="go">|---------------------------------------|---------------------------------------|</span>
+<span class="go">| PAPI_L1_DCM                           | Level 1 data cache misses             |</span>
+<span class="go">| PAPI_L1_ICM                           | Level 1 instruction cache misses      |</span>
+<span class="go">| PAPI_L2_DCM                           | Level 2 data cache misses             |</span>
+<span class="go">| PAPI_L2_ICM                           | Level 2 instruction cache misses      |</span>
+<span class="go">| PAPI_L3_DCM                           | Level 3 data cache misses             |</span>
+<span class="go">| PAPI_L3_ICM                           | Level 3 instruction cache misses      |</span>
+<span class="go">| PAPI_L1_TCM                           | Level 1 cache misses                  |</span>
+<span class="go">| PAPI_L2_TCM                           | Level 2 cache misses                  |</span>
+<span class="go">| PAPI_L3_TCM                           | Level 3 cache misses                  |</span>
+<span class="go">| PAPI_CA_SNP                           | Requests for a snoop                  |</span>
+<span class="go">| PAPI_CA_SHR                           | Requests for exclusive access to s... |</span>
+<span class="go">| PAPI_CA_CLN                           | Requests for exclusive access to c... |</span>
+<span class="go">| PAPI_CA_INV                           | Requests for cache line invalidation  |</span>
+<span class="go">| PAPI_CA_ITV                           | Requests for cache line intervention  |</span>
+<span class="go">| PAPI_L3_LDM                           | Level 3 load misses                   |</span>
+<span class="go">| PAPI_L3_STM                           | Level 3 store misses                  |</span>
+<span class="go">| PAPI_BRU_IDL                          | Cycles branch units are idle          |</span>
+<span class="go">| PAPI_FXU_IDL                          | Cycles integer units are idle         |</span>
+<span class="go">| PAPI_FPU_IDL                          | Cycles floating point units are idle  |</span>
+<span class="go">| PAPI_LSU_IDL                          | Cycles load/store units are idle      |</span>
+<span class="go">| PAPI_TLB_DM                           | Data translation lookaside buffer ... |</span>
+<span class="go">| PAPI_TLB_IM                           | Instruction translation lookaside ... |</span>
+<span class="go">| PAPI_TLB_TL                           | Total translation lookaside buffer... |</span>
+<span class="go">| PAPI_L1_LDM                           | Level 1 load misses                   |</span>
+<span class="go">| PAPI_L1_STM                           | Level 1 store misses                  |</span>
+<span class="go">| PAPI_L2_LDM                           | Level 2 load misses                   |</span>
+<span class="go">| PAPI_L2_STM                           | Level 2 store misses                  |</span>
+<span class="go">| PAPI_BTAC_M                           | Branch target address cache misses    |</span>
+<span class="go">| PAPI_PRF_DM                           | Data prefetch cache misses            |</span>
+<span class="go">| PAPI_L3_DCH                           | Level 3 data cache hits               |</span>
+<span class="go">| PAPI_TLB_SD                           | Translation lookaside buffer shoot... |</span>
+<span class="go">| PAPI_CSR_FAL                          | Failed store conditional instructions |</span>
+<span class="go">| PAPI_CSR_SUC                          | Successful store conditional instr... |</span>
+<span class="go">| PAPI_CSR_TOT                          | Total store conditional instructions  |</span>
+<span class="go">| PAPI_MEM_SCY                          | Cycles Stalled Waiting for memory ... |</span>
+<span class="go">| PAPI_MEM_RCY                          | Cycles Stalled Waiting for memory ... |</span>
+<span class="go">| PAPI_MEM_WCY                          | Cycles Stalled Waiting for memory ... |</span>
+<span class="go">| PAPI_STL_ICY                          | Cycles with no instruction issue      |</span>
+<span class="go">| PAPI_FUL_ICY                          | Cycles with maximum instruction issue |</span>
+<span class="go">| PAPI_STL_CCY                          | Cycles with no instructions completed |</span>
+<span class="go">| PAPI_FUL_CCY                          | Cycles with maximum instructions c... |</span>
+<span class="go">| PAPI_HW_INT                           | Hardware interrupts                   |</span>
+<span class="go">| PAPI_BR_UCN                           | Unconditional branch instructions     |</span>
+<span class="go">| PAPI_BR_CN                            | Conditional branch instructions       |</span>
+<span class="go">| PAPI_BR_TKN                           | Conditional branch instructions taken |</span>
+<span class="go">| PAPI_BR_NTK                           | Conditional branch instructions no... |</span>
+<span class="go">| PAPI_BR_MSP                           | Conditional branch instructions mi... |</span>
+<span class="go">| PAPI_BR_PRC                           | Conditional branch instructions co... |</span>
+<span class="go">| PAPI_FMA_INS                          | FMA instructions completed            |</span>
+<span class="go">| PAPI_TOT_IIS                          | Instructions issued                   |</span>
+<span class="go">| PAPI_TOT_INS                          | Instructions completed                |</span>
+<span class="go">| PAPI_INT_INS                          | Integer instructions                  |</span>
+<span class="go">| PAPI_FP_INS                           | Floating point instructions           |</span>
+<span class="go">| PAPI_LD_INS                           | Load instructions                     |</span>
+<span class="go">| PAPI_SR_INS                           | Store instructions                    |</span>
+<span class="go">| PAPI_BR_INS                           | Branch instructions                   |</span>
+<span class="go">| PAPI_VEC_INS                          | Vector/SIMD instructions (could in... |</span>
+<span class="go">| PAPI_RES_STL                          | Cycles stalled on any resource        |</span>
+<span class="go">| PAPI_FP_STAL                          | Cycles the FP unit(s) are stalled     |</span>
+<span class="go">| PAPI_TOT_CYC                          | Total cycles                          |</span>
+<span class="go">| PAPI_LST_INS                          | Load/store instructions completed     |</span>
+<span class="go">| PAPI_SYC_INS                          | Synchronization instructions compl... |</span>
+<span class="go">| PAPI_L1_DCH                           | Level 1 data cache hits               |</span>
+<span class="go">| PAPI_L2_DCH                           | Level 2 data cache hits               |</span>
+<span class="go">| PAPI_L1_DCA                           | Level 1 data cache accesses           |</span>
+<span class="go">| PAPI_L2_DCA                           | Level 2 data cache accesses           |</span>
+<span class="go">| PAPI_L3_DCA                           | Level 3 data cache accesses           |</span>
+<span class="go">| PAPI_L1_DCR                           | Level 1 data cache reads              |</span>
+<span class="go">| PAPI_L2_DCR                           | Level 2 data cache reads              |</span>
+<span class="go">| PAPI_L3_DCR                           | Level 3 data cache reads              |</span>
+<span class="go">| PAPI_L1_DCW                           | Level 1 data cache writes             |</span>
+<span class="go">| PAPI_L2_DCW                           | Level 2 data cache writes             |</span>
+<span class="go">| PAPI_L3_DCW                           | Level 3 data cache writes             |</span>
+<span class="go">| PAPI_L1_ICH                           | Level 1 instruction cache hits        |</span>
+<span class="go">| PAPI_L2_ICH                           | Level 2 instruction cache hits        |</span>
+<span class="go">| PAPI_L3_ICH                           | Level 3 instruction cache hits        |</span>
+<span class="go">| PAPI_L1_ICA                           | Level 1 instruction cache accesses    |</span>
+<span class="go">| PAPI_L2_ICA                           | Level 2 instruction cache accesses    |</span>
+<span class="go">| PAPI_L3_ICA                           | Level 3 instruction cache accesses    |</span>
+<span class="go">| PAPI_L1_ICR                           | Level 1 instruction cache reads       |</span>
+<span class="go">| PAPI_L2_ICR                           | Level 2 instruction cache reads       |</span>
+<span class="go">| PAPI_L3_ICR                           | Level 3 instruction cache reads       |</span>
+<span class="go">| PAPI_L1_ICW                           | Level 1 instruction cache writes      |</span>
+<span class="go">| PAPI_L2_ICW                           | Level 2 instruction cache writes      |</span>
+<span class="go">| PAPI_L3_ICW                           | Level 3 instruction cache writes      |</span>
+<span class="go">| PAPI_L1_TCH                           | Level 1 total cache hits              |</span>
+<span class="go">| PAPI_L2_TCH                           | Level 2 total cache hits              |</span>
+<span class="go">| PAPI_L3_TCH                           | Level 3 total cache hits              |</span>
+<span class="go">| PAPI_L1_TCA                           | Level 1 total cache accesses          |</span>
+<span class="go">| PAPI_L2_TCA                           | Level 2 total cache accesses          |</span>
+<span class="go">| PAPI_L3_TCA                           | Level 3 total cache accesses          |</span>
+<span class="go">| PAPI_L1_TCR                           | Level 1 total cache reads             |</span>
+<span class="go">| PAPI_L2_TCR                           | Level 2 total cache reads             |</span>
+<span class="go">| PAPI_L3_TCR                           | Level 3 total cache reads             |</span>
+<span class="go">| PAPI_L1_TCW                           | Level 1 total cache writes            |</span>
+<span class="go">| PAPI_L2_TCW                           | Level 2 total cache writes            |</span>
+<span class="go">| PAPI_L3_TCW                           | Level 3 total cache writes            |</span>
+<span class="go">| PAPI_FML_INS                          | Floating point multiply instructions  |</span>
+<span class="go">| PAPI_FAD_INS                          | Floating point add instructions       |</span>
+<span class="go">| PAPI_FDV_INS                          | Floating point divide instructions    |</span>
+<span class="go">| PAPI_FSQ_INS                          | Floating point square root instruc... |</span>
+<span class="go">| PAPI_FNV_INS                          | Floating point inverse instructions   |</span>
+<span class="go">| PAPI_FP_OPS                           | Floating point operations             |</span>
+<span class="go">| PAPI_SP_OPS                           | Floating point operations; optimiz... |</span>
+<span class="go">| PAPI_DP_OPS                           | Floating point operations; optimiz... |</span>
+<span class="go">| PAPI_VEC_SP                           | Single precision vector/SIMD instr... |</span>
+<span class="go">| PAPI_VEC_DP                           | Double precision vector/SIMD instr... |</span>
+<span class="go">| PAPI_REF_CYC                          | Reference clock cycles                |</span>
+<span class="go">| perf::PERF_COUNT_HW_CPU_CYCLES        | PERF_COUNT_HW_CPU_CYCLES              |</span>
+<span class="go">| perf::PERF_COUNT_HW_CPU_CYCLES:u=0    | perf::PERF_COUNT_HW_CPU_CYCLES + m... |</span>
+<span class="go">| perf::PERF_COUNT_HW_CPU_CYCLES:k=0    | perf::PERF_COUNT_HW_CPU_CYCLES + m... |</span>
+<span class="go">| perf::PERF_COUNT_HW_CPU_CYCLES:h=0    | perf::PERF_COUNT_HW_CPU_CYCLES + m... |</span>
+<span class="go">| perf::PERF_COUNT_HW_CPU_CYCLES:per... | perf::PERF_COUNT_HW_CPU_CYCLES + s... |</span>
+<span class="go">| perf::PERF_COUNT_HW_CPU_CYCLES:freq=0 | perf::PERF_COUNT_HW_CPU_CYCLES + s... |</span>
+<span class="go">| perf::PERF_COUNT_HW_CPU_CYCLES:pre... | perf::PERF_COUNT_HW_CPU_CYCLES + p... |</span>
+<span class="go">| perf::PERF_COUNT_HW_CPU_CYCLES:excl=0 | perf::PERF_COUNT_HW_CPU_CYCLES + e... |</span>
+<span class="go">| perf::PERF_COUNT_HW_CPU_CYCLES:mg=0   | perf::PERF_COUNT_HW_CPU_CYCLES + m... |</span>
+<span class="go">| perf::PERF_COUNT_HW_CPU_CYCLES:mh=0   | perf::PERF_COUNT_HW_CPU_CYCLES + m... |</span>
+<span class="go">| perf::PERF_COUNT_HW_CPU_CYCLES:cpu=0  | perf::PERF_COUNT_HW_CPU_CYCLES + C... |</span>
+<span class="go">| perf::PERF_COUNT_HW_CPU_CYCLES:pin... | perf::PERF_COUNT_HW_CPU_CYCLES + p... |</span>
+<span class="go">| perf::CYCLES                          | PERF_COUNT_HW_CPU_CYCLES              |</span>
+<span class="go">| perf::CYCLES:u=0                      | perf::CYCLES + monitor at user level  |</span>
+<span class="go">| perf::CYCLES:k=0                      | perf::CYCLES + monitor at kernel l... |</span>
+<span class="go">| perf::CYCLES:h=0                      | perf::CYCLES + monitor at hypervis... |</span>
+<span class="go">| perf::CYCLES:period=0                 | perf::CYCLES + sampling period        |</span>
+<span class="go">| perf::CYCLES:freq=0                   | perf::CYCLES + sampling frequency ... |</span>
+<span class="go">| perf::CYCLES:precise=0                | perf::CYCLES + precise event sampling |</span>
+<span class="go">| perf::CYCLES:excl=0                   | perf::CYCLES + exclusive access       |</span>
+<span class="go">| perf::CYCLES:mg=0                     | perf::CYCLES + monitor guest execu... |</span>
+<span class="go">| perf::CYCLES:mh=0                     | perf::CYCLES + monitor host execution |</span>
+<span class="go">| perf::CYCLES:cpu=0                    | perf::CYCLES + CPU to program         |</span>
+<span class="go">| perf::CYCLES:pinned=0                 | perf::CYCLES + pin event to counters  |</span>
+<span class="go">| perf::CPU-CYCLES                      | PERF_COUNT_HW_CPU_CYCLES              |</span>
+<span class="go">| perf::CPU-CYCLES:u=0                  | perf::CPU-CYCLES + monitor at user... |</span>
+<span class="go">| perf::CPU-CYCLES:k=0                  | perf::CPU-CYCLES + monitor at kern... |</span>
+<span class="go">| perf::CPU-CYCLES:h=0                  | perf::CPU-CYCLES + monitor at hype... |</span>
+<span class="go">| perf::CPU-CYCLES:period=0             | perf::CPU-CYCLES + sampling period    |</span>
+<span class="go">| perf::CPU-CYCLES:freq=0               | perf::CPU-CYCLES + sampling freque... |</span>
+<span class="go">| perf::CPU-CYCLES:precise=0            | perf::CPU-CYCLES + precise event s... |</span>
+<span class="go">| perf::CPU-CYCLES:excl=0               | perf::CPU-CYCLES + exclusive access   |</span>
+<span class="go">| perf::CPU-CYCLES:mg=0                 | perf::CPU-CYCLES + monitor guest e... |</span>
+<span class="go">| perf::CPU-CYCLES:mh=0                 | perf::CPU-CYCLES + monitor host ex... |</span>
+<span class="go">| perf::CPU-CYCLES:cpu=0                | perf::CPU-CYCLES + CPU to program     |</span>
+<span class="go">| perf::CPU-CYCLES:pinned=0             | perf::CPU-CYCLES + pin event to co... |</span>
+<span class="go">| perf::PERF_COUNT_HW_INSTRUCTIONS      | PERF_COUNT_HW_INSTRUCTIONS            |</span>
+<span class="go">| perf::PERF_COUNT_HW_INSTRUCTIONS:u=0  | perf::PERF_COUNT_HW_INSTRUCTIONS +... |</span>
+<span class="go">| perf::PERF_COUNT_HW_INSTRUCTIONS:k=0  | perf::PERF_COUNT_HW_INSTRUCTIONS +... |</span>
+<span class="go">| perf::PERF_COUNT_HW_INSTRUCTIONS:h=0  | perf::PERF_COUNT_HW_INSTRUCTIONS +... |</span>
+<span class="go">| perf::PERF_COUNT_HW_INSTRUCTIONS:p... | perf::PERF_COUNT_HW_INSTRUCTIONS +... |</span>
+<span class="go">| perf::PERF_COUNT_HW_INSTRUCTIONS:f... | perf::PERF_COUNT_HW_INSTRUCTIONS +... |</span>
+<span class="go">| perf::PERF_COUNT_HW_INSTRUCTIONS:p... | perf::PERF_COUNT_HW_INSTRUCTIONS +... |</span>
+<span class="go">| perf::PERF_COUNT_HW_INSTRUCTIONS:e... | perf::PERF_COUNT_HW_INSTRUCTIONS +... |</span>
+<span class="go">| perf::PERF_COUNT_HW_INSTRUCTIONS:mg=0 | perf::PERF_COUNT_HW_INSTRUCTIONS +... |</span>
+<span class="go">| perf::PERF_COUNT_HW_INSTRUCTIONS:mh=0 | perf::PERF_COUNT_HW_INSTRUCTIONS +... |</span>
+<span class="go">| perf::PERF_COUNT_HW_INSTRUCTIONS:c... | perf::PERF_COUNT_HW_INSTRUCTIONS +... |</span>
+<span class="go">| perf::PERF_COUNT_HW_INSTRUCTIONS:p... | perf::PERF_COUNT_HW_INSTRUCTIONS +... |</span>
+<span class="go">| ... etc. ...                          |                                       |</span>
+<span class="go">| perf_raw::r0000                       | perf_events raw event syntax: r[0-... |</span>
+<span class="go">| perf_raw::r0000:u=0                   | perf_raw::r0000 + monitor at user ... |</span>
+<span class="go">| perf_raw::r0000:k=0                   | perf_raw::r0000 + monitor at kerne... |</span>
+<span class="go">| perf_raw::r0000:h=0                   | perf_raw::r0000 + monitor at hyper... |</span>
+<span class="go">| perf_raw::r0000:period=0              | perf_raw::r0000 + sampling period     |</span>
+<span class="go">| perf_raw::r0000:freq=0                | perf_raw::r0000 + sampling frequen... |</span>
+<span class="go">| perf_raw::r0000:precise=0             | perf_raw::r0000 + precise event sa... |</span>
+<span class="go">| perf_raw::r0000:excl=0                | perf_raw::r0000 + exclusive access    |</span>
+<span class="go">| perf_raw::r0000:mg=0                  | perf_raw::r0000 + monitor guest ex... |</span>
+<span class="go">| perf_raw::r0000:mh=0                  | perf_raw::r0000 + monitor host exe... |</span>
+<span class="go">| perf_raw::r0000:cpu=0                 | perf_raw::r0000 + CPU to program      |</span>
+<span class="go">| perf_raw::r0000:pinned=0              | perf_raw::r0000 + pin event to cou... |</span>
+<span class="go">| perf_raw::r0000:hw_smpl=0             | perf_raw::r0000 + enable hardware ... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_HIT              | Number of instruction fetches that... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_HIT:e=0          | L1_ITLB_MISS_L2_ITLB_HIT + edge level |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_HIT:i=0          | L1_ITLB_MISS_L2_ITLB_HIT + invert     |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_HIT:c=0          | L1_ITLB_MISS_L2_ITLB_HIT + counter... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_HIT:g=0          | L1_ITLB_MISS_L2_ITLB_HIT + measure... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_HIT:u=0          | L1_ITLB_MISS_L2_ITLB_HIT + monitor... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_HIT:k=0          | L1_ITLB_MISS_L2_ITLB_HIT + monitor... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_HIT:period=0     | L1_ITLB_MISS_L2_ITLB_HIT + samplin... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_HIT:freq=0       | L1_ITLB_MISS_L2_ITLB_HIT + samplin... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_HIT:excl=0       | L1_ITLB_MISS_L2_ITLB_HIT + exclusi... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_HIT:mg=0         | L1_ITLB_MISS_L2_ITLB_HIT + monitor... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_HIT:mh=0         | L1_ITLB_MISS_L2_ITLB_HIT + monitor... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_HIT:cpu=0        | L1_ITLB_MISS_L2_ITLB_HIT + CPU to ... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_HIT:pinned=0     | L1_ITLB_MISS_L2_ITLB_HIT + pin eve... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_MISS             | Number of instruction fetches that... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_MISS:IF1G        | L1_ITLB_MISS_L2_ITLB_MISS + Number... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_MISS:IF2M        | L1_ITLB_MISS_L2_ITLB_MISS + Number... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_MISS:IF4K        | L1_ITLB_MISS_L2_ITLB_MISS + Number... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_MISS:e=0         | L1_ITLB_MISS_L2_ITLB_MISS + edge l... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_MISS:i=0         | L1_ITLB_MISS_L2_ITLB_MISS + invert    |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_MISS:c=0         | L1_ITLB_MISS_L2_ITLB_MISS + counte... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_MISS:g=0         | L1_ITLB_MISS_L2_ITLB_MISS + measur... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_MISS:u=0         | L1_ITLB_MISS_L2_ITLB_MISS + monito... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_MISS:k=0         | L1_ITLB_MISS_L2_ITLB_MISS + monito... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_MISS:period=0    | L1_ITLB_MISS_L2_ITLB_MISS + sampli... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_MISS:freq=0      | L1_ITLB_MISS_L2_ITLB_MISS + sampli... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_MISS:excl=0      | L1_ITLB_MISS_L2_ITLB_MISS + exclus... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_MISS:mg=0        | L1_ITLB_MISS_L2_ITLB_MISS + monito... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_MISS:mh=0        | L1_ITLB_MISS_L2_ITLB_MISS + monito... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_MISS:cpu=0       | L1_ITLB_MISS_L2_ITLB_MISS + CPU to... |</span>
+<span class="go">| L1_ITLB_MISS_L2_ITLB_MISS:pinned=0    | L1_ITLB_MISS_L2_ITLB_MISS + pin ev... |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS                 | This is a retire-based event. The ... |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:ADD_SUB_FLOPS   | RETIRED_SSE_AVX_FLOPS + Addition/s... |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:MULT_FLOPS      | RETIRED_SSE_AVX_FLOPS + Multiplica... |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:DIV_FLOPS       | RETIRED_SSE_AVX_FLOPS + Division F... |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:MAC_FLOPS       | RETIRED_SSE_AVX_FLOPS + Double pre... |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:ANY             | RETIRED_SSE_AVX_FLOPS + Double pre... |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:e=0             | RETIRED_SSE_AVX_FLOPS + edge level    |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:i=0             | RETIRED_SSE_AVX_FLOPS + invert        |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:c=0             | RETIRED_SSE_AVX_FLOPS + counter-ma... |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:g=0             | RETIRED_SSE_AVX_FLOPS + measure in... |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:u=0             | RETIRED_SSE_AVX_FLOPS + monitor at... |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:k=0             | RETIRED_SSE_AVX_FLOPS + monitor at... |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:period=0        | RETIRED_SSE_AVX_FLOPS + sampling p... |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:freq=0          | RETIRED_SSE_AVX_FLOPS + sampling f... |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:excl=0          | RETIRED_SSE_AVX_FLOPS + exclusive ... |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:mg=0            | RETIRED_SSE_AVX_FLOPS + monitor gu... |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:mh=0            | RETIRED_SSE_AVX_FLOPS + monitor ho... |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:cpu=0           | RETIRED_SSE_AVX_FLOPS + CPU to pro... |</span>
+<span class="go">| RETIRED_SSE_AVX_FLOPS:pinned=0        | RETIRED_SSE_AVX_FLOPS + pin event ... |</span>
+<span class="go">| DIV_CYCLES_BUSY_COUNT                 | Number of cycles when the divider ... |</span>
+<span class="go">| DIV_CYCLES_BUSY_COUNT:e=0             | DIV_CYCLES_BUSY_COUNT + edge level    |</span>
+<span class="go">| DIV_CYCLES_BUSY_COUNT:i=0             | DIV_CYCLES_BUSY_COUNT + invert        |</span>
+<span class="go">| DIV_CYCLES_BUSY_COUNT:c=0             | DIV_CYCLES_BUSY_COUNT + counter-ma... |</span>
+<span class="go">| DIV_CYCLES_BUSY_COUNT:g=0             | DIV_CYCLES_BUSY_COUNT + measure in... |</span>
+<span class="go">| DIV_CYCLES_BUSY_COUNT:u=0             | DIV_CYCLES_BUSY_COUNT + monitor at... |</span>
+<span class="go">| DIV_CYCLES_BUSY_COUNT:k=0             | DIV_CYCLES_BUSY_COUNT + monitor at... |</span>
+<span class="go">| DIV_CYCLES_BUSY_COUNT:period=0        | DIV_CYCLES_BUSY_COUNT + sampling p... |</span>
+<span class="go">| DIV_CYCLES_BUSY_COUNT:freq=0          | DIV_CYCLES_BUSY_COUNT + sampling f... |</span>
+<span class="go">| DIV_CYCLES_BUSY_COUNT:excl=0          | DIV_CYCLES_BUSY_COUNT + exclusive ... |</span>
+<span class="go">| DIV_CYCLES_BUSY_COUNT:mg=0            | DIV_CYCLES_BUSY_COUNT + monitor gu... |</span>
+<span class="go">| DIV_CYCLES_BUSY_COUNT:mh=0            | DIV_CYCLES_BUSY_COUNT + monitor ho... |</span>
+<span class="go">| DIV_CYCLES_BUSY_COUNT:cpu=0           | DIV_CYCLES_BUSY_COUNT + CPU to pro... |</span>
+<span class="go">| DIV_CYCLES_BUSY_COUNT:pinned=0        | DIV_CYCLES_BUSY_COUNT + pin event ... |</span>
+<span class="go">| DIV_OP_COUNT                          | Number of divide uops.                |</span>
+<span class="go">| DIV_OP_COUNT:e=0                      | DIV_OP_COUNT + edge level             |</span>
+<span class="go">| DIV_OP_COUNT:i=0                      | DIV_OP_COUNT + invert                 |</span>
+<span class="go">| DIV_OP_COUNT:c=0                      | DIV_OP_COUNT + counter-mask in ran... |</span>
+<span class="go">| DIV_OP_COUNT:g=0                      | DIV_OP_COUNT + measure in guest       |</span>
+<span class="go">| DIV_OP_COUNT:u=0                      | DIV_OP_COUNT + monitor at user level  |</span>
+<span class="go">| DIV_OP_COUNT:k=0                      | DIV_OP_COUNT + monitor at kernel l... |</span>
+<span class="go">| DIV_OP_COUNT:period=0                 | DIV_OP_COUNT + sampling period        |</span>
+<span class="go">| DIV_OP_COUNT:freq=0                   | DIV_OP_COUNT + sampling frequency ... |</span>
+<span class="go">| DIV_OP_COUNT:excl=0                   | DIV_OP_COUNT + exclusive access       |</span>
+<span class="go">| DIV_OP_COUNT:mg=0                     | DIV_OP_COUNT + monitor guest execu... |</span>
+<span class="go">| DIV_OP_COUNT:mh=0                     | DIV_OP_COUNT + monitor host execution |</span>
+<span class="go">| DIV_OP_COUNT:cpu=0                    | DIV_OP_COUNT + CPU to program         |</span>
+<span class="go">| DIV_OP_COUNT:pinned=0                 | DIV_OP_COUNT + pin event to counters  |</span>
+<span class="go">| ... etc. ...                          |                                       |</span>
+<span class="go">| amd64_rapl::RAPL_ENERGY_PKG           | Number of Joules consumed by all c... |</span>
+<span class="go">| amd64_rapl::RAPL_ENERGY_PKG:u=0       | amd64_rapl::RAPL_ENERGY_PKG + moni... |</span>
+<span class="go">| amd64_rapl::RAPL_ENERGY_PKG:k=0       | amd64_rapl::RAPL_ENERGY_PKG + moni... |</span>
+<span class="go">| amd64_rapl::RAPL_ENERGY_PKG:period=0  | amd64_rapl::RAPL_ENERGY_PKG + samp... |</span>
+<span class="go">| amd64_rapl::RAPL_ENERGY_PKG:freq=0    | amd64_rapl::RAPL_ENERGY_PKG + samp... |</span>
+<span class="go">| amd64_rapl::RAPL_ENERGY_PKG:excl=0    | amd64_rapl::RAPL_ENERGY_PKG + excl... |</span>
+<span class="go">| amd64_rapl::RAPL_ENERGY_PKG:mg=0      | amd64_rapl::RAPL_ENERGY_PKG + moni... |</span>
+<span class="go">| amd64_rapl::RAPL_ENERGY_PKG:mh=0      | amd64_rapl::RAPL_ENERGY_PKG + moni... |</span>
+<span class="go">| amd64_rapl::RAPL_ENERGY_PKG:cpu=0     | amd64_rapl::RAPL_ENERGY_PKG + CPU ... |</span>
+<span class="go">| amd64_rapl::RAPL_ENERGY_PKG:pinned=0  | amd64_rapl::RAPL_ENERGY_PKG + pin ... |</span>
+<span class="go">| appio:::READ_BYTES                    | Bytes read                            |</span>
+<span class="go">| appio:::READ_CALLS                    | Number of read calls                  |</span>
+<span class="go">| appio:::READ_ERR                      | Number of read calls that resulted... |</span>
+<span class="go">| appio:::READ_INTERRUPTED              | Number of read calls that timed ou... |</span>
+<span class="go">| appio:::READ_WOULD_BLOCK              | Number of read calls that would ha... |</span>
+<span class="go">| appio:::READ_SHORT                    | Number of read calls that returned... |</span>
+<span class="go">| appio:::READ_EOF                      | Number of read calls that returned... |</span>
+<span class="go">| appio:::READ_BLOCK_SIZE               | Average block size of reads           |</span>
+<span class="go">| appio:::READ_USEC                     | Real microseconds spent in reads      |</span>
+<span class="go">| appio:::WRITE_BYTES                   | Bytes written                         |</span>
+<span class="go">| appio:::WRITE_CALLS                   | Number of write calls                 |</span>
+<span class="go">| appio:::WRITE_ERR                     | Number of write calls that resulte... |</span>
+<span class="go">| appio:::WRITE_SHORT                   | Number of write calls that wrote l... |</span>
+<span class="go">| appio:::WRITE_INTERRUPTED             | Number of write calls that timed o... |</span>
+<span class="go">| appio:::WRITE_WOULD_BLOCK             | Number of write calls that would h... |</span>
+<span class="go">| appio:::WRITE_BLOCK_SIZE              | Mean block size of writes             |</span>
+<span class="go">| appio:::WRITE_USEC                    | Real microseconds spent in writes     |</span>
+<span class="go">| appio:::OPEN_CALLS                    | Number of open calls                  |</span>
+<span class="go">| appio:::OPEN_ERR                      | Number of open calls that resulted... |</span>
+<span class="go">| appio:::OPEN_FDS                      | Number of currently open descriptors  |</span>
+<span class="go">| appio:::SELECT_USEC                   | Real microseconds spent in select ... |</span>
+<span class="go">| appio:::RECV_BYTES                    | Bytes read in recv/recvmsg/recvfrom   |</span>
+<span class="go">| appio:::RECV_CALLS                    | Number of recv/recvmsg/recvfrom calls |</span>
+<span class="go">| appio:::RECV_ERR                      | Number of recv/recvmsg/recvfrom ca... |</span>
+<span class="go">| appio:::RECV_INTERRUPTED              | Number of recv/recvmsg/recvfrom ca... |</span>
+<span class="go">| appio:::RECV_WOULD_BLOCK              | Number of recv/recvmsg/recvfrom ca... |</span>
+<span class="go">| appio:::RECV_SHORT                    | Number of recv/recvmsg/recvfrom ca... |</span>
+<span class="go">| appio:::RECV_EOF                      | Number of recv/recvmsg/recvfrom ca... |</span>
+<span class="go">| appio:::RECV_BLOCK_SIZE               | Average block size of recv/recvmsg... |</span>
+<span class="go">| appio:::RECV_USEC                     | Real microseconds spent in recv/re... |</span>
+<span class="go">| appio:::SOCK_READ_BYTES               | Bytes read from socket                |</span>
+<span class="go">| appio:::SOCK_READ_CALLS               | Number of read calls on socket        |</span>
+<span class="go">| appio:::SOCK_READ_ERR                 | Number of read calls on socket tha... |</span>
+<span class="go">| appio:::SOCK_READ_SHORT               | Number of read calls on socket tha... |</span>
+<span class="go">| appio:::SOCK_READ_WOULD_BLOCK         | Number of read calls on socket tha... |</span>
+<span class="go">| appio:::SOCK_READ_USEC                | Real microseconds spent in read(s)... |</span>
+<span class="go">| appio:::SOCK_WRITE_BYTES              | Bytes written to socket               |</span>
+<span class="go">| appio:::SOCK_WRITE_CALLS              | Number of write calls to socket       |</span>
+<span class="go">| appio:::SOCK_WRITE_ERR                | Number of write calls to socket th... |</span>
+<span class="go">| appio:::SOCK_WRITE_SHORT              | Number of write calls to socket th... |</span>
+<span class="go">| appio:::SOCK_WRITE_WOULD_BLOCK        | Number of write calls to socket th... |</span>
+<span class="go">| appio:::SOCK_WRITE_USEC               | Real microseconds spent in write(s... |</span>
+<span class="go">| appio:::SEEK_CALLS                    | Number of seek calls                  |</span>
+<span class="go">| appio:::SEEK_ABS_STRIDE_SIZE          | Average absolute stride size of seeks |</span>
+<span class="go">| appio:::SEEK_USEC                     | Real microseconds spent in seek calls |</span>
+<span class="go">| coretemp:::hwmon2:in0_input           | V, amdgpu module, label vddgfx        |</span>
+<span class="go">| coretemp:::hwmon2:temp1_input         | degrees C, amdgpu module, label edge  |</span>
+<span class="go">| coretemp:::hwmon2:temp2_input         | degrees C, amdgpu module, label ju... |</span>
+<span class="go">| coretemp:::hwmon2:temp3_input         | degrees C, amdgpu module, label mem   |</span>
+<span class="go">| coretemp:::hwmon2:fan1_input          | RPM, amdgpu module, label ?           |</span>
+<span class="go">| coretemp:::hwmon0:temp1_input         | degrees C, nvme module, label Comp... |</span>
+<span class="go">| coretemp:::hwmon0:temp2_input         | degrees C, nvme module, label Sens... |</span>
+<span class="go">| coretemp:::hwmon0:temp3_input         | degrees C, nvme module, label Sens... |</span>
+<span class="go">| coretemp:::hwmon3:temp1_input         | degrees C, k10temp module, label Tctl |</span>
+<span class="go">| coretemp:::hwmon3:temp2_input         | degrees C, k10temp module, label Tdie |</span>
+<span class="go">| coretemp:::hwmon3:temp5_input         | degrees C, k10temp module, label T... |</span>
+<span class="go">| coretemp:::hwmon3:temp7_input         | degrees C, k10temp module, label T... |</span>
+<span class="go">| coretemp:::hwmon1:temp1_input         | degrees C, enp1s0 module, label PH... |</span>
+<span class="go">| coretemp:::hwmon1:temp2_input         | degrees C, enp1s0 module, label MA... |</span>
+<span class="go">| io:::rchar                            | Characters read.                      |</span>
+<span class="go">| io:::wchar                            | Characters written.                   |</span>
+<span class="go">| io:::syscr                            | Characters read by system calls.      |</span>
+<span class="go">| io:::syscw                            | Characters written by system calls.   |</span>
+<span class="go">| io:::read_bytes                       | Binary bytes read.                    |</span>
+<span class="go">| io:::write_bytes                      | Binary bytes written.                 |</span>
+<span class="go">| io:::cancelled_write_bytes            | Binary write bytes cancelled.         |</span>
+<span class="go">| net:::lo:rx:bytes                     | lo receive bytes                      |</span>
+<span class="go">| net:::lo:rx:packets                   | lo receive packets                    |</span>
+<span class="go">| net:::lo:rx:errors                    | lo receive errors                     |</span>
+<span class="go">| net:::lo:rx:dropped                   | lo receive dropped                    |</span>
+<span class="go">| net:::lo:rx:fifo                      | lo receive fifo                       |</span>
+<span class="go">| net:::lo:rx:frame                     | lo receive frame                      |</span>
+<span class="go">| net:::lo:rx:compressed                | lo receive compressed                 |</span>
+<span class="go">| net:::lo:rx:multicast                 | lo receive multicast                  |</span>
+<span class="go">| net:::lo:tx:bytes                     | lo transmit bytes                     |</span>
+<span class="go">| net:::lo:tx:packets                   | lo transmit packets                   |</span>
+<span class="go">| net:::lo:tx:errors                    | lo transmit errors                    |</span>
+<span class="go">| net:::lo:tx:dropped                   | lo transmit dropped                   |</span>
+<span class="go">| net:::lo:tx:fifo                      | lo transmit fifo                      |</span>
+<span class="go">| net:::lo:tx:colls                     | lo transmit colls                     |</span>
+<span class="go">| net:::lo:tx:carrier                   | lo transmit carrier                   |</span>
+<span class="go">| net:::lo:tx:compressed                | lo transmit compressed                |</span>
+<span class="go">| net:::enp1s0:rx:bytes                 | enp1s0 receive bytes                  |</span>
+<span class="go">| net:::enp1s0:rx:packets               | enp1s0 receive packets                |</span>
+<span class="go">| net:::enp1s0:rx:errors                | enp1s0 receive errors                 |</span>
+<span class="go">| net:::enp1s0:rx:dropped               | enp1s0 receive dropped                |</span>
+<span class="go">| net:::enp1s0:rx:fifo                  | enp1s0 receive fifo                   |</span>
+<span class="go">| net:::enp1s0:rx:frame                 | enp1s0 receive frame                  |</span>
+<span class="go">| net:::enp1s0:rx:compressed            | enp1s0 receive compressed             |</span>
+<span class="go">| net:::enp1s0:rx:multicast             | enp1s0 receive multicast              |</span>
+<span class="go">| net:::enp1s0:tx:bytes                 | enp1s0 transmit bytes                 |</span>
+<span class="go">| net:::enp1s0:tx:packets               | enp1s0 transmit packets               |</span>
+<span class="go">| net:::enp1s0:tx:errors                | enp1s0 transmit errors                |</span>
+<span class="go">| net:::enp1s0:tx:dropped               | enp1s0 transmit dropped               |</span>
+<span class="go">| net:::enp1s0:tx:fifo                  | enp1s0 transmit fifo                  |</span>
+<span class="go">| net:::enp1s0:tx:colls                 | enp1s0 transmit colls                 |</span>
+<span class="go">| net:::enp1s0:tx:carrier               | enp1s0 transmit carrier               |</span>
+<span class="go">| net:::enp1s0:tx:compressed            | enp1s0 transmit compressed            |</span>
+<span class="go">| net:::vxlan.calico:rx:bytes           | vxlan.calico receive bytes            |</span>
+<span class="go">| net:::vxlan.calico:rx:packets         | vxlan.calico receive packets          |</span>
+<span class="go">| net:::vxlan.calico:rx:errors          | vxlan.calico receive errors           |</span>
+<span class="go">| net:::vxlan.calico:rx:dropped         | vxlan.calico receive dropped          |</span>
+<span class="go">| net:::vxlan.calico:rx:fifo            | vxlan.calico receive fifo             |</span>
+<span class="go">| net:::vxlan.calico:rx:frame           | vxlan.calico receive frame            |</span>
+<span class="go">| net:::vxlan.calico:rx:compressed      | vxlan.calico receive compressed       |</span>
+<span class="go">| net:::vxlan.calico:rx:multicast       | vxlan.calico receive multicast        |</span>
+<span class="go">| net:::vxlan.calico:tx:bytes           | vxlan.calico transmit bytes           |</span>
+<span class="go">| net:::vxlan.calico:tx:packets         | vxlan.calico transmit packets         |</span>
+<span class="go">| net:::vxlan.calico:tx:errors          | vxlan.calico transmit errors          |</span>
+<span class="go">| net:::vxlan.calico:tx:dropped         | vxlan.calico transmit dropped         |</span>
+<span class="go">| net:::vxlan.calico:tx:fifo            | vxlan.calico transmit fifo            |</span>
+<span class="go">| net:::vxlan.calico:tx:colls           | vxlan.calico transmit colls           |</span>
+<span class="go">| net:::vxlan.calico:tx:carrier         | vxlan.calico transmit carrier         |</span>
+<span class="go">| net:::vxlan.calico:tx:compressed      | vxlan.calico transmit compressed      |</span>
+<span class="go">| net:::cali59d6fabc2aa:rx:bytes        | cali59d6fabc2aa receive bytes         |</span>
+<span class="go">| net:::cali59d6fabc2aa:rx:packets      | cali59d6fabc2aa receive packets       |</span>
+<span class="go">| net:::cali59d6fabc2aa:rx:errors       | cali59d6fabc2aa receive errors        |</span>
+<span class="go">| net:::cali59d6fabc2aa:rx:dropped      | cali59d6fabc2aa receive dropped       |</span>
+<span class="go">| net:::cali59d6fabc2aa:rx:fifo         | cali59d6fabc2aa receive fifo          |</span>
+<span class="go">| net:::cali59d6fabc2aa:rx:frame        | cali59d6fabc2aa receive frame         |</span>
+<span class="go">| net:::cali59d6fabc2aa:rx:compressed   | cali59d6fabc2aa receive compressed    |</span>
+<span class="go">| net:::cali59d6fabc2aa:rx:multicast    | cali59d6fabc2aa receive multicast     |</span>
+<span class="go">| net:::cali59d6fabc2aa:tx:bytes        | cali59d6fabc2aa transmit bytes        |</span>
+<span class="go">| net:::cali59d6fabc2aa:tx:packets      | cali59d6fabc2aa transmit packets      |</span>
+<span class="go">| net:::cali59d6fabc2aa:tx:errors       | cali59d6fabc2aa transmit errors       |</span>
+<span class="go">| net:::cali59d6fabc2aa:tx:dropped      | cali59d6fabc2aa transmit dropped      |</span>
+<span class="go">| net:::cali59d6fabc2aa:tx:fifo         | cali59d6fabc2aa transmit fifo         |</span>
+<span class="go">| net:::cali59d6fabc2aa:tx:colls        | cali59d6fabc2aa transmit colls        |</span>
+<span class="go">| net:::cali59d6fabc2aa:tx:carrier      | cali59d6fabc2aa transmit carrier      |</span>
+<span class="go">| net:::cali59d6fabc2aa:tx:compressed   | cali59d6fabc2aa transmit compressed   |</span>
+<span class="go">|---------------------------------------|---------------------------------------|</span>
 </pre></div>
 </div>
 </div>
@@ -435,7 +716,7 @@ from source with the CMake option(s) <code class="docutils literal notranslate">
 <h2>Creating a Configuration File<a class="headerlink" href="#creating-a-configuration-file" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> supports 3 configuration file formats: JSON, XML, and plain text.
 Configuration files are specified via the <code class="docutils literal notranslate"><span class="pre">OMNITRACE_CONFIG_FILE</span></code> environment variable
-and by default will look for <code class="docutils literal notranslate"><span class="pre">${HOME}/omnitrace.cfg</span></code> and <code class="docutils literal notranslate"><span class="pre">${HOME}/omnitrace.json</span></code>.
+and by default will look for <code class="docutils literal notranslate"><span class="pre">${HOME}/.omnitrace.cfg</span></code> and <code class="docutils literal notranslate"><span class="pre">${HOME}/.omnitrace.json</span></code>.
 Multiple configuration files can be concatenated via <code class="docutils literal notranslate"><span class="pre">:</span></code>, e.g.:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">OMNITRACE_CONFIG_FILE</span><span class="o">=</span>~/.config/omnitrace.cfg:~/.config/omnitrace.json
 </pre></div>
@@ -452,34 +733,37 @@ in <code class="docutils literal notranslate"><span class="pre">omnitrace-avail<
 environment variables and are exported via <code class="docutils literal notranslate"><span class="pre">setenv</span></code>
 but do not override an existing value for the environment variable.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># lvals starting with $ are variables</span>
-<span class="nv">$USE</span>                            <span class="o">=</span> ON
+<span class="nv">$ENABLE</span>                         <span class="o">=</span> ON
+<span class="nv">$SAMPLE</span>                         <span class="o">=</span> OFF
 
 <span class="c1"># use fields</span>
-<span class="nv">OMNITRACE_USE_PERFETTO</span>          <span class="o">=</span> <span class="nv">$USE</span>
-<span class="nv">OMNITRACE_USE_TIMEMORY</span>          <span class="o">=</span> <span class="nv">$USE</span>
-<span class="nv">OMNITRACE_USE_SAMPLING</span>          <span class="o">=</span> <span class="nv">$USE</span>
-<span class="nv">OMNITRACE_USE_PID</span>               <span class="o">=</span> OFF
+<span class="nv">OMNITRACE_USE_PERFETTO</span>          <span class="o">=</span> <span class="nv">$ENABLE</span>
+<span class="nv">OMNITRACE_USE_TIMEMORY</span>          <span class="o">=</span> <span class="nv">$ENABLE</span>
+<span class="nv">OMNITRACE_USE_SAMPLING</span>          <span class="o">=</span> <span class="nv">$SAMPLE</span>
+<span class="nv">OMNITRACE_USE_THREAD_SAMPLING</span>   <span class="o">=</span> <span class="nv">$SAMPLE</span>
 <span class="nv">OMNITRACE_CRITICAL_TRACE</span>        <span class="o">=</span> OFF
 
 <span class="c1"># debug</span>
 <span class="nv">OMNITRACE_DEBUG</span>                 <span class="o">=</span> OFF
 <span class="nv">OMNITRACE_VERBOSE</span>               <span class="o">=</span> <span class="m">1</span>
-<span class="nv">OMNITRACE_DL_VERBOSE</span>            <span class="o">=</span> <span class="m">1</span>
 
 <span class="c1"># output fields</span>
-<span class="nv">OMNITRACE_OUTPUT_PREFIX</span>         <span class="o">=</span> %tag%-
 <span class="nv">OMNITRACE_OUTPUT_PATH</span>           <span class="o">=</span> omnitrace-example-output
+<span class="nv">OMNITRACE_OUTPUT_PREFIX</span>         <span class="o">=</span> %tag%/
 <span class="nv">OMNITRACE_TIME_OUTPUT</span>           <span class="o">=</span> OFF
+<span class="nv">OMNITRACE_USE_PID</span>               <span class="o">=</span> OFF
 
 <span class="c1"># timemory fields</span>
 <span class="nv">OMNITRACE_PAPI_EVENTS</span>           <span class="o">=</span> PAPI_TOT_INS PAPI_FP_INS
 <span class="nv">OMNITRACE_TIMEMORY_COMPONENTS</span>   <span class="o">=</span> wall_clock trip_count
+<span class="nv">OMNITRACE_MEMORY_UNITS</span>          <span class="o">=</span> MB
+<span class="nv">OMNITRACE_TIMING_UNITS</span>          <span class="o">=</span> sec
 
 <span class="c1"># sampling fields</span>
 <span class="nv">OMNITRACE_SAMPLING_FREQ</span>         <span class="o">=</span> <span class="m">10</span>
 
 <span class="c1"># rocm-smi fields</span>
-<span class="nv">OMNITRACE_ROCM_SMI_DEVICES</span>      <span class="o">=</span> <span class="m">1</span>
+<span class="nv">OMNITRACE_ROCM_SMI_DEVICES</span>      <span class="o">=</span> <span class="m">0</span>
 
 <span class="c1"># misc env variables</span>
 <span class="nv">OMNITRACE_SAMPLING_KEEP_DYNINST_SUFFIX</span>  <span class="o">=</span> OFF
@@ -487,10 +771,52 @@ but do not override an existing value for the environment variable.</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="sample-json-configuration-file">
+<h3>Sample JSON Configuration File<a class="headerlink" href="#sample-json-configuration-file" title="Permalink to this headline">¶</a></h3>
+<p>The full JSON specification for a configuration value contains a lot of information:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;omnitrace&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;OMNITRACE_ADD_SECONDARY&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;add_secondary&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;data_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bool&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;initial&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;max_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;cmdline&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;--omnitrace-add-secondary&quot;</span><span class="w"></span>
+<span class="w">                </span><span class="p">],</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;environ&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OMNITRACE_ADD_SECONDARY&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;cereal_class_version&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;categories&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;component&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;data&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="s2">&quot;native&quot;</span><span class="w"></span>
+<span class="w">                </span><span class="p">],</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Enable/disable components adding secondary (child) entries when available. E.g. suppress individual CUDA kernels, etc. when using Cupti components&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>However when writing an JSON configuration file, the following is minimally acceptable to set <code class="docutils literal notranslate"><span class="pre">OMNITRACE_ADD_SECONDARY=false</span></code>:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;omnitrace&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;OMNITRACE_ADD_SECONDARY&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="sample-xml-configuration-file">
 <h3>Sample XML Configuration File<a class="headerlink" href="#sample-xml-configuration-file" title="Permalink to this headline">¶</a></h3>
-<p>The full XML specification for a configuration value contains
-a lot of information:</p>
+<p>The full XML specification for a configuration value contains the same information as the JSON specification:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
 <span class="nt">&lt;timemory_xml&gt;</span>
     <span class="nt">&lt;omnitrace&gt;</span>
@@ -505,7 +831,7 @@ a lot of information:</p>
                 <span class="nt">&lt;count&gt;</span>-1<span class="nt">&lt;/count&gt;</span>
                 <span class="nt">&lt;max_count&gt;</span>1<span class="nt">&lt;/max_count&gt;</span>
                 <span class="nt">&lt;cmdline&gt;</span>
-                    <span class="nt">&lt;value0&gt;</span>--timemory-add-secondary<span class="nt">&lt;/value0&gt;</span>
+                    <span class="nt">&lt;value0&gt;</span>--omnitrace-add-secondary<span class="nt">&lt;/value0&gt;</span>
                 <span class="nt">&lt;/cmdline&gt;</span>
                 <span class="nt">&lt;categories&gt;</span>
                     <span class="nt">&lt;value0&gt;</span>component<span class="nt">&lt;/value0&gt;</span>
@@ -522,8 +848,7 @@ a lot of information:</p>
 <span class="nt">&lt;/timemory_xml&gt;</span>
 </pre></div>
 </div>
-<p>Howver when writing an XML configuration file, the following is perfectly acceptable
-to set <code class="docutils literal notranslate"><span class="pre">OMNITRACE_ADD_SECONDARY=false</span></code>:</p>
+<p>However, when writing an XML configuration file, the following is minimally acceptable to set <code class="docutils literal notranslate"><span class="pre">OMNITRACE_ADD_SECONDARY=false</span></code>:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
 <span class="nt">&lt;timemory_xml&gt;</span>
     <span class="nt">&lt;omnitrace&gt;</span>
@@ -534,51 +859,6 @@ to set <code class="docutils literal notranslate"><span class="pre">OMNITRACE_AD
         <span class="nt">&lt;/settings&gt;</span>
     <span class="nt">&lt;/omnitrace&gt;</span>
 <span class="nt">&lt;/timemory_xml&gt;</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="sample-json-configuration-file">
-<h3>Sample JSON Configuration File<a class="headerlink" href="#sample-json-configuration-file" title="Permalink to this headline">¶</a></h3>
-<p>The full JSON specification for a configuration value contains the same information as the XML:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nt">&quot;omnitrace&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="nt">&quot;OMNITRACE_ADD_SECONDARY&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"></span>
-<span class="w">                </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;add_secondary&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">                </span><span class="nt">&quot;data_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bool&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">                </span><span class="nt">&quot;initial&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
-<span class="w">                </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
-<span class="w">                </span><span class="nt">&quot;max_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
-<span class="w">                </span><span class="nt">&quot;cmdline&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">                    </span><span class="s2">&quot;--timemory-add-secondary&quot;</span><span class="w"></span>
-<span class="w">                </span><span class="p">],</span><span class="w"></span>
-<span class="w">                </span><span class="nt">&quot;environ&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OMNITRACE_ADD_SECONDARY&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">                </span><span class="nt">&quot;cereal_class_version&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
-<span class="w">                </span><span class="nt">&quot;categories&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">                    </span><span class="s2">&quot;component&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">                    </span><span class="s2">&quot;data&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">                    </span><span class="s2">&quot;native&quot;</span><span class="w"></span>
-<span class="w">                </span><span class="p">],</span><span class="w"></span>
-<span class="w">                </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Enable/disable components adding secondary (child) entries when available. E.g. suppress individual CUDA kernels, etc. when using Cupti components&quot;</span><span class="w"></span>
-<span class="w">            </span><span class="p">}</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-<p>Similarly, the
-Howver when writing an XML configuration file, the following is perfectly acceptable
-to set <code class="docutils literal notranslate"><span class="pre">OMNITRACE_ADD_SECONDARY=false</span></code>:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nt">&quot;omnitrace&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="nt">&quot;OMNITRACE_ADD_SECONDARY&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
-<span class="w">            </span><span class="p">}</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>

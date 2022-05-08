@@ -89,7 +89,11 @@
 <div class="toctree-wrapper compound">
 </div>
 <p><a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> supports profiling Python code at the source-level and/or the script-level.
-Python support is enabled via the <code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_PYTHON</span></code> and <code class="docutils literal notranslate"><span class="pre">OMNITRACE_PYTHON_VERSION=&lt;MAJOR&gt;.&lt;MINOR&gt;</span></code> CMake options.</p>
+Python support is enabled via the <code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_PYTHON</span></code> and the <code class="docutils literal notranslate"><span class="pre">OMNITRACE_PYTHON_VERSIONS=&quot;&lt;MAJOR&gt;.&lt;MINOR&gt;</span></code> CMake options.
+Alternatively, to build multiple python versions, use <code class="docutils literal notranslate"><span class="pre">OMNITRACE_PYTHON_VERSIONS=&quot;&lt;MAJOR&gt;.&lt;MINOR&gt;;[&lt;MAJOR&gt;.&lt;MINOR&gt;]&quot;</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">OMNITRACE_PYTHON_ROOT_DIRS=&quot;/path/to/version;[/path/to/version]&quot;</span></code> instead of <code class="docutils literal notranslate"><span class="pre">OMNITRACE_PYTHON_VERSION</span></code>.
+When building multiple Python versions, the length of the <code class="docutils literal notranslate"><span class="pre">OMNITRACE_PYTHON_VERSIONS</span></code> and <code class="docutils literal notranslate"><span class="pre">OMNITRACE_PYTHON_ROOT_DIRS</span></code> lists must
+be the same size.</p>
 <blockquote>
 <div><p><em><strong>When using omnitrace for Python, the Python interpreter major and minor version (e.g. 3.7) must match the interpreter major and minor version</strong></em>
 <em><strong>used when compiling the Python bindings, i.e. when building omnitrace, a <code class="docutils literal notranslate"><span class="pre">libpyomnitrace.&lt;IMPL&gt;-&lt;VERSION&gt;-&lt;ARCH&gt;-&lt;OS&gt;-&lt;ABI&gt;.so</span></code> will be generated</strong></em>

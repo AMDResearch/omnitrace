@@ -140,7 +140,113 @@ $ omnitrace -- ./foo
 </div>
 <div class="section" id="metadata">
 <h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> will output a metadata.json file.</p>
+<p><a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> will output a metadata.json file. This metadata file will contain
+information about the settings, environment variables, output files, and info about the system and the run:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;omnitrace&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;info&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;HW_L1_CACHE_SIZE&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">32768</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;HW_L2_CACHE_SIZE&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">524288</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;SHELL&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/bin/bash&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;HW_PHYSICAL_CPU&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;CPU_FEATURES&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid aperfmperf pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 hw_pstate ssbd mba ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 cqm rdt_a rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local clzero irperf xsaveerptr rdpru wbnoinvd arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold avic v_vmsave_vmload vgif v_spec_ctrl umip rdpid overflow_recov succor smca sme sev sev_es&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;HW_CONCURRENCY&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;LAUNCH_TIME&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;02:04&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;CPU_MODEL&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AMD Ryzen Threadripper PRO 3945WX 12-Cores&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;TIMEMORY_GIT_REVISION&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;52e7034fd419ff296506cdef43084f6071dbaba1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;TIMEMORY_VERSION&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;3.3.0rc4&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;CPU_FREQUENCY&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2400</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;TIMEMORY_API&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tim::project::timemory&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;PWD&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/jrmadsen/devel/c++/AARInternal/hosttrace-dyninst/build-vscode&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;HW_L3_CACHE_SIZE&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">16777216</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;USER&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jrmadsen&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;HOME&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/jrmadsen&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;TIMEMORY_GIT_DESCRIBE&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;v3.2.0-263-g52e7034f&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;LAUNCH_DATE&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;05/08/22&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;CPU_VENDOR&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AuthenticAMD&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                    </span><span class="p">{</span><span class="w"></span>
+<span class="w">                        </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                            </span><span class="s2">&quot;omnitrace-tests-output/parallel-overhead-binary-rewrite/roctracer.txt&quot;</span><span class="w"></span>
+<span class="w">                        </span><span class="p">],</span><span class="w"></span>
+<span class="w">                        </span><span class="nt">&quot;key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;roctracer&quot;</span><span class="w"></span>
+<span class="w">                    </span><span class="p">},</span><span class="w"></span>
+<span class="w">                    </span><span class="p">{</span><span class="w"></span>
+<span class="w">                        </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                            </span><span class="s2">&quot;omnitrace-tests-output/parallel-overhead-binary-rewrite/wall_clock.txt&quot;</span><span class="w"></span>
+<span class="w">                        </span><span class="p">],</span><span class="w"></span>
+<span class="w">                        </span><span class="nt">&quot;key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;wall_clock&quot;</span><span class="w"></span>
+<span class="w">                    </span><span class="p">}</span><span class="w"></span>
+<span class="w">                </span><span class="p">],</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;json&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                    </span><span class="p">{</span><span class="w"></span>
+<span class="w">                        </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                            </span><span class="s2">&quot;omnitrace-tests-output/parallel-overhead-binary-rewrite/roctracer.json&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="s2">&quot;omnitrace-tests-output/parallel-overhead-binary-rewrite/roctracer.tree.json&quot;</span><span class="w"></span>
+<span class="w">                        </span><span class="p">],</span><span class="w"></span>
+<span class="w">                        </span><span class="nt">&quot;key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;roctracer&quot;</span><span class="w"></span>
+<span class="w">                    </span><span class="p">},</span><span class="w"></span>
+<span class="w">                    </span><span class="p">{</span><span class="w"></span>
+<span class="w">                        </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                            </span><span class="s2">&quot;omnitrace-tests-output/parallel-overhead-binary-rewrite/wall_clock.json&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                            </span><span class="s2">&quot;omnitrace-tests-output/parallel-overhead-binary-rewrite/wall_clock.tree.json&quot;</span><span class="w"></span>
+<span class="w">                        </span><span class="p">],</span><span class="w"></span>
+<span class="w">                        </span><span class="nt">&quot;key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;wall_clock&quot;</span><span class="w"></span>
+<span class="w">                    </span><span class="p">}</span><span class="w"></span>
+<span class="w">                </span><span class="p">]</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/jrmadsen&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HOME&quot;</span><span class="w"></span>
+<span class="w">                </span><span class="p">},</span><span class="w"></span>
+<span class="w">                </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/bin/bash&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SHELL&quot;</span><span class="w"></span>
+<span class="w">                </span><span class="p">},</span><span class="w"></span>
+<span class="w">                </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jrmadsen&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USER&quot;</span><span class="w"></span>
+<span class="w">                </span><span class="p">},</span><span class="w"></span>
+<span class="w">                </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;true&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;... etc. ...&quot;</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">],</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;OMNITRACE_JSON_OUTPUT&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;environ_updated&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;json_output&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;data_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bool&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;initial&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;max_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;cmdline&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                        </span><span class="s2">&quot;--omnitrace-json-output&quot;</span><span class="w"></span>
+<span class="w">                    </span><span class="p">],</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;environ&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OMNITRACE_JSON_OUTPUT&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;config_updated&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;categories&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                        </span><span class="s2">&quot;io&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                        </span><span class="s2">&quot;json&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                        </span><span class="s2">&quot;native&quot;</span><span class="w"></span>
+<span class="w">                    </span><span class="p">],</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Write json output files&quot;</span><span class="w"></span>
+<span class="w">                </span><span class="p">},</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;... etc. ...&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">&quot;etc.&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="configuring-output">
 <h2>Configuring Output<a class="headerlink" href="#configuring-output" title="Permalink to this headline">¶</a></h2>
@@ -295,7 +401,11 @@ set <code class="docutils literal notranslate"><span class="pre">OMNITRACE_OUTPU
 <div class="section" id="perfetto-output">
 <h2>Perfetto Output<a class="headerlink" href="#perfetto-output" title="Permalink to this headline">¶</a></h2>
 <p>Use the <code class="docutils literal notranslate"><span class="pre">OMNITRACE_OUTPUT_FILE</span></code> to specify a specific location. If this is an absolute path, then all <code class="docutils literal notranslate"><span class="pre">OMNITRACE_OUTPUT_PATH</span></code>, etc.
-settings will be ignored.</p>
+settings will be ignored. Visit <a class="reference external" href="https://ui.perfetto.dev">ui.perfetto.dev</a> and open this file.</p>
+<p><img alt="omnitrace-perfetto" src="_images/omnitrace-perfetto.png" /></p>
+<p><img alt="omnitrace-rocm" src="_images/omnitrace-rocm.png" /></p>
+<p><img alt="omnitrace-rocm-flow" src="_images/omnitrace-rocm-flow.png" /></p>
+<p><img alt="omnitrace-user-api" src="_images/omnitrace-user-api.png" /></p>
 </div>
 <div class="section" id="timemory-output">
 <h2>Timemory Output<a class="headerlink" href="#timemory-output" title="Permalink to this headline">¶</a></h2>
