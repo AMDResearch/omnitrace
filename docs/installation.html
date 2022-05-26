@@ -43,16 +43,21 @@
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#operating-system">Operating System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#identifying-the-operating-system">Identifying the Operating System</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#architecture">Architecture</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-omnitrace-from-binary-distributions">Installing omnitrace from binary distributions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#download-the-appropriate-binary-distribution">Download the appropriate binary distribution</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#create-the-target-installation-directory">Create the target installation directory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#run-the-installer-script">Run the installer script</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#configure-the-environment">Configure the environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#test-the-executables">Test the executables</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-omnitrace-from-source">Installing Omnitrace from source</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#installing-cmake">Installing CMake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-requirements">Build Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#required-third-party-packages">Required Third-Party Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optional-third-party-packages">Optional Third-Party Packages</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#installing-dyninst">Installing DynInst</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#building-dyninst-alongside-omnitrace">Building Dyninst alongside Omnitrace</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#installing-dyninst-via-spack">Installing Dyninst via Spack</a></li>
@@ -62,6 +67,11 @@
 <li class="toctree-l4"><a class="reference internal" href="#mpi-support-within-omnitrace">MPI Support within Omnitrace</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#post-installation-steps">Post-Installation Steps</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configure-the-environment">Configure the environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#test-the-executables">Test the executables</a></li>
 </ul>
 </li>
 </ul>
@@ -100,39 +110,37 @@
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 </div>
+<div class="section" id="operating-system">
+<h2>Operating System<a class="headerlink" href="#operating-system" title="Permalink to this headline">¶</a></h2>
+<p>Omnitrace is only supported on Linux.</p>
 <ul class="simple">
-<li><p>Ubuntu 18.04 or Ubuntu 20.04</p>
-<ul>
+<li><p>Ubuntu 18.04</p></li>
+<li><p>Ubuntu 20.04</p></li>
+<li><p>OpenSUSE 15.2</p></li>
+<li><p>OpenSUSE 15.3</p></li>
 <li><p>Other OS distributions may be supported but are not tested</p></li>
 </ul>
-</li>
-<li><p>GCC compiler v7+</p>
-<ul>
-<li><p>Older GCC compilers may be supported but are not tested</p></li>
-<li><p>Clang compilers are generally supported for <a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> but not Dyninst</p></li>
-</ul>
-</li>
-<li><p><a class="reference external" href="https://cmake.org/">CMake</a> v3.15+</p></li>
-<li><p><a class="reference external" href="https://github.com/dyninst/dyninst">DynInst</a> for dynamic or static instrumentation</p>
-<ul>
-<li><p><a class="reference external" href="https://github.com/oneapi-src/oneTBB">TBB</a> required by Dyninst</p></li>
-<li><p><a class="reference external" href="https://sourceware.org/elfutils/">ElfUtils</a> required by Dyninst</p></li>
-<li><p><a class="reference external" href="https://github.com/gcc-mirror/gcc/tree/master/libiberty">LibIberty</a> required by Dyninst</p></li>
-<li><p><a class="reference external" href="https://www.boost.org/">Boost</a> required by Dyninst</p></li>
-<li><p><a class="reference external" href="https://www.openmp.org/">OpenMP</a> optional by Dyninst</p></li>
-</ul>
-</li>
-<li><p><a class="reference external" href="https://rocmdocs.amd.com/en/latest/Installation_Guide/Installation-Guide.html#ubuntu">ROCm</a> (optional)</p>
-<ul>
-<li><p>HIP</p></li>
-<li><p>Roctracer for HIP API and kernel tracing</p></li>
-<li><p>ROCM-SMI for GPU monitoring</p></li>
-</ul>
-</li>
-<li><p><a class="reference external" href="https://icl.utk.edu/papi/">PAPI</a></p></li>
-<li><p><a class="reference external" href="https://www.nongnu.org/libunwind/">libunwind</a> for call-stack sampling</p></li>
-<li><p>Several optional third-party profiling tools supported by timemory (e.g. TAU, Caliper, CrayPAT, etc.)</p></li>
-</ul>
+<div class="section" id="identifying-the-operating-system">
+<h3>Identifying the Operating System<a class="headerlink" href="#identifying-the-operating-system" title="Permalink to this headline">¶</a></h3>
+<p>If you are unsure of the operating system and version, the <code class="docutils literal notranslate"><span class="pre">/etc/os-release</span></code> and <code class="docutils literal notranslate"><span class="pre">/usr/lib/os-release</span></code> files contain
+operating system identification data for Linux systems.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ cat /etc/os-release
+<span class="nv">NAME</span><span class="o">=</span><span class="s2">&quot;Ubuntu&quot;</span>
+<span class="nv">VERSION</span><span class="o">=</span><span class="s2">&quot;20.04.4 LTS (Focal Fossa)&quot;</span>
+<span class="nv">ID</span><span class="o">=</span>ubuntu
+...
+<span class="nv">VERSION_ID</span><span class="o">=</span><span class="s2">&quot;20.04&quot;</span>
+...
+</pre></div>
+</div>
+<p>The relevent fields are <code class="docutils literal notranslate"><span class="pre">ID</span></code> and the <code class="docutils literal notranslate"><span class="pre">VERSION_ID</span></code>.</p>
+</div>
+</div>
+<div class="section" id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h2>
+<p>At present, only amd64 (x86_64) architectures are tested but Dyninst supports several more architectures.
+Thus, omnitrace should support other CPU architectures such as aarch64, ppc64, etc.</p>
+</div>
 <div class="section" id="installing-omnitrace-from-binary-distributions">
 <h2>Installing omnitrace from binary distributions<a class="headerlink" href="#installing-omnitrace-from-binary-distributions" title="Permalink to this headline">¶</a></h2>
 <p>Every omnitrace release provides binary installer scripts of the form:</p>
@@ -140,17 +148,14 @@
 </pre></div>
 </div>
 <p>E.g.:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace-0.0.5-Ubuntu-18.04.sh
-omnitrace-0.0.5-Ubuntu-18.04-ROCm-4.3.0.sh
-omnitrace-0.0.5-Ubuntu-18.04-ROCm-4.5.0.sh
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace-1.0.0-ubuntu-18.04-OMPT-PAPI-Python3.sh
+omnitrace-1.0.0-ubuntu-18.04-ROCm-405000-OMPT-PAPI-Python3.sh
 ...
-omnitrace-0.0.5-Ubuntu-20.04-ROCm-4.5.0-PAPI.sh
-omnitrace-0.0.5-Ubuntu-20.04-ROCm-4.5.0-PAPI-MPICH.sh
-omnitrace-0.0.5-Ubuntu-20.04-ROCm-4.5.0-PAPI-OpenMPI.sh
+omnitrace-1.0.0-ubuntu-20.04-ROCm-50000-OMPT-PAPI-Python3.sh
 </pre></div>
 </div>
-<p>The EXTRA fields such as PAPI, MPICH, and OpenMPI are built against the libraries provided by the
-OS package manager, e.g. <code class="docutils literal notranslate"><span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">libpapi-dev</span></code> for Ubuntu.</p>
+<p>Any of the EXTRA fields with a cmake build option (e.g. PAPI, see below) or no link requirements (e.g. OMPT) have
+self-contained support for these packages.</p>
 <div class="section" id="download-the-appropriate-binary-distribution">
 <h3>Download the appropriate binary distribution<a class="headerlink" href="#download-the-appropriate-binary-distribution" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wget https://github.com/AMDResearch/omnitrace/releases/download/v&lt;VERSION&gt;/&lt;SCRIPT&gt;
@@ -165,40 +170,157 @@ OS package manager, e.g. <code class="docutils literal notranslate"><span class=
 </div>
 <div class="section" id="run-the-installer-script">
 <h3>Run the installer script<a class="headerlink" href="#run-the-installer-script" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./omnitrace-0.0.5-Ubuntu-18.04-ROCm-4.3.0-PAPI-MPICH.sh --prefix<span class="o">=</span>/opt/omnitrace
-</pre></div>
-</div>
-</div>
-<div class="section" id="configure-the-environment">
-<h3>Configure the environment<a class="headerlink" href="#configure-the-environment" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> /opt/omnitrace/share/omnitrace/setup-env.sh
-</pre></div>
-</div>
-</div>
-<div class="section" id="test-the-executables">
-<h3>Test the executables<a class="headerlink" href="#test-the-executables" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace --help
-omnitrace-avail --help
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./omnitrace-1.0.0-ubuntu-18.04-ROCm-405000-OMPT-PAPI.sh --prefix<span class="o">=</span>/opt/omnitrace --exclude-subdir
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="installing-omnitrace-from-source">
 <h2>Installing Omnitrace from source<a class="headerlink" href="#installing-omnitrace-from-source" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="installing-cmake">
-<h3>Installing CMake<a class="headerlink" href="#installing-cmake" title="Permalink to this headline">¶</a></h3>
-<p>If using Ubuntu 20.04, <code class="docutils literal notranslate"><span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">cmake</span></code> will install cmake v3.16.3. If using Ubuntu 18.04, the cmake version via apt is too old (v3.10.2). In this case,
-follow the instructions <a class="reference external" href="https://apt.kitware.com/">here</a> to add the CMake apt package repository; or alternatively (if root access is not available),
-specific versions of CMake can be easily installed via the Python pip package manager:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python3 -m pip install <span class="s1">&#39;cmake==3.18.4&#39;</span>
-<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/.local/bin
+<div class="section" id="build-requirements">
+<h3>Build Requirements<a class="headerlink" href="#build-requirements" title="Permalink to this headline">¶</a></h3>
+<p>Omnitrace needs a GCC compiler with full support for C++17 and CMake v3.16 or higher.
+The Clang compiler may be used in lieu of the GCC compiler if Dyninst is already installed.</p>
+<ul class="simple">
+<li><p>GCC compiler v7+</p>
+<ul>
+<li><p>Older GCC compilers may be supported but are not tested</p></li>
+<li><p>Clang compilers are generally supported for <a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> but not Dyninst</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://cmake.org/">CMake</a> v3.16+</p></li>
+</ul>
+<blockquote>
+<div><p><em><strong>If the system installed cmake is too old, installing a new version of cmake can be done through several methods.</strong></em>
+<em><strong>One of the easiest options is to use PyPi (i.e. python’s pip):</strong></em></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install --user <span class="s1">&#39;cmake==3.18.4&#39;</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/.local/bin:<span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="sb">`</span>
 </pre></div>
 </div>
-<blockquote>
-<div><p>NOTE: be wary of using <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">cmake</span></code>. If pip installs a cmake version with a <code class="docutils literal notranslate"><span class="pre">.post&lt;N&gt;</span></code> suffix, it will be necessary to
-specify the root path when cmake is invoked.</p>
 </div></blockquote>
 </div>
+<div class="section" id="required-third-party-packages">
+<h3>Required Third-Party Packages<a class="headerlink" href="#required-third-party-packages" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/dyninst/dyninst">DynInst</a> for dynamic or static instrumentation</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/oneapi-src/oneTBB">TBB</a> required by Dyninst</p></li>
+<li><p><a class="reference external" href="https://sourceware.org/elfutils/">ElfUtils</a> required by Dyninst</p></li>
+<li><p><a class="reference external" href="https://github.com/gcc-mirror/gcc/tree/master/libiberty">LibIberty</a> required by Dyninst</p></li>
+<li><p><a class="reference external" href="https://www.boost.org/">Boost</a> required by Dyninst</p></li>
+<li><p><a class="reference external" href="https://www.openmp.org/">OpenMP</a> optional by Dyninst</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://www.nongnu.org/libunwind/">libunwind</a> for call-stack sampling</p></li>
+</ul>
+<p>All of the third-party packages required by <a class="reference external" href="https://github.com/dyninst/dyninst">DynInst</a> and
+<a class="reference external" href="https://github.com/dyninst/dyninst">DynInst</a> itself can be built and installed
+during the build of omnitrace itself. In the list below, we list the package, the version,
+which package requires the package (i.e. omnitrace requires Dyninst
+and Dyninst requires TBB), and the CMake option to build the package alongside omnitrace:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Third-Party Library</th>
+<th>Minimum Version</th>
+<th>Required By</th>
+<th>CMake Option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dyninst</td>
+<td>10.0</td>
+<td>Omnitrace</td>
+<td><code>OMNITRACE_BUILD_DYNINST</code> (default: OFF)</td>
+</tr>
+<tr>
+<td>Libunwind</td>
+<td></td>
+<td>Omnitrace</td>
+<td><code>OMNITRACE_BUILD_LIBUNWIND</code> (default: ON)</td>
+</tr>
+<tr>
+<td>TBB</td>
+<td>2018.6</td>
+<td>Dyninst</td>
+<td><code>DYNINST_BUILD_TBB</code> (default: OFF)</td>
+</tr>
+<tr>
+<td>ElfUtils</td>
+<td>0.178</td>
+<td>Dyninst</td>
+<td><code>DYNINST_BUILD_ELFUTILS</code> (default: OFF)</td>
+</tr>
+<tr>
+<td>LibIberty</td>
+<td></td>
+<td>Dyninst</td>
+<td><code>DYNINST_BUILD_LIBIBERTY</code> (default: OFF)</td>
+</tr>
+<tr>
+<td>Boost</td>
+<td>1.67.0</td>
+<td>Dyninst</td>
+<td><code>DYNINST_BUILD_BOOST</code> (default: OFF)</td>
+</tr>
+<tr>
+<td>OpenMP</td>
+<td>4.x</td>
+<td>Dyninst</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="optional-third-party-packages">
+<h3>Optional Third-Party Packages<a class="headerlink" href="#optional-third-party-packages" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://rocmdocs.amd.com/en/latest/Installation_Guide/Installation_new.html">ROCm</a></p>
+<ul>
+<li><p>HIP</p></li>
+<li><p>Roctracer for HIP API and kernel tracing</p></li>
+<li><p>ROCM-SMI for GPU monitoring</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://icl.utk.edu/papi/">PAPI</a></p></li>
+<li><p>MPI</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_MPI</span></code> will enable full MPI support</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_MPI_HEADERS</span></code> will enable wrapping of the dynamically-linked MPI C function calls</p>
+<ul>
+<li><p>By default, if an OpenMPI MPI distribution cannot be found, omnitrace will use a local copy of the OpenMPI mpi.h</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Several optional third-party profiling tools supported by timemory (e.g. <a class="reference external" href="https://github.com/LLNL/Caliper">Caliper</a>, <a class="reference external" href="https://www.cs.uoregon.edu/research/tau/home.php">TAU</a>, CrayPAT, etc.)</p></li>
+</ul>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Third-Party Library</th>
+<th>CMake Enable Option</th>
+<th>CMake Build Option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PAPI</td>
+<td><code>OMNITRACE_USE_PAPI</code> (default: ON)</td>
+<td><code>OMNITRACE_BUILD_PAPI</code> (default: ON)</td>
+</tr>
+<tr>
+<td>MPI</td>
+<td><code>OMNITRACE_USE_MPI</code> (default: OFF)</td>
+<td></td>
+</tr>
+<tr>
+<td>MPI (header-only)</td>
+<td><code>OMNITRACE_USE_MPI_HEADERS</code> (default: ON)</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
 <div class="section" id="installing-dyninst">
 <h3>Installing DynInst<a class="headerlink" href="#installing-dyninst" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="building-dyninst-alongside-omnitrace">
@@ -218,8 +340,9 @@ cmake -B omnitrace-build -DOMNITRACE_BUILD_DYNINST<span class="o">=</span>ON -DD
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/spack/spack.git
 <span class="nb">source</span> ./spack/share/spack/setup-env.sh
 spack compiler find
-spack external find
-spack install dyninst
+spack external find --all --not-buildable
+spack spec -I --reuse dyninst
+spack install --reuse dyninst
 spack load -r dyninst
 </pre></div>
 </div>
@@ -233,16 +356,28 @@ Various additional features can be enabled via the <a class="reference external"
 Any <code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_&lt;VAL&gt;</span></code> option which has a corresponding <code class="docutils literal notranslate"><span class="pre">TIMEMORY_USE_&lt;VAL&gt;</span></code> option means that the support within timemory for this feature has been integrated
 into omnitrace’s perfetto support, e.g. <code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_PAPI=&lt;VAL&gt;</span></code> forces <code class="docutils literal notranslate"><span class="pre">TIMEMORY_USE_PAPI=&lt;VAL&gt;</span></code> and the data that timemory is able to collect via this package
 is passed along to perfetto and will be displayed when the <code class="docutils literal notranslate"><span class="pre">.proto</span></code> file is visualized in <a class="reference external" href="https://ui.perfetto.dev">ui.perfetto.dev</a>.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">OMNITRACE_ROOT</span><span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/sw/omnitrace
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">OMNITRACE_ROOT</span><span class="o">=</span>/opt/omnitrace
 git clone https://github.com/AMDResearch/omnitrace.git omnitrace-source
-cmake                                           <span class="se">\</span>
-    -B omnitrace-build                          <span class="se">\</span>
-    -DOMNITRACE_USE_MPI_HEADERS<span class="o">=</span>ON              <span class="se">\</span>
-    -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="si">${</span><span class="nv">OMNITRACE_ROOT</span><span class="si">}</span>    <span class="se">\</span>
+cmake                                       <span class="se">\</span>
+    -B omnitrace-build                      <span class="se">\</span>
+    -D <span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">=</span>/opt/omnitrace  <span class="se">\</span>
+    -D <span class="nv">OMNITRACE_USE_HIP</span><span class="o">=</span>ON                 <span class="se">\</span>
+    -D <span class="nv">OMNITRACE_USE_ROCM_SMI</span><span class="o">=</span>ON            <span class="se">\</span>
+    -D <span class="nv">OMNITRACE_USE_ROCTRACER</span><span class="o">=</span>ON           <span class="se">\</span>
+    -D <span class="nv">OMNITRACE_USE_PYTHON</span><span class="o">=</span>ON              <span class="se">\</span>
+    -D <span class="nv">OMNITRACE_USE_OMPT</span><span class="o">=</span>ON                <span class="se">\</span>
+    -D <span class="nv">OMNITRACE_USE_MPI_HEADERS</span><span class="o">=</span>ON         <span class="se">\</span>
+    -D <span class="nv">OMNITRACE_BUILD_PAPI</span><span class="o">=</span>ON              <span class="se">\</span>
+    -D <span class="nv">OMNITRACE_BUILD_LIBUNWIND</span><span class="o">=</span>ON         <span class="se">\</span>
+    -D <span class="nv">OMNITRACE_BUILD_DYNINST</span><span class="o">=</span>ON           <span class="se">\</span>
+    -D <span class="nv">DYNINST_BUILD_TBB</span><span class="o">=</span>ON                 <span class="se">\</span>
+    -D <span class="nv">DYNINST_BUILD_BOOST</span><span class="o">=</span>ON               <span class="se">\</span>
+    -D <span class="nv">DYNINST_BUILD_ELFUTILS</span><span class="o">=</span>ON            <span class="se">\</span>
+    -D <span class="nv">DYNINST_BUILD_LIBIBERTY</span><span class="o">=</span>ON           <span class="se">\</span>
     omnitrace-source
 cmake --build omnitrace-build --target all --parallel <span class="m">8</span>
 cmake --build omnitrace-build --target install
-<span class="nb">source</span> <span class="si">${</span><span class="nv">OMNITRACE_ROOT</span><span class="si">}</span>/share/omnitrace/setup-env.sh
+<span class="nb">source</span> /opt/omnitrace/share/omnitrace/setup-env.sh
 </pre></div>
 </div>
 <div class="section" id="mpi-support-within-omnitrace">
@@ -260,6 +395,32 @@ it is an <code class="docutils literal notranslate"><span class="pre">int</span>
 omnitrace on an application built against OpenMPI will cause a segmentation fault due to the value of the <code class="docutils literal notranslate"><span class="pre">MPI_COMM_WORLD</span></code> being narrowed
 during the function wrapping before being passed along to the underlying MPI function.</p>
 </div>
+</div>
+</div>
+<div class="section" id="post-installation-steps">
+<h2>Post-Installation Steps<a class="headerlink" href="#post-installation-steps" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="configure-the-environment">
+<h3>Configure the environment<a class="headerlink" href="#configure-the-environment" title="Permalink to this headline">¶</a></h3>
+<p>If environment modules are available and preferred:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>module use /opt/omnitrace/share/modulefiles
+module load omnitrace/1.0.0
+</pre></div>
+</div>
+<p>Alternatively, once can directly source the <code class="docutils literal notranslate"><span class="pre">setup-env.sh</span></code> script:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> /opt/omnitrace/share/omnitrace/setup-env.sh
+</pre></div>
+</div>
+</div>
+<div class="section" id="test-the-executables">
+<h3>Test the executables<a class="headerlink" href="#test-the-executables" title="Permalink to this headline">¶</a></h3>
+<p>Successful execution of these commands indicates that the installation does not have any issues locating the installed libraries:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace --help
+omnitrace-avail --help
+</pre></div>
+</div>
+<blockquote>
+<div><p><em><strong>NOTE: If ROCm support was enabled, you may have to add the path to the ROCm libraries to <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code>, e.g. <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">LD_LIBRARY_PATH=/opt/rocm/lib:${LD_LIBRARY_PATH}</span></code></strong></em></p>
+</div></blockquote>
 </div>
 </div>
 </div>
