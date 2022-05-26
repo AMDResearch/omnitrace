@@ -93,7 +93,7 @@ The Clang compiler may be used in lieu of the GCC compiler if Dyninst is already
 >
 > ```shell
 > pip install --user 'cmake==3.18.4'
-> export PATH=${HOME}/.local/bin:${PATH}`
+> export PATH=${HOME}/.local/bin:${PATH}
 > ```
 
 ### Required Third-Party Packages
