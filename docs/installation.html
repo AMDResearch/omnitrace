@@ -327,12 +327,12 @@ and Dyninst requires TBB), and the CMake option to build the package alongside o
 <h4>Building Dyninst alongside Omnitrace<a class="headerlink" href="#building-dyninst-alongside-omnitrace" title="Permalink to this headline">¶</a></h4>
 <p>The easiest way to install Dyninst is to configure omnitrace with <code class="docutils literal notranslate"><span class="pre">OMNITRACE_BUILD_DYNINST=ON</span></code>. Depending on the version of Ubuntu, the apt package manager may have current enough
 versions of Dyninst’s Boost, TBB, and LibIberty dependencies (i.e. <code class="docutils literal notranslate"><span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">libtbb-dev</span> <span class="pre">libiberty-dev</span> <span class="pre">libboost-dev</span></code>); however, it is possible to request Dyninst to install
-it’s dependencies via <code class="docutils literal notranslate"><span class="pre">Dyninst_BUILD_&lt;DEP&gt;=ON</span></code>, e.g.:</p>
+it’s dependencies via <code class="docutils literal notranslate"><span class="pre">DYNINST_BUILD_&lt;DEP&gt;=ON</span></code>, e.g.:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/AMDResearch/omnitrace.git omnitrace-source
-cmake -B omnitrace-build -DOMNITRACE_BUILD_DYNINST<span class="o">=</span>ON -DDyninst_BUILD_<span class="o">{</span>TBB,ELFUTILS,BOOST,LIBIBERTY<span class="o">}=</span>ON omnitrace-source
+cmake -B omnitrace-build -DOMNITRACE_BUILD_DYNINST<span class="o">=</span>ON -DDYNINST_BUILD_<span class="o">{</span>TBB,ELFUTILS,BOOST,LIBIBERTY<span class="o">}=</span>ON omnitrace-source
 </pre></div>
 </div>
-<p>where <code class="docutils literal notranslate"><span class="pre">-DDyninst_BUILD_{TBB,BOOST,ELFUTILS,LIBIBERTY}=ON</span></code> is expanded by the shell to <code class="docutils literal notranslate"><span class="pre">-DDyninst_BUILD_TBB=ON</span> <span class="pre">-DDyninst_BUILD_BOOST=ON</span> <span class="pre">...</span></code></p>
+<p>where <code class="docutils literal notranslate"><span class="pre">-DDYNINST_BUILD_{TBB,BOOST,ELFUTILS,LIBIBERTY}=ON</span></code> is expanded by the shell to <code class="docutils literal notranslate"><span class="pre">-DDYNINST_BUILD_TBB=ON</span> <span class="pre">-DDYNINST_BUILD_BOOST=ON</span> <span class="pre">...</span></code></p>
 </div>
 <div class="section" id="installing-dyninst-via-spack">
 <h4>Installing Dyninst via Spack<a class="headerlink" href="#installing-dyninst-via-spack" title="Permalink to this headline">¶</a></h4>
@@ -356,8 +356,7 @@ Various additional features can be enabled via the <a class="reference external"
 Any <code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_&lt;VAL&gt;</span></code> option which has a corresponding <code class="docutils literal notranslate"><span class="pre">TIMEMORY_USE_&lt;VAL&gt;</span></code> option means that the support within timemory for this feature has been integrated
 into omnitrace’s perfetto support, e.g. <code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_PAPI=&lt;VAL&gt;</span></code> forces <code class="docutils literal notranslate"><span class="pre">TIMEMORY_USE_PAPI=&lt;VAL&gt;</span></code> and the data that timemory is able to collect via this package
 is passed along to perfetto and will be displayed when the <code class="docutils literal notranslate"><span class="pre">.proto</span></code> file is visualized in <a class="reference external" href="https://ui.perfetto.dev">ui.perfetto.dev</a>.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">OMNITRACE_ROOT</span><span class="o">=</span>/opt/omnitrace
-git clone https://github.com/AMDResearch/omnitrace.git omnitrace-source
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/AMDResearch/omnitrace.git omnitrace-source
 cmake                                       <span class="se">\</span>
     -B omnitrace-build                      <span class="se">\</span>
     -D <span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">=</span>/opt/omnitrace  <span class="se">\</span>
@@ -384,7 +383,9 @@ cmake --build omnitrace-build --target install
 <h4>MPI Support within Omnitrace<a class="headerlink" href="#mpi-support-within-omnitrace" title="Permalink to this headline">¶</a></h4>
 <p><a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> can have full (<code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_MPI=ON</span></code>) or partial (<code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_MPI_HEADERS=ON</span></code>) MPI support.
 The only difference between these two modes is whether or not the results collected via timemory and/or perfetto can be aggregated into a single
-output file during finalization. The primary benefits of partial or full MPI support are the automatic wrapping of MPI functions and the ability
+output file during finalization. When full MPI support is enabled, combining the timemory results always occurs whereas combining the perfetto
+results is configurable via the <code class="docutils literal notranslate"><span class="pre">OMNITRACE_PERFETTO_COMBINE_TRACES</span></code> setting.</p>
+<p>The primary benefits of partial or full MPI support are the automatic wrapping of MPI functions and the ability
 to label output with suffixes which correspond to the <code class="docutils literal notranslate"><span class="pre">MPI_COMM_WORLD</span></code> rank ID instead of using the system process identifier (i.e. PID).
 In general, it is recommended to use partial MPI support with the OpenMPI headers as this is the most portable configuration.
 If full MPI support is selected, make sure your target application is built against the same MPI distribution as omnitrace,
