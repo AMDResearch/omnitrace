@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Customizing Omnitrace Runtime &mdash; omnitrace 1.1.0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>Customizing Omnitrace Runtime &mdash; omnitrace 1.1.1 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -28,7 +28,7 @@
             <a href="index.html" class="icon icon-home"> omnitrace
           </a>
               <div class="version">
-                1.1.0
+                1.1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -761,14 +761,14 @@ but do not override an existing value for the environment variable.</p>
 <span class="nv">OMNITRACE_TIMING_UNITS</span>          <span class="o">=</span> sec
 
 <span class="c1"># sampling fields</span>
-<span class="nv">OMNITRACE_SAMPLING_FREQ</span>         <span class="o">=</span> <span class="m">10</span>
+<span class="nv">OMNITRACE_SAMPLING_FREQ</span>         <span class="o">=</span> <span class="m">50</span>
 
 <span class="c1"># rocm-smi fields</span>
-<span class="nv">OMNITRACE_ROCM_SMI_DEVICES</span>      <span class="o">=</span> <span class="m">0</span>
+<span class="nv">OMNITRACE_ROCM_SMI_DEVICES</span>      <span class="o">=</span> <span class="nv">$env</span>:HIP_VISIBLE_DEVICES
 
-<span class="c1"># misc env variables</span>
-<span class="nv">OMNITRACE_SAMPLING_KEEP_DYNINST_SUFFIX</span>  <span class="o">=</span> OFF
-<span class="nv">OMNITRACE_SAMPLING_KEEP_INTERNAL</span>        <span class="o">=</span> OFF
+<span class="c1"># misc env variables (see metadata JSON file after run)</span>
+<span class="nv">$env</span>:OMNITRACE_SAMPLING_KEEP_DYNINST_SUFFIX  <span class="o">=</span> OFF
+<span class="nv">$env</span>:OMNITRACE_SAMPLING_KEEP_INTERNAL        <span class="o">=</span> OFF
 </pre></div>
 </div>
 </div>

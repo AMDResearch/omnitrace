@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>User API &mdash; omnitrace 1.1.0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>User API &mdash; omnitrace 1.1.1 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -28,7 +28,7 @@
             <a href="index.html" class="icon icon-home"> omnitrace
           </a>
               <div class="version">
-                1.1.0
+                1.1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -427,7 +427,7 @@ recorded, regardless of whether whether <code class="docutils literal notranslat
 </div>
 <div class="section" id="user-api-output">
 <h3>User API Output<a class="headerlink" href="#user-api-output" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>omnitrace -l --min-address-range<span class="o">=</span><span class="m">0</span> --min-address-range-loop<span class="o">=</span><span class="m">0</span> --min-instructions<span class="o">=</span><span class="m">8</span> -E custom_push_region -o -- ./user-api
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>omnitrace -l --min-instructions<span class="o">=</span><span class="m">8</span> -E custom_push_region -o -- ./user-api
 <span class="go">...</span>
 <span class="gp">$ </span><span class="nb">export</span> <span class="nv">OMNITRACE_USE_TIMEMORY</span><span class="o">=</span>ON
 <span class="gp">$ </span><span class="nb">export</span> <span class="nv">OMNITRACE_USE_PID</span><span class="o">=</span>OFF
@@ -452,65 +452,85 @@ recorded, regardless of whether whether <code class="docutils literal notranslat
 <span class="go">[./user-api.inst] Iterations: 100</span>
 <span class="go">[./user-api.inst] fibonacci(20)...</span>
 <span class="go">Pushing custom region :: thread_creation</span>
-<span class="go">Pushing custom region :: run(20) x 100</span>
 <span class="go">Pushing custom region :: thread_wait</span>
 <span class="go">Pushing custom region :: run(20) x 100</span>
 <span class="go">Pushing custom region :: run(20) x 100</span>
 <span class="go">Pushing custom region :: run(20) x 100</span>
 <span class="go">Pushing custom region :: run(20) x 100</span>
+<span class="go">Pushing custom region :: run(20) x 100</span>
 <span class="go">[./user-api.inst] fibonacci(20) x 4 = 3382500</span>
+<span class="go">[omnitrace][86267][0][omnitrace_finalize] finalizing...</span>
 
 
-<span class="go">[omnitrace][2637959][0] omnitrace : 2.716905 sec wall_clock,    1.216 mb peak_rss, 3.680000 sec cpu_clock,  135.4 % cpu_util [laps: 1]</span>
-<span class="go">[omnitrace][2637959][0] user-api.inst/thread-0 : 2.715708 sec wall_clock, 2.354223 sec thread_cpu_clock,   86.7 % thread_cpu_util,    1.216 mb peak_rss [laps: 1]</span>
-<span class="go">[omnitrace][2637959][0] user-api.inst/thread-1 : 0.329802 sec wall_clock, 0.329739 sec thread_cpu_clock,  100.0 % thread_cpu_util,    0.000 mb peak_rss [laps: 1]</span>
-<span class="go">[omnitrace][2637959][0] user-api.inst/thread-2 : 0.355981 sec wall_clock, 0.335795 sec thread_cpu_clock,   94.3 % thread_cpu_util,    0.528 mb peak_rss [laps: 1]</span>
-<span class="go">[omnitrace][2637959][0] user-api.inst/thread-3 : 0.341329 sec wall_clock, 0.331214 sec thread_cpu_clock,   97.0 % thread_cpu_util,    0.456 mb peak_rss [laps: 1]</span>
-<span class="go">[omnitrace][2637959][0] user-api.inst/thread-4 : 0.360631 sec wall_clock, 0.330374 sec thread_cpu_clock,   91.6 % thread_cpu_util,    0.600 mb peak_rss [laps: 1]</span>
-<span class="go">[wall_clock]|0&gt; Outputting &#39;omnitrace-example-output/wall_clock.json&#39;...</span>
-<span class="go">[wall_clock]|0&gt; Outputting &#39;omnitrace-example-output/wall_clock.tree.json&#39;...</span>
-<span class="go">[wall_clock]|0&gt; Outputting &#39;omnitrace-example-output/wall_clock.txt&#39;...</span>
+<span class="go">[omnitrace][86267][0] omnitrace : 5.190895 sec wall_clock,    2.748 mb peak_rss, 6.330000 sec cpu_clock,  121.9 % cpu_util [laps: 1]</span>
+<span class="go">[omnitrace][86267][0] user-api.inst/thread-0 : 5.078713 sec wall_clock, 4.722415 sec thread_cpu_clock,   93.0 % thread_cpu_util,    1.276 mb peak_rss [laps: 1]</span>
+<span class="go">[omnitrace][86267][0] user-api.inst/thread-1 : 0.322248 sec wall_clock, 0.322191 sec thread_cpu_clock,  100.0 % thread_cpu_util,    1.000 mb peak_rss [laps: 1]</span>
+<span class="go">[omnitrace][86267][0] user-api.inst/thread-2 : 0.323255 sec wall_clock, 0.323194 sec thread_cpu_clock,  100.0 % thread_cpu_util,    0.000 mb peak_rss [laps: 1]</span>
+<span class="go">[omnitrace][86267][0] user-api.inst/thread-3 : 0.323569 sec wall_clock, 0.323484 sec thread_cpu_clock,  100.0 % thread_cpu_util,    1.092 mb peak_rss [laps: 1]</span>
+<span class="go">[omnitrace][86267][0] user-api.inst/thread-4 : 0.324178 sec wall_clock, 0.324057 sec thread_cpu_clock,  100.0 % thread_cpu_util,    1.184 mb peak_rss [laps: 1]</span>
+<span class="go">[omnitrace][86267][0] Post-processing 51 cpu frequency and memory usage entries...</span>
 
+<span class="go">[omnitrace][wall_clock]|0&gt; Outputting &#39;omnitrace-user-api.inst-output/wall_clock.json&#39;...</span>
+<span class="go">[omnitrace][wall_clock]|0&gt; Outputting &#39;omnitrace-user-api.inst-output/wall_clock.tree.json&#39;...</span>
+<span class="go">[omnitrace][wall_clock]|0&gt; Outputting &#39;omnitrace-user-api.inst-output/wall_clock.txt&#39;...</span>
 
-<span class="go">[metadata::manager::finalize]&gt; Outputting &#39;omnitrace-example-output/metadata.json&#39; and &#39;omnitrace-example-output/functions.json&#39;...</span>
+<span class="go">[omnitrace][manager::finalize][metadata]&gt; Outputting &#39;omnitrace-user-api.inst-output/metadata.json&#39; and &#39;omnitrace-user-api.inst-output/functions.json&#39;...</span>
+<span class="go">[omnitrace][86267][0][omnitrace_finalize] Finalized</span>
 <span class="gp">$ </span>cat omnitrace-example-output/wall_clock.txt
-<span class="go">|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|</span>
-<span class="go">|                                                                          REAL-CLOCK TIMER (I.E. WALL-CLOCK TIMER)                                                                         |</span>
-<span class="go">|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|</span>
-<span class="go">|                                LABEL                                  | COUNT   | DEPTH  |   METRIC   | UNITS  |   SUM    |   MEAN   |   MIN    |   MAX    |   VAR    | STDDEV   | % SELF |</span>
-<span class="go">|-----------------------------------------------------------------------|---------|--------|------------|--------|----------|----------|----------|----------|----------|----------|--------|</span>
-<span class="go">| |0&gt;&gt;&gt; ./user-api.inst                                                 |       1 |      0 | wall_clock | sec    | 2.715611 | 2.715611 | 2.715611 | 2.715611 | 0.000000 | 0.000000 |    0.0 |</span>
-<span class="go">| |0&gt;&gt;&gt; |_initialization                                                |       1 |      1 | wall_clock | sec    | 0.000001 | 0.000001 | 0.000001 | 0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
-<span class="go">| |0&gt;&gt;&gt; |_thread_creation                                               |       1 |      1 | wall_clock | sec    | 0.000170 | 0.000170 | 0.000170 | 0.000170 | 0.000000 | 0.000000 |  100.0 |</span>
-<span class="go">| |0&gt;&gt;&gt; |_thread_wait                                                   |       1 |      1 | wall_clock | sec    | 0.360751 | 0.360751 | 0.360751 | 0.360751 | 0.000000 | 0.000000 |    0.0 |</span>
-<span class="go">| |1&gt;&gt;&gt;   |_run(20) x 100                                               |       1 |      2 | wall_clock | sec    | 0.329472 | 0.329472 | 0.329472 | 0.329472 | 0.000000 | 0.000000 |  100.0 |</span>
-<span class="go">| |3&gt;&gt;&gt;   |_run(20) x 100                                               |       1 |      2 | wall_clock | sec    | 0.331028 | 0.331028 | 0.331028 | 0.331028 | 0.000000 | 0.000000 |  100.0 |</span>
-<span class="go">| |2&gt;&gt;&gt;   |_run(20) x 100                                               |       1 |      2 | wall_clock | sec    | 0.335554 | 0.335554 | 0.335554 | 0.335554 | 0.000000 | 0.000000 |  100.0 |</span>
-<span class="go">| |4&gt;&gt;&gt;   |_run(20) x 100                                               |       1 |      2 | wall_clock | sec    | 0.330220 | 0.330220 | 0.330220 | 0.330220 | 0.000000 | 0.000000 |  100.0 |</span>
-<span class="go">| |0&gt;&gt;&gt; |_run                                                           |       1 |      1 | wall_clock | sec    | 2.354618 | 2.354618 | 2.354618 | 2.354618 | 0.000000 | 0.000000 |    0.0 |</span>
-<span class="go">| |0&gt;&gt;&gt;   |_run(20) x 100                                               |       1 |      2 | wall_clock | sec    | 2.354600 | 2.354600 | 2.354600 | 2.354600 | 0.000000 | 0.000000 |   48.3 |</span>
-<span class="go">| |0&gt;&gt;&gt;     |_fib                                                       | 1094600 |      3 | wall_clock | sec    | 1.217671 | 0.000001 | 0.000000 | 0.000055 | 0.000000 | 0.000002 |   41.3 |</span>
-<span class="go">| |0&gt;&gt;&gt;       |_fib                                                     |  418100 |      4 | wall_clock | sec    | 0.714197 | 0.000002 | 0.000000 | 0.000050 | 0.000000 | 0.000002 |   38.1 |</span>
-<span class="go">| |0&gt;&gt;&gt;         |_fib                                                   |  258400 |      5 | wall_clock | sec    | 0.441874 | 0.000002 | 0.000000 | 0.000047 | 0.000000 | 0.000002 |   37.9 |</span>
-<span class="go">| |0&gt;&gt;&gt;           |_fib                                                 |  159700 |      6 | wall_clock | sec    | 0.274224 | 0.000002 | 0.000000 | 0.000044 | 0.000000 | 0.000002 |   37.9 |</span>
-<span class="go">| |0&gt;&gt;&gt;             |_fib                                               |   98700 |      7 | wall_clock | sec    | 0.170399 | 0.000002 | 0.000000 | 0.000042 | 0.000000 | 0.000002 |   37.7 |</span>
-<span class="go">| |0&gt;&gt;&gt;               |_fib                                             |   61000 |      8 | wall_clock | sec    | 0.106093 | 0.000002 | 0.000000 | 0.000039 | 0.000000 | 0.000002 |   37.5 |</span>
-<span class="go">| |0&gt;&gt;&gt;                 |_fib                                           |   37700 |      9 | wall_clock | sec    | 0.066316 | 0.000002 | 0.000000 | 0.000036 | 0.000000 | 0.000002 |   40.2 |</span>
-<span class="go">| |0&gt;&gt;&gt;                   |_fib                                         |   23300 |     10 | wall_clock | sec    | 0.039640 | 0.000002 | 0.000000 | 0.000033 | 0.000000 | 0.000002 |   38.2 |</span>
-<span class="go">| |0&gt;&gt;&gt;                     |_fib                                       |   14400 |     11 | wall_clock | sec    | 0.024504 | 0.000002 | 0.000000 | 0.000030 | 0.000000 | 0.000002 |   37.9 |</span>
-<span class="go">| |0&gt;&gt;&gt;                       |_fib                                     |    8900 |     12 | wall_clock | sec    | 0.015219 | 0.000002 | 0.000000 | 0.000027 | 0.000000 | 0.000002 |   38.1 |</span>
-<span class="go">| |0&gt;&gt;&gt;                         |_fib                                   |    5500 |     13 | wall_clock | sec    | 0.009417 | 0.000002 | 0.000000 | 0.000024 | 0.000000 | 0.000002 |   38.3 |</span>
-<span class="go">| |0&gt;&gt;&gt;                           |_fib                                 |    3400 |     14 | wall_clock | sec    | 0.005806 | 0.000002 | 0.000000 | 0.000021 | 0.000000 | 0.000002 |   38.4 |</span>
-<span class="go">| |0&gt;&gt;&gt;                             |_fib                               |    2100 |     15 | wall_clock | sec    | 0.003576 | 0.000002 | 0.000000 | 0.000019 | 0.000000 | 0.000002 |   38.4 |</span>
-<span class="go">| |0&gt;&gt;&gt;                               |_fib                             |    1300 |     16 | wall_clock | sec    | 0.002201 | 0.000002 | 0.000000 | 0.000016 | 0.000000 | 0.000002 |   40.3 |</span>
-<span class="go">| |0&gt;&gt;&gt;                                 |_fib                           |     800 |     17 | wall_clock | sec    | 0.001315 | 0.000002 | 0.000000 | 0.000014 | 0.000000 | 0.000002 |   42.1 |</span>
-<span class="go">| |0&gt;&gt;&gt;                                   |_fib                         |     500 |     18 | wall_clock | sec    | 0.000762 | 0.000002 | 0.000000 | 0.000010 | 0.000000 | 0.000001 |   42.1 |</span>
-<span class="go">| |0&gt;&gt;&gt;                                     |_fib                       |     300 |     19 | wall_clock | sec    | 0.000441 | 0.000001 | 0.000000 | 0.000008 | 0.000000 | 0.000001 |   47.8 |</span>
-<span class="go">| |0&gt;&gt;&gt;                                       |_fib                     |     200 |     20 | wall_clock | sec    | 0.000230 | 0.000001 | 0.000000 | 0.000006 | 0.000000 | 0.000001 |   49.0 |</span>
-<span class="go">| |0&gt;&gt;&gt;                                         |_fib                   |     100 |     21 | wall_clock | sec    | 0.000117 | 0.000001 | 0.000001 | 0.000003 | 0.000000 | 0.000000 |   84.5 |</span>
-<span class="go">| |0&gt;&gt;&gt;                                           |_fib                 |     100 |     22 | wall_clock | sec    | 0.000018 | 0.000000 | 0.000000 | 0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
-<span class="go">| |0&gt;&gt;&gt; std::vector&lt;std::thread, std::allocator&lt;std::thread&gt; &gt;::~vector |       1 |      0 | wall_clock | sec    | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 |  100.0 |</span>
-<span class="go">|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|</span>
+<span class="go">|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|</span>
+<span class="go">|                                                                              REAL-CLOCK TIMER (I.E. WALL-CLOCK TIMER)                                                                              |</span>
+<span class="go">|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|</span>
+<span class="go">|                                     LABEL                                       | COUNT  | DEPTH  |   METRIC   | UNITS  |   SUM    |   MEAN   |   MIN    |   MAX    |   VAR    | STDDEV   | % SELF |</span>
+<span class="go">|---------------------------------------------------------------------------------|--------|--------|------------|--------|----------|----------|----------|----------|----------|----------|--------|</span>
+<span class="go">| |0&gt;&gt;&gt; ./user-api.inst                                                           |      1 |      0 | wall_clock | sec    | 5.078521 | 5.078521 | 5.078521 | 5.078521 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |0&gt;&gt;&gt; |_initialization                                                          |      1 |      1 | wall_clock | sec    | 0.000004 | 0.000004 | 0.000004 | 0.000004 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt; |_thread_creation                                                         |      1 |      1 | wall_clock | sec    | 0.000159 | 0.000159 | 0.000159 | 0.000159 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt; |_thread_wait                                                             |      1 |      1 | wall_clock | sec    | 0.355307 | 0.355307 | 0.355307 | 0.355307 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;   |_std::vector&lt;std::thread, std::allocator&lt;std::thread&gt; &gt;::begin         |      1 |      2 | wall_clock | sec    | 0.000001 | 0.000001 | 0.000001 | 0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;   |_std::vector&lt;std::thread, std::allocator&lt;std::thread&gt; &gt;::end           |      1 |      2 | wall_clock | sec    | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;   |_pthread_join                                                          |      4 |      2 | wall_clock | sec    | 0.355257 | 0.088814 | 0.000001 | 0.333144 | 0.026559 | 0.162970 |  100.0 |</span>
+<span class="go">| |2&gt;&gt;&gt;     |_start_thread                                                        |      1 |      3 | wall_clock | sec    | 0.000032 | 0.000032 | 0.000032 | 0.000032 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |1&gt;&gt;&gt;     |_start_thread                                                        |      1 |      3 | wall_clock | sec    | 0.000036 | 0.000036 | 0.000036 | 0.000036 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |3&gt;&gt;&gt;     |_start_thread                                                        |      1 |      3 | wall_clock | sec    | 0.000034 | 0.000034 | 0.000034 | 0.000034 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |4&gt;&gt;&gt;     |_start_thread                                                        |      1 |      3 | wall_clock | sec    | 0.000039 | 0.000039 | 0.000039 | 0.000039 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt; |_run                                                                     |      1 |      1 | wall_clock | sec    | 4.722993 | 4.722993 | 4.722993 | 4.722993 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;   |_std::char_traits&lt;char&gt;::length                                        |      1 |      2 | wall_clock | sec    | 0.000001 | 0.000001 | 0.000001 | 0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;   |_std::distance&lt;char const*&gt;                                            |      1 |      2 | wall_clock | sec    | 0.000001 | 0.000001 | 0.000001 | 0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;   |_std::operator+&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;   |      2 |      2 | wall_clock | sec    | 0.000002 | 0.000001 | 0.000001 | 0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;   |_run(20) x 100                                                         |      1 |      2 | wall_clock | sec    | 4.722951 | 4.722951 | 4.722951 | 4.722951 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;     |_run [{94,25}-{96,25}]                                               |      1 |      3 | wall_clock | sec    | 4.722925 | 4.722925 | 4.722925 | 4.722925 | 0.000000 | 0.000000 |    0.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;       |_fib                                                               |    100 |      4 | wall_clock | sec    | 4.722718 | 0.047227 | 0.046713 | 0.051987 | 0.000000 | 0.000625 |    0.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;         |_fib                                                             |    200 |      5 | wall_clock | sec    | 4.722302 | 0.023612 | 0.017827 | 0.034091 | 0.000032 | 0.005627 |    0.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;           |_fib                                                           |    400 |      6 | wall_clock | sec    | 4.721485 | 0.011804 | 0.006790 | 0.023003 | 0.000016 | 0.004024 |    0.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;             |_fib                                                         |    800 |      7 | wall_clock | sec    | 4.719858 | 0.005900 | 0.002564 | 0.016078 | 0.000006 | 0.002498 |    0.1 |</span>
+<span class="go">| |0&gt;&gt;&gt;               |_fib                                                       |   1600 |      8 | wall_clock | sec    | 4.716572 | 0.002948 | 0.000977 | 0.011849 | 0.000002 | 0.001465 |    0.1 |</span>
+<span class="go">| |0&gt;&gt;&gt;                 |_fib                                                     |   3200 |      9 | wall_clock | sec    | 4.709918 | 0.001472 | 0.000371 | 0.008246 | 0.000001 | 0.000831 |    0.3 |</span>
+<span class="go">| |0&gt;&gt;&gt;                   |_fib                                                   |   6400 |     10 | wall_clock | sec    | 4.696775 | 0.000734 | 0.000140 | 0.005111 | 0.000000 | 0.000461 |    0.6 |</span>
+<span class="go">| |0&gt;&gt;&gt;                     |_fib                                                 |  12800 |     11 | wall_clock | sec    | 4.670093 | 0.000365 | 0.000050 | 0.003166 | 0.000000 | 0.000253 |    1.1 |</span>
+<span class="go">| |0&gt;&gt;&gt;                       |_fib                                               |  25600 |     12 | wall_clock | sec    | 4.617496 | 0.000180 | 0.000017 | 0.001959 | 0.000000 | 0.000137 |    2.3 |</span>
+<span class="go">| |0&gt;&gt;&gt;                         |_fib                                             |  51200 |     13 | wall_clock | sec    | 4.512671 | 0.000088 | 0.000004 | 0.001212 | 0.000000 | 0.000074 |    4.6 |</span>
+<span class="go">| |0&gt;&gt;&gt;                           |_fib                                           | 102400 |     14 | wall_clock | sec    | 4.304142 | 0.000042 | 0.000000 | 0.000752 | 0.000000 | 0.000039 |    9.6 |</span>
+<span class="go">| |0&gt;&gt;&gt;                             |_fib                                         | 202600 |     15 | wall_clock | sec    | 3.892580 | 0.000019 | 0.000000 | 0.000469 | 0.000000 | 0.000021 |   19.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;                               |_fib                                       | 363200 |     16 | wall_clock | sec    | 3.151143 | 0.000009 | 0.000000 | 0.000293 | 0.000000 | 0.000011 |   33.2 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                 |_fib                                     | 502000 |     17 | wall_clock | sec    | 2.105217 | 0.000004 | 0.000000 | 0.000183 | 0.000000 | 0.000006 |   49.1 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                   |_fib                                   | 476000 |     18 | wall_clock | sec    | 1.071652 | 0.000002 | 0.000000 | 0.000114 | 0.000000 | 0.000004 |   63.6 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                     |_fib                                 | 294200 |     19 | wall_clock | sec    | 0.390193 | 0.000001 | 0.000000 | 0.000071 | 0.000000 | 0.000003 |   75.3 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                       |_fib                               | 115200 |     20 | wall_clock | sec    | 0.096190 | 0.000001 | 0.000000 | 0.000043 | 0.000000 | 0.000002 |   84.4 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                         |_fib                             |  27400 |     21 | wall_clock | sec    | 0.015020 | 0.000001 | 0.000000 | 0.000025 | 0.000000 | 0.000001 |   91.1 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                           |_fib                           |   3600 |     22 | wall_clock | sec    | 0.001336 | 0.000000 | 0.000000 | 0.000013 | 0.000000 | 0.000001 |   96.3 |</span>
+<span class="go">| |0&gt;&gt;&gt;                                             |_fib                         |    200 |     23 | wall_clock | sec    | 0.000050 | 0.000000 | 0.000000 | 0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;     |_std::char_traits&lt;char&gt;::length                                      |      1 |      3 | wall_clock | sec    | 0.000001 | 0.000001 | 0.000001 | 0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;     |_std::distance&lt;char const*&gt;                                          |      1 |      3 | wall_clock | sec    | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;     |_std::operator+&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; |      2 |      3 | wall_clock | sec    | 0.000001 | 0.000001 | 0.000000 | 0.000001 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt; |_std::operator&amp;                                                          |      1 |      1 | wall_clock | sec    | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt; std::vector&lt;std::thread, std::allocator&lt;std::thread&gt; &gt;::~vector           |      1 |      0 | wall_clock | sec    | 0.000045 | 0.000045 | 0.000045 | 0.000045 | 0.000000 | 0.000000 |   32.7 |</span>
+<span class="go">| |0&gt;&gt;&gt; |_std::thread::~thread                                                    |      4 |      1 | wall_clock | sec    | 0.000030 | 0.000007 | 0.000007 | 0.000009 | 0.000000 | 0.000001 |   31.2 |</span>
+<span class="go">| |0&gt;&gt;&gt;   |_std::thread::joinable                                                 |      4 |      2 | wall_clock | sec    | 0.000021 | 0.000005 | 0.000005 | 0.000006 | 0.000000 | 0.000001 |   89.4 |</span>
+<span class="go">| |0&gt;&gt;&gt;     |_std::thread::id::id                                                 |      4 |      3 | wall_clock | sec    | 0.000001 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt;     |_std::operator==                                                     |      4 |      3 | wall_clock | sec    | 0.000001 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt; |_std::allocator_traits&lt;std::allocator&lt;std::thread&gt; &gt;::deallocate         |      1 |      1 | wall_clock | sec    | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">| |0&gt;&gt;&gt; |_std::allocator&lt;std::thread&gt;::~allocator                                 |      1 |      1 | wall_clock | sec    | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 | 0.000000 |  100.0 |</span>
+<span class="go">|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|</span>
 </pre></div>
 </div>
 </div>
