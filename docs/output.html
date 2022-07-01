@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Omnitrace Output &mdash; omnitrace 1.1.1 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>Omnitrace Output &mdash; omnitrace 1.2.0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -28,7 +28,7 @@
             <a href="index.html" class="icon icon-home"> omnitrace
           </a>
               <div class="version">
-                1.1.1
+                1.2.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -432,6 +432,10 @@ set <code class="docutils literal notranslate"><span class="pre">OMNITRACE_OUTPU
 <td>Process identifier (i.e. <code>getpid()</code>)</td>
 </tr>
 <tr>
+<td><code>%ppid%</code></td>
+<td>Parent process identifier (i.e. <code>getppid()</code>)</td>
+</tr>
+<tr>
 <td><code>%job%</code></td>
 <td>Value of <code>SLURM_JOB_ID</code> environment variable if exists, else <code>0</code></td>
 </tr>
@@ -442,6 +446,26 @@ set <code class="docutils literal notranslate"><span class="pre">OMNITRACE_OUTPU
 <tr>
 <td><code>%size%</code></td>
 <td><code>MPI_Comm_size</code> or <code>1</code> if non-mpi</td>
+</tr>
+<tr>
+<td><code>%launch_time%</code></td>
+<td>Launch date and time (uses <code>OMNITRACE_TIME_FORMAT</code>)</td>
+</tr>
+<tr>
+<td><code>%env{NAME}%</code></td>
+<td>Value of environment variable <code>NAME</code> (i.e. <code>getenv(NAME)</code>)</td>
+</tr>
+<tr>
+<td><code>%cfg{NAME}%</code></td>
+<td>Value of configuration variable <code>NAME</code> (e.g. <code>%cfg{OMNITRACE_SAMPLING_FREQ}%</code> would resolve to sampling frequency)</td>
+</tr>
+<tr>
+<td><code>$env{NAME}</code></td>
+<td>Alternative syntax to <code>%env{NAME}%</code></td>
+</tr>
+<tr>
+<td><code>$cfg{NAME}</code></td>
+<td>Alternative syntax to <code>%cfg{NAME}%</code></td>
 </tr>
 <tr>
 <td><code>%m</code></td>
