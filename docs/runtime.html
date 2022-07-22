@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Customizing Omnitrace Runtime &mdash; omnitrace 1.2.0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>Customizing Omnitrace Runtime &mdash; omnitrace 1.3.0dev0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -28,7 +28,7 @@
             <a href="index.html" class="icon icon-home"> omnitrace
           </a>
               <div class="version">
-                1.2.0
+                1.3.0dev0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -52,6 +52,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#exploring-runtime-settings">Exploring Runtime Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#exploring-components">Exploring Components</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#exploring-hardware-counters">Exploring Hardware Counters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enabling-hardware-counters">Enabling Hardware Counters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#omnitrace-avail-examples">omnitrace-avail Examples</a></li>
 </ul>
 </li>
@@ -158,10 +159,74 @@ from source with the CMake option(s) <code class="docutils literal notranslate">
 </div>
 <div class="section" id="exploring-hardware-counters">
 <h3>Exploring Hardware Counters<a class="headerlink" href="#exploring-hardware-counters" title="Permalink to this headline">¶</a></h3>
-<p><a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> supports collecting hardware counters via PAPI.</p>
+<p><a class="reference external" href="https://github.com/AMDResearch/omnitrace">Omnitrace</a> supports collecting hardware counters via PAPI and ROCm.
+Generally, PAPI is used to collect CPU-based hardware counters and ROCm is used to collect GPU-based hardware
+counters; although it is possible to install PAPI with ROCm support and collect GPU-based hardware counters
+via PAPI but this is not recommended because CPU hardware counters via PAPI cannot be collected simultaneously.</p>
 <p>View all possible hardware counters and their descriptions:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>omnitrace-avail --hw-counters --description
 </pre></div>
+</div>
+<p>Additionally, you can pass <code class="docutils literal notranslate"><span class="pre">-c</span> <span class="pre">CPU</span></code> to restrict the hardware counters to the counters available via PAPI and
+<code class="docutils literal notranslate"><span class="pre">-c</span> <span class="pre">GPU</span></code> to restrict the hardware counters displayed to the counters available via ROCm.</p>
+</div>
+<div class="section" id="enabling-hardware-counters">
+<h3>Enabling Hardware Counters<a class="headerlink" href="#enabling-hardware-counters" title="Permalink to this headline">¶</a></h3>
+<p>Hardware counters via PAPI are configured with the <code class="docutils literal notranslate"><span class="pre">OMNITRACE_PAPI_EVENTS</span></code> configuration variable.
+Hardware counters via ROCm are configured with the <code class="docutils literal notranslate"><span class="pre">OMNITRACE_ROCM_EVENTS</span></code> configuration variable.
+It should be noted that ROCm hardware counters also require the <code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_ROCPROFILER</span></code> configuration
+variable to be enabled (i.e., <code class="docutils literal notranslate"><span class="pre">OMNITRACE_USE_ROCPROFILER=ON</span></code>).</p>
+<p>Example configuration for hardware counters:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="section" id="omnitrace-papi-events">
+<h4>OMNITRACE_PAPI_EVENTS<a class="headerlink" href="#omnitrace-papi-events" title="Permalink to this headline">¶</a></h4>
+<p>In order to collect the majority of hardware counters via PAPI, you need to make sure the <code class="docutils literal notranslate"><span class="pre">/proc/sys/kernel/perf_event_paranoid</span></code>
+has a value of less than 2. If you have sudo access, you can use the following command to modify the value:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="m">0</span> <span class="p">|</span> sudo tee /proc/sys/kernel/perf_event_paranoid
+</pre></div>
+</div>
+<p>However this value will not be retained upon reboot. The following command will preserve this setting between reboots:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s1">&#39;kernel.perf_event_paranoid=0&#39;</span> <span class="p">|</span> sudo tee -a /etc/sysctl.conf
+</pre></div>
+</div>
+<p>PAPI event use something similar to a namespace. All specified hardware counters must be from the same namespace.
+For hardware counters starting with the <code class="docutils literal notranslate"><span class="pre">PAPI_</span></code> prefix, these are high-level aggregates of multiple hardware counters.
+Otherwise, most events use two or three colons (<code class="docutils literal notranslate"><span class="pre">::</span></code> or <code class="docutils literal notranslate"><span class="pre">:::</span></code>) between the component name and the counter name, e.g.,
+<code class="docutils literal notranslate"><span class="pre">amd64_rapl::RAPL_ENERGY_PKG</span></code>, <code class="docutils literal notranslate"><span class="pre">perf::PERF_COUNT_HW_CPU_CYCLES</span></code>, etc.</p>
+<p>For example, the following is a valid configuration:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">OMNITRACE_PAPI_EVENTS = perf::INSTRUCTIONS  perf::CACHE-REFERENCES  perf::CACHE-MISSES</span>
+</pre></div>
+</div>
+<p>However, the following effectively specifies the same set of hardware counters but is an invalid configuration because it mixes
+PAPI components from different namespaces:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">OMNITRACE_PAPI_EVENTS = PAPI_TOT_INS        perf::CACHE-REFERENCES  perf::CACHE-MISSES</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="omnitrace-rocm-events">
+<h4>OMNITRACE_ROCM_EVENTS<a class="headerlink" href="#omnitrace-rocm-events" title="Permalink to this headline">¶</a></h4>
+<p>Omnitrace reads the ROCm events from the <code class="docutils literal notranslate"><span class="pre">${ROCM_PATH}/lib/rocprofiler/metrics.xml</span></code> file. Use the <code class="docutils literal notranslate"><span class="pre">ROCP_METRICS</span></code> environment
+variable to point omnitrace to a different XML metrics file, e.g., <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">ROCP_METRICS=${PWD}/custom_metrics.xml</span></code>.
+<code class="docutils literal notranslate"><span class="pre">omnitrace-avail</span> <span class="pre">-H</span> <span class="pre">-c</span> <span class="pre">GPU</span></code> will show event names with a suffix of <code class="docutils literal notranslate"><span class="pre">:device=N</span></code> where <code class="docutils literal notranslate"><span class="pre">N</span></code> is the device number.
+For example, if you have two devices, you will see:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">| Wavefronts:device=0                   | Derived counter: SQ_WAVES             |</span>
+<span class="go">...</span>
+<span class="go">| Wavefronts:device=1                   | Derived counter: SQ_WAVES             |</span>
+</pre></div>
+</div>
+<p>If you wish to collect the event on all the devices, simply specify the event, e.g. <code class="docutils literal notranslate"><span class="pre">Wavefronts</span></code>, withouth the <code class="docutils literal notranslate"><span class="pre">:device=</span></code> suffix.
+If you wish to collect the event only on specific device(s), use the <code class="docutils literal notranslate"><span class="pre">:device=</span></code> suffix.</p>
+<p>For example:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">OMNITRACE_ROCM_EVENTS = GPUBusy     SQ_WAVES:device=0    SQ_INSTS_VALU:device=1</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Records the percentage of time the GPU was busy on all devices</p></li>
+<li><p>Counts the number of waves sent to SQs on device 0</p></li>
+<li><p>Counts the number of VALU instructions issued on device 1</p></li>
+</ul>
 </div>
 </div>
 <div class="section" id="omnitrace-avail-examples">
@@ -843,6 +908,327 @@ set <code class="docutils literal notranslate"><span class="pre">OMNITRACE_CONFI
 <span class="go">| net:::cali59d6fabc2aa:tx:colls        | cali59d6fabc2aa transmit colls        |</span>
 <span class="go">| net:::cali59d6fabc2aa:tx:carrier      | cali59d6fabc2aa transmit carrier      |</span>
 <span class="go">| net:::cali59d6fabc2aa:tx:compressed   | cali59d6fabc2aa transmit compressed   |</span>
+<span class="go">|---------------------------------------|---------------------------------------|</span>
+<span class="go">|                  GPU                  |                                       |</span>
+<span class="go">|---------------------------------------|---------------------------------------|</span>
+<span class="go">| TCC_EA1_WRREQ[0]:device=0             | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA1_WRREQ[1]:device=0             | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA1_WRREQ[2]:device=0             | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA1_WRREQ[3]:device=0             | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA1_WRREQ[4]:device=0             | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA1_WRREQ[5]:device=0             | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA1_WRREQ[6]:device=0             | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA1_WRREQ[7]:device=0             | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA1_WRREQ[8]:device=0             | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA1_WRREQ[9]:device=0             | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA1_WRREQ[10]:device=0            | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA1_WRREQ[11]:device=0            | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA1_WRREQ[12]:device=0            | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA1_WRREQ[13]:device=0            | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA1_WRREQ[14]:device=0            | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA1_WRREQ[15]:device=0            | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA1_WRREQ_64B[0]:device=0         | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA1_WRREQ_64B[1]:device=0         | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA1_WRREQ_64B[2]:device=0         | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA1_WRREQ_64B[3]:device=0         | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA1_WRREQ_64B[4]:device=0         | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA1_WRREQ_64B[5]:device=0         | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA1_WRREQ_64B[6]:device=0         | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA1_WRREQ_64B[7]:device=0         | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA1_WRREQ_64B[8]:device=0         | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA1_WRREQ_64B[9]:device=0         | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA1_WRREQ_64B[10]:device=0        | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA1_WRREQ_64B[11]:device=0        | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA1_WRREQ_64B[12]:device=0        | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA1_WRREQ_64B[13]:device=0        | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA1_WRREQ_64B[14]:device=0        | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA1_WRREQ_64B[15]:device=0        | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA1_WRREQ_STALL[0]:device=0       | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA1_WRREQ_STALL[1]:device=0       | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA1_WRREQ_STALL[2]:device=0       | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA1_WRREQ_STALL[3]:device=0       | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA1_WRREQ_STALL[4]:device=0       | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA1_WRREQ_STALL[5]:device=0       | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA1_WRREQ_STALL[6]:device=0       | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA1_WRREQ_STALL[7]:device=0       | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA1_WRREQ_STALL[8]:device=0       | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA1_WRREQ_STALL[9]:device=0       | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA1_WRREQ_STALL[10]:device=0      | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA1_WRREQ_STALL[11]:device=0      | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA1_WRREQ_STALL[12]:device=0      | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA1_WRREQ_STALL[13]:device=0      | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA1_WRREQ_STALL[14]:device=0      | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA1_WRREQ_STALL[15]:device=0      | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA1_RDREQ[0]:device=0             | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA1_RDREQ[1]:device=0             | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA1_RDREQ[2]:device=0             | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA1_RDREQ[3]:device=0             | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA1_RDREQ[4]:device=0             | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA1_RDREQ[5]:device=0             | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA1_RDREQ[6]:device=0             | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA1_RDREQ[7]:device=0             | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA1_RDREQ[8]:device=0             | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA1_RDREQ[9]:device=0             | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA1_RDREQ[10]:device=0            | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA1_RDREQ[11]:device=0            | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA1_RDREQ[12]:device=0            | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA1_RDREQ[13]:device=0            | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA1_RDREQ[14]:device=0            | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA1_RDREQ[15]:device=0            | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA1_RDREQ_32B[0]:device=0         | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA1_RDREQ_32B[1]:device=0         | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA1_RDREQ_32B[2]:device=0         | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA1_RDREQ_32B[3]:device=0         | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA1_RDREQ_32B[4]:device=0         | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA1_RDREQ_32B[5]:device=0         | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA1_RDREQ_32B[6]:device=0         | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA1_RDREQ_32B[7]:device=0         | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA1_RDREQ_32B[8]:device=0         | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA1_RDREQ_32B[9]:device=0         | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA1_RDREQ_32B[10]:device=0        | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA1_RDREQ_32B[11]:device=0        | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA1_RDREQ_32B[12]:device=0        | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA1_RDREQ_32B[13]:device=0        | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA1_RDREQ_32B[14]:device=0        | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA1_RDREQ_32B[15]:device=0        | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| GRBM_COUNT:device=0                   | Tie High - Count Number of Clocks     |</span>
+<span class="go">| GRBM_GUI_ACTIVE:device=0              | The GUI is Active                     |</span>
+<span class="go">| SQ_WAVES:device=0                     | Count number of waves sent to SQs.... |</span>
+<span class="go">| SQ_INSTS_VALU:device=0                | Number of VALU instructions issued... |</span>
+<span class="go">| SQ_INSTS_VMEM_WR:device=0             | Number of VMEM write instructions ... |</span>
+<span class="go">| SQ_INSTS_VMEM_RD:device=0             | Number of VMEM read instructions i... |</span>
+<span class="go">| SQ_INSTS_SALU:device=0                | Number of SALU instructions issued... |</span>
+<span class="go">| SQ_INSTS_SMEM:device=0                | Number of SMEM instructions issued... |</span>
+<span class="go">| SQ_INSTS_FLAT:device=0                | Number of FLAT instructions issued... |</span>
+<span class="go">| SQ_INSTS_FLAT_LDS_ONLY:device=0       | Number of FLAT instructions issued... |</span>
+<span class="go">| SQ_INSTS_LDS:device=0                 | Number of LDS instructions issued ... |</span>
+<span class="go">| SQ_INSTS_GDS:device=0                 | Number of GDS instructions issued.... |</span>
+<span class="go">| SQ_WAIT_INST_LDS:device=0             | Number of wave-cycles spent waitin... |</span>
+<span class="go">| SQ_ACTIVE_INST_VALU:device=0          | regspec 71? Number of cycles the S... |</span>
+<span class="go">| SQ_INST_CYCLES_SALU:device=0          | Number of cycles needed to execute... |</span>
+<span class="go">| SQ_THREAD_CYCLES_VALU:device=0        | Number of thread-cycles used to ex... |</span>
+<span class="go">| SQ_LDS_BANK_CONFLICT:device=0         | Number of cycles LDS is stalled by... |</span>
+<span class="go">| TA_TA_BUSY[0]:device=0                | TA block is busy. Perf_Windowing n... |</span>
+<span class="go">| TA_TA_BUSY[1]:device=0                | TA block is busy. Perf_Windowing n... |</span>
+<span class="go">| TA_TA_BUSY[2]:device=0                | TA block is busy. Perf_Windowing n... |</span>
+<span class="go">| TA_TA_BUSY[3]:device=0                | TA block is busy. Perf_Windowing n... |</span>
+<span class="go">| TA_TA_BUSY[4]:device=0                | TA block is busy. Perf_Windowing n... |</span>
+<span class="go">| TA_TA_BUSY[5]:device=0                | TA block is busy. Perf_Windowing n... |</span>
+<span class="go">| TA_TA_BUSY[6]:device=0                | TA block is busy. Perf_Windowing n... |</span>
+<span class="go">| TA_TA_BUSY[7]:device=0                | TA block is busy. Perf_Windowing n... |</span>
+<span class="go">| TA_TA_BUSY[8]:device=0                | TA block is busy. Perf_Windowing n... |</span>
+<span class="go">| TA_TA_BUSY[9]:device=0                | TA block is busy. Perf_Windowing n... |</span>
+<span class="go">| TA_TA_BUSY[10]:device=0               | TA block is busy. Perf_Windowing n... |</span>
+<span class="go">| TA_TA_BUSY[11]:device=0               | TA block is busy. Perf_Windowing n... |</span>
+<span class="go">| TA_TA_BUSY[12]:device=0               | TA block is busy. Perf_Windowing n... |</span>
+<span class="go">| TA_TA_BUSY[13]:device=0               | TA block is busy. Perf_Windowing n... |</span>
+<span class="go">| TA_TA_BUSY[14]:device=0               | TA block is busy. Perf_Windowing n... |</span>
+<span class="go">| TA_TA_BUSY[15]:device=0               | TA block is busy. Perf_Windowing n... |</span>
+<span class="go">| TA_FLAT_READ_WAVEFRONTS[0]:device=0   | Number of flat opcode reads proces... |</span>
+<span class="go">| TA_FLAT_READ_WAVEFRONTS[1]:device=0   | Number of flat opcode reads proces... |</span>
+<span class="go">| TA_FLAT_READ_WAVEFRONTS[2]:device=0   | Number of flat opcode reads proces... |</span>
+<span class="go">| TA_FLAT_READ_WAVEFRONTS[3]:device=0   | Number of flat opcode reads proces... |</span>
+<span class="go">| TA_FLAT_READ_WAVEFRONTS[4]:device=0   | Number of flat opcode reads proces... |</span>
+<span class="go">| TA_FLAT_READ_WAVEFRONTS[5]:device=0   | Number of flat opcode reads proces... |</span>
+<span class="go">| TA_FLAT_READ_WAVEFRONTS[6]:device=0   | Number of flat opcode reads proces... |</span>
+<span class="go">| TA_FLAT_READ_WAVEFRONTS[7]:device=0   | Number of flat opcode reads proces... |</span>
+<span class="go">| TA_FLAT_READ_WAVEFRONTS[8]:device=0   | Number of flat opcode reads proces... |</span>
+<span class="go">| TA_FLAT_READ_WAVEFRONTS[9]:device=0   | Number of flat opcode reads proces... |</span>
+<span class="go">| TA_FLAT_READ_WAVEFRONTS[10]:device=0  | Number of flat opcode reads proces... |</span>
+<span class="go">| TA_FLAT_READ_WAVEFRONTS[11]:device=0  | Number of flat opcode reads proces... |</span>
+<span class="go">| TA_FLAT_READ_WAVEFRONTS[12]:device=0  | Number of flat opcode reads proces... |</span>
+<span class="go">| TA_FLAT_READ_WAVEFRONTS[13]:device=0  | Number of flat opcode reads proces... |</span>
+<span class="go">| TA_FLAT_READ_WAVEFRONTS[14]:device=0  | Number of flat opcode reads proces... |</span>
+<span class="go">| TA_FLAT_READ_WAVEFRONTS[15]:device=0  | Number of flat opcode reads proces... |</span>
+<span class="go">| TA_FLAT_WRITE_WAVEFRONTS[0]:device=0  | Number of flat opcode writes proce... |</span>
+<span class="go">| TA_FLAT_WRITE_WAVEFRONTS[1]:device=0  | Number of flat opcode writes proce... |</span>
+<span class="go">| TA_FLAT_WRITE_WAVEFRONTS[2]:device=0  | Number of flat opcode writes proce... |</span>
+<span class="go">| TA_FLAT_WRITE_WAVEFRONTS[3]:device=0  | Number of flat opcode writes proce... |</span>
+<span class="go">| TA_FLAT_WRITE_WAVEFRONTS[4]:device=0  | Number of flat opcode writes proce... |</span>
+<span class="go">| TA_FLAT_WRITE_WAVEFRONTS[5]:device=0  | Number of flat opcode writes proce... |</span>
+<span class="go">| TA_FLAT_WRITE_WAVEFRONTS[6]:device=0  | Number of flat opcode writes proce... |</span>
+<span class="go">| TA_FLAT_WRITE_WAVEFRONTS[7]:device=0  | Number of flat opcode writes proce... |</span>
+<span class="go">| TA_FLAT_WRITE_WAVEFRONTS[8]:device=0  | Number of flat opcode writes proce... |</span>
+<span class="go">| TA_FLAT_WRITE_WAVEFRONTS[9]:device=0  | Number of flat opcode writes proce... |</span>
+<span class="go">| TA_FLAT_WRITE_WAVEFRONTS[10]:device=0 | Number of flat opcode writes proce... |</span>
+<span class="go">| TA_FLAT_WRITE_WAVEFRONTS[11]:device=0 | Number of flat opcode writes proce... |</span>
+<span class="go">| TA_FLAT_WRITE_WAVEFRONTS[12]:device=0 | Number of flat opcode writes proce... |</span>
+<span class="go">| TA_FLAT_WRITE_WAVEFRONTS[13]:device=0 | Number of flat opcode writes proce... |</span>
+<span class="go">| TA_FLAT_WRITE_WAVEFRONTS[14]:device=0 | Number of flat opcode writes proce... |</span>
+<span class="go">| TA_FLAT_WRITE_WAVEFRONTS[15]:device=0 | Number of flat opcode writes proce... |</span>
+<span class="go">| TCC_HIT[0]:device=0                   | Number of cache hits.                 |</span>
+<span class="go">| TCC_HIT[1]:device=0                   | Number of cache hits.                 |</span>
+<span class="go">| TCC_HIT[2]:device=0                   | Number of cache hits.                 |</span>
+<span class="go">| TCC_HIT[3]:device=0                   | Number of cache hits.                 |</span>
+<span class="go">| TCC_HIT[4]:device=0                   | Number of cache hits.                 |</span>
+<span class="go">| TCC_HIT[5]:device=0                   | Number of cache hits.                 |</span>
+<span class="go">| TCC_HIT[6]:device=0                   | Number of cache hits.                 |</span>
+<span class="go">| TCC_HIT[7]:device=0                   | Number of cache hits.                 |</span>
+<span class="go">| TCC_HIT[8]:device=0                   | Number of cache hits.                 |</span>
+<span class="go">| TCC_HIT[9]:device=0                   | Number of cache hits.                 |</span>
+<span class="go">| TCC_HIT[10]:device=0                  | Number of cache hits.                 |</span>
+<span class="go">| TCC_HIT[11]:device=0                  | Number of cache hits.                 |</span>
+<span class="go">| TCC_HIT[12]:device=0                  | Number of cache hits.                 |</span>
+<span class="go">| TCC_HIT[13]:device=0                  | Number of cache hits.                 |</span>
+<span class="go">| TCC_HIT[14]:device=0                  | Number of cache hits.                 |</span>
+<span class="go">| TCC_HIT[15]:device=0                  | Number of cache hits.                 |</span>
+<span class="go">| TCC_MISS[0]:device=0                  | Number of cache misses. UC reads c... |</span>
+<span class="go">| TCC_MISS[1]:device=0                  | Number of cache misses. UC reads c... |</span>
+<span class="go">| TCC_MISS[2]:device=0                  | Number of cache misses. UC reads c... |</span>
+<span class="go">| TCC_MISS[3]:device=0                  | Number of cache misses. UC reads c... |</span>
+<span class="go">| TCC_MISS[4]:device=0                  | Number of cache misses. UC reads c... |</span>
+<span class="go">| TCC_MISS[5]:device=0                  | Number of cache misses. UC reads c... |</span>
+<span class="go">| TCC_MISS[6]:device=0                  | Number of cache misses. UC reads c... |</span>
+<span class="go">| TCC_MISS[7]:device=0                  | Number of cache misses. UC reads c... |</span>
+<span class="go">| TCC_MISS[8]:device=0                  | Number of cache misses. UC reads c... |</span>
+<span class="go">| TCC_MISS[9]:device=0                  | Number of cache misses. UC reads c... |</span>
+<span class="go">| TCC_MISS[10]:device=0                 | Number of cache misses. UC reads c... |</span>
+<span class="go">| TCC_MISS[11]:device=0                 | Number of cache misses. UC reads c... |</span>
+<span class="go">| TCC_MISS[12]:device=0                 | Number of cache misses. UC reads c... |</span>
+<span class="go">| TCC_MISS[13]:device=0                 | Number of cache misses. UC reads c... |</span>
+<span class="go">| TCC_MISS[14]:device=0                 | Number of cache misses. UC reads c... |</span>
+<span class="go">| TCC_MISS[15]:device=0                 | Number of cache misses. UC reads c... |</span>
+<span class="go">| TCC_EA_WRREQ[0]:device=0              | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA_WRREQ[1]:device=0              | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA_WRREQ[2]:device=0              | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA_WRREQ[3]:device=0              | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA_WRREQ[4]:device=0              | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA_WRREQ[5]:device=0              | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA_WRREQ[6]:device=0              | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA_WRREQ[7]:device=0              | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA_WRREQ[8]:device=0              | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA_WRREQ[9]:device=0              | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA_WRREQ[10]:device=0             | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA_WRREQ[11]:device=0             | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA_WRREQ[12]:device=0             | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA_WRREQ[13]:device=0             | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA_WRREQ[14]:device=0             | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA_WRREQ[15]:device=0             | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA_WRREQ_64B[0]:device=0          | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA_WRREQ_64B[1]:device=0          | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA_WRREQ_64B[2]:device=0          | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA_WRREQ_64B[3]:device=0          | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA_WRREQ_64B[4]:device=0          | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA_WRREQ_64B[5]:device=0          | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA_WRREQ_64B[6]:device=0          | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA_WRREQ_64B[7]:device=0          | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA_WRREQ_64B[8]:device=0          | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA_WRREQ_64B[9]:device=0          | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA_WRREQ_64B[10]:device=0         | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA_WRREQ_64B[11]:device=0         | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA_WRREQ_64B[12]:device=0         | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA_WRREQ_64B[13]:device=0         | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA_WRREQ_64B[14]:device=0         | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA_WRREQ_64B[15]:device=0         | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_EA_WRREQ_STALL[0]:device=0        | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA_WRREQ_STALL[1]:device=0        | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA_WRREQ_STALL[2]:device=0        | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA_WRREQ_STALL[3]:device=0        | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA_WRREQ_STALL[4]:device=0        | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA_WRREQ_STALL[5]:device=0        | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA_WRREQ_STALL[6]:device=0        | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA_WRREQ_STALL[7]:device=0        | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA_WRREQ_STALL[8]:device=0        | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA_WRREQ_STALL[9]:device=0        | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA_WRREQ_STALL[10]:device=0       | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA_WRREQ_STALL[11]:device=0       | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA_WRREQ_STALL[12]:device=0       | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA_WRREQ_STALL[13]:device=0       | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA_WRREQ_STALL[14]:device=0       | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA_WRREQ_STALL[15]:device=0       | Number of cycles a write request w... |</span>
+<span class="go">| TCC_EA_RDREQ[0]:device=0              | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA_RDREQ[1]:device=0              | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA_RDREQ[2]:device=0              | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA_RDREQ[3]:device=0              | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA_RDREQ[4]:device=0              | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA_RDREQ[5]:device=0              | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA_RDREQ[6]:device=0              | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA_RDREQ[7]:device=0              | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA_RDREQ[8]:device=0              | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA_RDREQ[9]:device=0              | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA_RDREQ[10]:device=0             | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA_RDREQ[11]:device=0             | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA_RDREQ[12]:device=0             | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA_RDREQ[13]:device=0             | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA_RDREQ[14]:device=0             | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA_RDREQ[15]:device=0             | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA_RDREQ_32B[0]:device=0          | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA_RDREQ_32B[1]:device=0          | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA_RDREQ_32B[2]:device=0          | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA_RDREQ_32B[3]:device=0          | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA_RDREQ_32B[4]:device=0          | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA_RDREQ_32B[5]:device=0          | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA_RDREQ_32B[6]:device=0          | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA_RDREQ_32B[7]:device=0          | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA_RDREQ_32B[8]:device=0          | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA_RDREQ_32B[9]:device=0          | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA_RDREQ_32B[10]:device=0         | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA_RDREQ_32B[11]:device=0         | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA_RDREQ_32B[12]:device=0         | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA_RDREQ_32B[13]:device=0         | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA_RDREQ_32B[14]:device=0         | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA_RDREQ_32B[15]:device=0         | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCP_TCP_TA_DATA_STALL_CYCLES[0]:de... | TCP stalls TA data interface. Now ... |</span>
+<span class="go">| TCP_TCP_TA_DATA_STALL_CYCLES[1]:de... | TCP stalls TA data interface. Now ... |</span>
+<span class="go">| TCP_TCP_TA_DATA_STALL_CYCLES[2]:de... | TCP stalls TA data interface. Now ... |</span>
+<span class="go">| TCP_TCP_TA_DATA_STALL_CYCLES[3]:de... | TCP stalls TA data interface. Now ... |</span>
+<span class="go">| TCP_TCP_TA_DATA_STALL_CYCLES[4]:de... | TCP stalls TA data interface. Now ... |</span>
+<span class="go">| TCP_TCP_TA_DATA_STALL_CYCLES[5]:de... | TCP stalls TA data interface. Now ... |</span>
+<span class="go">| TCP_TCP_TA_DATA_STALL_CYCLES[6]:de... | TCP stalls TA data interface. Now ... |</span>
+<span class="go">| TCP_TCP_TA_DATA_STALL_CYCLES[7]:de... | TCP stalls TA data interface. Now ... |</span>
+<span class="go">| TCP_TCP_TA_DATA_STALL_CYCLES[8]:de... | TCP stalls TA data interface. Now ... |</span>
+<span class="go">| TCP_TCP_TA_DATA_STALL_CYCLES[9]:de... | TCP stalls TA data interface. Now ... |</span>
+<span class="go">| TCP_TCP_TA_DATA_STALL_CYCLES[10]:d... | TCP stalls TA data interface. Now ... |</span>
+<span class="go">| TCP_TCP_TA_DATA_STALL_CYCLES[11]:d... | TCP stalls TA data interface. Now ... |</span>
+<span class="go">| TCP_TCP_TA_DATA_STALL_CYCLES[12]:d... | TCP stalls TA data interface. Now ... |</span>
+<span class="go">| TCP_TCP_TA_DATA_STALL_CYCLES[13]:d... | TCP stalls TA data interface. Now ... |</span>
+<span class="go">| TCP_TCP_TA_DATA_STALL_CYCLES[14]:d... | TCP stalls TA data interface. Now ... |</span>
+<span class="go">| TCP_TCP_TA_DATA_STALL_CYCLES[15]:d... | TCP stalls TA data interface. Now ... |</span>
+<span class="go">| TCC_EA1_RDREQ_32B_sum:device=0        | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA1_RDREQ_sum:device=0            | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA1_WRREQ_sum:device=0            | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA1_WRREQ_64B_sum:device=0        | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_WRREQ1_STALL_max:device=0         | Number of cycles a write request w... |</span>
+<span class="go">| RDATA1_SIZE:device=0                  | The total kilobytes fetched from t... |</span>
+<span class="go">| WDATA1_SIZE:device=0                  | The total kilobytes written to the... |</span>
+<span class="go">| FETCH_SIZE:device=0                   | The total kilobytes fetched from t... |</span>
+<span class="go">| WRITE_SIZE:device=0                   | The total kilobytes written to the... |</span>
+<span class="go">| WRITE_REQ_32B:device=0                | The total number of 32-byte effect... |</span>
+<span class="go">| TA_BUSY_avr:device=0                  | TA block is busy. Average over TA ... |</span>
+<span class="go">| TA_BUSY_max:device=0                  | TA block is busy. Max over TA inst... |</span>
+<span class="go">| TA_BUSY_min:device=0                  | TA block is busy. Min over TA inst... |</span>
+<span class="go">| TA_FLAT_READ_WAVEFRONTS_sum:device=0  | Number of flat opcode reads proces... |</span>
+<span class="go">| TA_FLAT_WRITE_WAVEFRONTS_sum:device=0 | Number of flat opcode writes proce... |</span>
+<span class="go">| TCC_HIT_sum:device=0                  | Number of cache hits. Sum over TCC... |</span>
+<span class="go">| TCC_MISS_sum:device=0                 | Number of cache misses. Sum over T... |</span>
+<span class="go">| TCC_EA_RDREQ_32B_sum:device=0         | Number of 32-byte TCC/EA read requ... |</span>
+<span class="go">| TCC_EA_RDREQ_sum:device=0             | Number of TCC/EA read requests (ei... |</span>
+<span class="go">| TCC_EA_WRREQ_sum:device=0             | Number of transactions (either 32-... |</span>
+<span class="go">| TCC_EA_WRREQ_64B_sum:device=0         | Number of 64-byte transactions goi... |</span>
+<span class="go">| TCC_WRREQ_STALL_max:device=0          | Number of cycles a write request w... |</span>
+<span class="go">| GPUBusy:device=0                      | The percentage of time GPU was busy.  |</span>
+<span class="go">| Wavefronts:device=0                   | Total wavefronts.                     |</span>
+<span class="go">| VALUInsts:device=0                    | The average number of vector ALU i... |</span>
+<span class="go">| SALUInsts:device=0                    | The average number of scalar ALU i... |</span>
+<span class="go">| VFetchInsts:device=0                  | The average number of vector fetch... |</span>
+<span class="go">| SFetchInsts:device=0                  | The average number of scalar fetch... |</span>
+<span class="go">| VWriteInsts:device=0                  | The average number of vector write... |</span>
+<span class="go">| FlatVMemInsts:device=0                | The average number of FLAT instruc... |</span>
+<span class="go">| LDSInsts:device=0                     | The average number of LDS read or ... |</span>
+<span class="go">| FlatLDSInsts:device=0                 | The average number of FLAT instruc... |</span>
+<span class="go">| GDSInsts:device=0                     | The average number of GDS read or ... |</span>
+<span class="go">| VALUUtilization:device=0              | The percentage of active vector AL... |</span>
+<span class="go">| VALUBusy:device=0                     | The percentage of GPUTime vector A... |</span>
+<span class="go">| SALUBusy:device=0                     | The percentage of GPUTime scalar A... |</span>
+<span class="go">| FetchSize:device=0                    | The total kilobytes fetched from t... |</span>
+<span class="go">| WriteSize:device=0                    | The total kilobytes written to the... |</span>
+<span class="go">| MemWrites32B:device=0                 | The total number of effective 32B ... |</span>
+<span class="go">| L2CacheHit:device=0                   | The percentage of fetch, write, at... |</span>
+<span class="go">| MemUnitBusy:device=0                  | The percentage of GPUTime the memo... |</span>
+<span class="go">| MemUnitStalled:device=0               | The percentage of GPUTime the memo... |</span>
+<span class="go">| WriteUnitStalled:device=0             | The percentage of GPUTime the Writ... |</span>
+<span class="go">| ALUStalledByLDS:device=0              | The percentage of GPUTime ALU unit... |</span>
+<span class="go">| LDSBankConflict:device=0              | The percentage of GPUTime LDS is s... |</span>
 <span class="go">|---------------------------------------|---------------------------------------|</span>
 </pre></div>
 </div>

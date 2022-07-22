@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Features &mdash; omnitrace 1.2.0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>Features &mdash; omnitrace 1.3.0dev0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -28,7 +28,7 @@
             <a href="index.html" class="icon icon-home"> omnitrace
           </a>
               <div class="version">
-                1.2.0
+                1.3.0dev0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -116,9 +116,9 @@ manage extensions, resources, data, etc.</p>
 <li><p>Periodic software interrupts per-thread</p></li>
 </ul>
 </li>
-<li><p>Background thread sampling</p>
+<li><p>Process-level sampling</p>
 <ul>
-<li><p>Record process and system-level values while an application executes</p></li>
+<li><p>Background thread records process-, system- and device-level metrics while the application executes</p></li>
 </ul>
 </li>
 <li><p>Critical trace generation</p></li>
@@ -127,24 +127,39 @@ manage extensions, resources, data, etc.</p>
 <div class="section" id="data-analysis">
 <h3>Data Analysis<a class="headerlink" href="#data-analysis" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Critical trace generation (beta)</p></li>
-<li><p>Support for</p></li>
+<li><p>High-level summary profiles with mean/min/max/stddev statistics</p>
+<ul>
+<li><p>Low overhead, memory efficient</p></li>
+<li><p>Ideal for running at scale</p></li>
+</ul>
+</li>
+<li><p>Comprehensive traces</p>
+<ul>
+<li><p>Every individual event/measurement</p></li>
+</ul>
+</li>
+<li><p>Critical trace analysis (alpha)</p></li>
 </ul>
 </div>
 <div class="section" id="parallelism-api-support">
 <h3>Parallelism API Support<a class="headerlink" href="#parallelism-api-support" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Built-in MPI support</p></li>
-<li><p>Kokkos-Tools support</p></li>
+<li><p>HIP</p></li>
+<li><p>HSA</p></li>
+<li><p>Pthreads</p></li>
+<li><p>MPI</p></li>
+<li><p>Kokkos-Tools (KokkosP)</p></li>
 <li><p>OpenMP-Tools (OMPT)</p></li>
 </ul>
 </div>
 <div class="section" id="gpu-metrics">
 <h3>GPU Metrics<a class="headerlink" href="#gpu-metrics" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
+<li><p>GPU hardware counters</p></li>
 <li><p>HIP API tracing</p></li>
-<li><p>ROCM HSA API tracing</p></li>
-<li><p>Kernel runtime tracing</p></li>
+<li><p>HIP kernel tracing</p></li>
+<li><p>HSA API tracing</p></li>
+<li><p>HSA operation tracing</p></li>
 <li><p>System-level sampling (via rocm-smi)</p>
 <ul>
 <li><p>Memory usage</p></li>
