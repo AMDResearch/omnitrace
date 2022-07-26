@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Customizing Omnitrace Runtime &mdash; omnitrace 1.3.0dev0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>Customizing Omnitrace Runtime &mdash; omnitrace 1.3.0 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -28,7 +28,7 @@
             <a href="index.html" class="icon icon-home"> omnitrace
           </a>
               <div class="version">
-                1.3.0dev0
+                1.3.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -204,6 +204,12 @@ PAPI components from different namespaces:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">OMNITRACE_PAPI_EVENTS = PAPI_TOT_INS        perf::CACHE-REFERENCES  perf::CACHE-MISSES</span>
 </pre></div>
 </div>
+<blockquote>
+<div><p><em><strong>If omnitrace was configured with <code class="docutils literal notranslate"><span class="pre">OMNITRACE_BUILD_PAPI=ON</span></code> (the default), the standard PAPI command line tools such as</strong></em>
+<em><strong><code class="docutils literal notranslate"><span class="pre">papi_avail</span></code>, <code class="docutils literal notranslate"><span class="pre">papi_event_chooser</span></code>, etc. will not be able to provide information about the PAPI library used by omnitrace</strong></em>
+<em><strong>(omnitrace statically links to libpapi). However, all of these tools are installed with the prefix <code class="docutils literal notranslate"><span class="pre">omnitrace-</span></code> and all</strong></em>
+<em><strong>underscores are replaced with hypens, e.g. <code class="docutils literal notranslate"><span class="pre">papi_avail</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">omnitrace-papi-avail</span></code>.</strong></em></p>
+</div></blockquote>
 </div>
 <div class="section" id="omnitrace-rocm-events">
 <h4>OMNITRACE_ROCM_EVENTS<a class="headerlink" href="#omnitrace-rocm-events" title="Permalink to this headline">¶</a></h4>
