@@ -97,8 +97,7 @@ OMNITRACE_USE_PID               = OFF
 
 OMNITRACE_TIMEMORY_COMPONENTS   = cpu_clock cpu_util current_peak_rss kernel_mode_time monotonic_clock monotonic_raw_clock network_stats num_io_in num_io_out num_major_page_faults num_minor_page_faults page_rss peak_rss priority_context_switch process_cpu_clock process_cpu_util read_bytes read_char system_clock thread_cpu_clock thread_cpu_util timestamp trip_count user_clock user_mode_time virtual_memory voluntary_context_switch wall_clock written_bytes written_char
 
-OMNITRACE_SAMPLING_FREQ         = 50
-OMNITRACE_SAMPLING_DELAY        = 0.05
+OMNITRACE_SAMPLING_FREQ         = 20
 OMNITRACE_MAX_WIDTH             = 180
 EOF
 
