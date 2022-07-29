@@ -103,26 +103,26 @@ EOF
 
 set +e
 
-if [[ -z "$(which omnitrace-perfetto-traced)" && -z "$(which omnitrace-perfetto)" ]]; then
-    TRACED_CMD=$(which omnitrace-perfetto-traced)
-    PERFETTO_CMD=$(which omnitrace-perfetto)
+if [[ -n "$(which omnitrace-perfetto-traced)" && -n "$(which omnitrace-perfetto)" ]]; then
+    OMNI_TRACED=$(which omnitrace-perfetto-traced)
+    OMNI_PERFETTO=$(which omnitrace-perfetto)
     echo "OMNITRACE_PERFETTO_BACKEND=system" >> omnitrace-test.cfg
-elif [[ -z "$(which traced)" && -z "$(which perfetto)" ]]; then
-    TRACED_CMD=$(which traced)
-    PERFETTO_CMD=$(which perfetto)
+elif [[ -n "$(which traced)" && -n "$(which perfetto)" ]]; then
+    OMNI_TRACED=$(which traced)
+    OMNI_PERFETTO=$(which perfetto)
     echo "OMNITRACE_PERFETTO_BACKEND=system" >> omnitrace-test.cfg
 fi
 
-if [ -z "$(which omnitrace-python)" ]; then
-    PYTHON_CMD=$(which omnitrace-python)
+if [ -n "$(which omnitrace-python)" ]; then
+    OMNI_PYTHON=$(which omnitrace-python)
 fi
 
 set -e
 
 start-perfetto-system()
 {
-    run-verbose ${TRACED_CMD} --background
-    run-verbose ${PERFETTO_CMD} --out test-perfetto-trace.proto --txt -c ${SOURCE_DIR}/omnitrace.cfg
+    run-verbose ${OMNI_TRACED} --background
+    run-verbose ${OMNI_PERFETTO} --out test-perfetto-trace.proto --txt -c ${SOURCE_DIR}/omnitrace.cfg
 }
 
 run-instr()
@@ -163,7 +163,8 @@ verbose-run ldd $(which omnitrace-critical-trace)
 verbose-run omnitrace-avail --help
 verbose-run omnitrace-avail -a
 
-if [ -z "${PYTHON_CMD}" ]; then
+if [ -n "${OMNI_PYTHON}" ]; then
+    verbose-run echo ${OMNI_PYTHON}
     verbose-run which omnitrace-python
     verbose-run omnitrace-python --help
     verbose-run omnitrace-python -b -- ${SOURCE_DIR}/examples/python/builtin.py -v 10 -n 3
@@ -171,7 +172,9 @@ fi
 
 verbose-run omnitrace --help
 
-if [ -n "${TRACED_CMD}" ]; then
+if [ -n "${OMNI_TRACED}" ]; then
+    verbose-run echo ${OMNI_TRACED}
+    verbose-run echo ${OMNI_PERFETTO}
     verbose-run start-perfetto-system
 fi
 
@@ -179,7 +182,7 @@ run-instr ls
 export OMNITRACE_USE_SAMPLING=OFF
 run-instr sleep 3
 
-if [ -n "${TRACED_CMD}" ]; then
+if [ -n "${OMNI_TRACED}" ]; then
     sleep 1
     verbose-run du -k ${PWD}/test-perfetto-trace.proto
     verbose-run python3 ${SOURCE_DIR}/tests/validate-perfetto-proto.py -i ${PWD}/test-perfetto-trace.proto -p
